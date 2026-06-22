@@ -1,0 +1,578 @@
+{
+  "schema_version": "stock_deep_research.v1",
+  "report_id": "stock_deep_review_2026-06-22_161121",
+  "leader_report_id": "leader_review_2026-06-22_155531",
+  "generated_at": "2026-06-22 16:11:23 CST",
+  "basis_date": "2026-06-18",
+  "constraints": {
+    "read_only": true,
+    "research_first": true,
+    "ratio_only_for_shadow": true,
+    "contains_trade_orders": false,
+    "contains_cash_amounts": false,
+    "contains_share_counts": false
+  },
+  "queue": [
+    {
+      "priority": 1,
+      "theme": "硬科技电子/半导体",
+      "theme_id": "hard_tech_semiconductor",
+      "theme_stage": "次主线/强修复",
+      "theme_grade": "B",
+      "theme_score": 77.6,
+      "theme_lifecycle_state": "accelerating",
+      "code": "600667.SH",
+      "name": "太极实业",
+      "industry": "半导体",
+      "candidate_grade": "A",
+      "candidate_leader_score": 99.03,
+      "candidate_pct_chg": 9.9895,
+      "candidate_turnover_rate": 17.6701,
+      "candidate_is_limit_up": true,
+      "candidate_flow_rank": 0.9913,
+      "candidate_liquidity_rank": 0.9886,
+      "queue_reason": "主线分层进入A/B，个股候选进入A/B，进入ResearchFirst深研"
+    },
+    {
+      "priority": 2,
+      "theme": "硬科技电子/半导体",
+      "theme_id": "hard_tech_semiconductor",
+      "theme_stage": "次主线/强修复",
+      "theme_grade": "B",
+      "theme_score": 77.6,
+      "theme_lifecycle_state": "accelerating",
+      "code": "688515.SH",
+      "name": "裕太微",
+      "industry": "半导体",
+      "candidate_grade": "A",
+      "candidate_leader_score": 94.64,
+      "candidate_pct_chg": 20.0,
+      "candidate_turnover_rate": 14.1918,
+      "candidate_is_limit_up": true,
+      "candidate_flow_rank": 0.9755,
+      "candidate_liquidity_rank": 0.9172,
+      "queue_reason": "主线分层进入A/B，个股候选进入A/B，进入ResearchFirst深研"
+    },
+    {
+      "priority": 3,
+      "theme": "硬科技电子/半导体",
+      "theme_id": "hard_tech_semiconductor",
+      "theme_stage": "次主线/强修复",
+      "theme_grade": "B",
+      "theme_score": 77.6,
+      "theme_lifecycle_state": "accelerating",
+      "code": "001365.SZ",
+      "name": "天海电子",
+      "industry": "汽车配件",
+      "candidate_grade": "A",
+      "candidate_leader_score": 93.98,
+      "candidate_pct_chg": 10.0,
+      "candidate_turnover_rate": 19.9187,
+      "candidate_is_limit_up": true,
+      "candidate_flow_rank": 0.9798,
+      "candidate_liquidity_rank": 0.773,
+      "queue_reason": "主线分层进入A/B，个股候选进入A/B，进入ResearchFirst深研"
+    },
+    {
+      "priority": 4,
+      "theme": "AI算力/通信",
+      "theme_id": "ai_compute_communications",
+      "theme_stage": "次主线/强修复",
+      "theme_grade": "B",
+      "theme_score": 75.53,
+      "theme_lifecycle_state": "sustained",
+      "code": "300166.SZ",
+      "name": "东方国信",
+      "industry": "软件服务",
+      "candidate_grade": "A",
+      "candidate_leader_score": 98.2,
+      "candidate_pct_chg": 20.0257,
+      "candidate_turnover_rate": 21.7801,
+      "candidate_is_limit_up": true,
+      "candidate_flow_rank": 0.9989,
+      "candidate_liquidity_rank": 0.9673,
+      "queue_reason": "主线分层进入A/B，个股候选进入A/B，进入ResearchFirst深研"
+    },
+    {
+      "priority": 5,
+      "theme": "AI算力/通信",
+      "theme_id": "ai_compute_communications",
+      "theme_stage": "次主线/强修复",
+      "theme_grade": "B",
+      "theme_score": 75.53,
+      "theme_lifecycle_state": "sustained",
+      "code": "002354.SZ",
+      "name": "天娱数科",
+      "industry": "互联网",
+      "candidate_grade": "A",
+      "candidate_leader_score": 97.19,
+      "candidate_pct_chg": 9.9573,
+      "candidate_turnover_rate": 23.0276,
+      "candidate_is_limit_up": true,
+      "candidate_flow_rank": 0.9947,
+      "candidate_liquidity_rank": 0.9561,
+      "queue_reason": "主线分层进入A/B，个股候选进入A/B，进入ResearchFirst深研"
+    },
+    {
+      "priority": 6,
+      "theme": "AI算力/通信",
+      "theme_id": "ai_compute_communications",
+      "theme_stage": "次主线/强修复",
+      "theme_grade": "B",
+      "theme_score": 75.53,
+      "theme_lifecycle_state": "sustained",
+      "code": "002281.SZ",
+      "name": "光迅科技",
+      "industry": "通信设备",
+      "candidate_grade": "A",
+      "candidate_leader_score": 88.31,
+      "candidate_pct_chg": 10.0,
+      "candidate_turnover_rate": 5.2489,
+      "candidate_is_limit_up": true,
+      "candidate_flow_rank": 0.9995,
+      "candidate_liquidity_rank": 0.9935,
+      "queue_reason": "主线分层进入A/B，个股候选进入A/B，进入ResearchFirst深研"
+    }
+  ],
+  "stocks": [
+    {
+      "priority": 1,
+      "code": "600667.SH",
+      "name": "太极实业",
+      "industry": "半导体",
+      "theme": "硬科技电子/半导体",
+      "theme_grade": "B",
+      "theme_score": 77.6,
+      "theme_stage": "次主线/强修复",
+      "theme_lifecycle_state": "accelerating",
+      "candidate_grade": "A",
+      "candidate_leader_score": 99.03,
+      "deep_score": 59.32,
+      "deep_rating": "C",
+      "deep_label": "剔除/暂缓",
+      "shadow_observation_eligible": false,
+      "scores": {
+        "theme_binding": 90.27,
+        "financial_quality": 19.45,
+        "valuation_safety": 45.89,
+        "trading_structure": 77.33,
+        "data_quality": 100.0
+      },
+      "market": {
+        "close": 20.92,
+        "pct_chg": 9.9895,
+        "r5": 19.4746,
+        "r20": 68.438,
+        "r60": 95.8801,
+        "turnover_rate": 17.6701,
+        "pe_ttm": 95.2658,
+        "pb": 5.0047
+      },
+      "financial": {
+        "end_date": "20260331",
+        "roe": 1.4862,
+        "grossprofit_margin": 6.9006,
+        "netprofit_margin": 2.4536,
+        "or_yoy": -0.9107,
+        "netprofit_yoy": 9.4816,
+        "debt_to_assets": 72.8812,
+        "ocf_to_or": null
+      },
+      "risk_flags": [
+        "5日涨幅偏热",
+        "20日涨幅偏热",
+        "涨停强化但需防次日分歧"
+      ],
+      "data_gaps": [],
+      "research_boundary": "ResearchFirst; read_only; no_trade_order; no_cash_or_share_amounts",
+      "queue_reason": "主线分层进入A/B，个股候选进入A/B，进入ResearchFirst深研"
+    },
+    {
+      "priority": 2,
+      "code": "688515.SH",
+      "name": "裕太微",
+      "industry": "半导体",
+      "theme": "硬科技电子/半导体",
+      "theme_grade": "B",
+      "theme_score": 77.6,
+      "theme_stage": "次主线/强修复",
+      "theme_lifecycle_state": "accelerating",
+      "candidate_grade": "A",
+      "candidate_leader_score": 94.64,
+      "deep_score": 64.97,
+      "deep_rating": "B",
+      "deep_label": "观察股",
+      "shadow_observation_eligible": false,
+      "scores": {
+        "theme_binding": 87.72,
+        "financial_quality": 54.27,
+        "valuation_safety": 27.9,
+        "trading_structure": 76.16,
+        "data_quality": 88.0
+      },
+      "market": {
+        "close": 238.8,
+        "pct_chg": 20.0,
+        "r5": 29.2418,
+        "r20": 10.0461,
+        "r60": 96.2525,
+        "turnover_rate": 14.1918,
+        "pe_ttm": null,
+        "pb": 13.0238
+      },
+      "financial": {
+        "end_date": "20260331",
+        "roe": -2.91,
+        "grossprofit_margin": 42.533,
+        "netprofit_margin": -30.5318,
+        "or_yoy": 74.8331,
+        "netprofit_yoy": 28.7592,
+        "debt_to_assets": 10.0682,
+        "ocf_to_or": null
+      },
+      "risk_flags": [
+        "5日涨幅偏热",
+        "涨停强化但需防次日分歧"
+      ],
+      "data_gaps": [
+        "PE缺失"
+      ],
+      "research_boundary": "ResearchFirst; read_only; no_trade_order; no_cash_or_share_amounts",
+      "queue_reason": "主线分层进入A/B，个股候选进入A/B，进入ResearchFirst深研"
+    },
+    {
+      "priority": 3,
+      "code": "001365.SZ",
+      "name": "天海电子",
+      "industry": "汽车配件",
+      "theme": "硬科技电子/半导体",
+      "theme_grade": "B",
+      "theme_score": 77.6,
+      "theme_stage": "次主线/强修复",
+      "theme_lifecycle_state": "accelerating",
+      "candidate_grade": "A",
+      "candidate_leader_score": 93.98,
+      "deep_score": 65.77,
+      "deep_rating": "B",
+      "deep_label": "观察股",
+      "shadow_observation_eligible": false,
+      "scores": {
+        "theme_binding": 87.34,
+        "financial_quality": 28.4,
+        "valuation_safety": 71.99,
+        "trading_structure": 76.99,
+        "data_quality": 100.0
+      },
+      "market": {
+        "close": 44.22,
+        "pct_chg": 10.0,
+        "r5": 14.7975,
+        "r20": -30.8955,
+        "r60": null,
+        "turnover_rate": 19.9187,
+        "pe_ttm": 35.414,
+        "pb": 4.4025
+      },
+      "financial": {
+        "end_date": "20260331",
+        "roe": 2.2422,
+        "grossprofit_margin": 12.0397,
+        "netprofit_margin": 3.5455,
+        "or_yoy": 12.8778,
+        "netprofit_yoy": 13.8904,
+        "debt_to_assets": 64.8157,
+        "ocf_to_or": null
+      },
+      "risk_flags": [
+        "涨停强化但需防次日分歧"
+      ],
+      "data_gaps": [],
+      "research_boundary": "ResearchFirst; read_only; no_trade_order; no_cash_or_share_amounts",
+      "queue_reason": "主线分层进入A/B，个股候选进入A/B，进入ResearchFirst深研"
+    },
+    {
+      "priority": 4,
+      "code": "300166.SZ",
+      "name": "东方国信",
+      "industry": "软件服务",
+      "theme": "AI算力/通信",
+      "theme_grade": "B",
+      "theme_score": 75.53,
+      "theme_stage": "次主线/强修复",
+      "theme_lifecycle_state": "sustained",
+      "candidate_grade": "A",
+      "candidate_leader_score": 98.2,
+      "deep_score": 63.27,
+      "deep_rating": "B",
+      "deep_label": "观察股",
+      "shadow_observation_eligible": false,
+      "scores": {
+        "theme_binding": 89.13,
+        "financial_quality": 30.59,
+        "valuation_safety": 54.36,
+        "trading_structure": 77.48,
+        "data_quality": 88.0
+      },
+      "market": {
+        "close": 18.7,
+        "pct_chg": 20.0257,
+        "r5": 27.6451,
+        "r20": 0.4296,
+        "r60": 30.0417,
+        "turnover_rate": 21.7801,
+        "pe_ttm": null,
+        "pb": 3.7338
+      },
+      "financial": {
+        "end_date": "20260331",
+        "roe": -0.4727,
+        "grossprofit_margin": 29.9691,
+        "netprofit_margin": -4.9742,
+        "or_yoy": 9.4389,
+        "netprofit_yoy": 0.881,
+        "debt_to_assets": 44.7711,
+        "ocf_to_or": null
+      },
+      "risk_flags": [
+        "5日涨幅偏热",
+        "涨停强化但需防次日分歧"
+      ],
+      "data_gaps": [
+        "PE缺失"
+      ],
+      "research_boundary": "ResearchFirst; read_only; no_trade_order; no_cash_or_share_amounts",
+      "queue_reason": "主线分层进入A/B，个股候选进入A/B，进入ResearchFirst深研"
+    },
+    {
+      "priority": 5,
+      "code": "002354.SZ",
+      "name": "天娱数科",
+      "industry": "互联网",
+      "theme": "AI算力/通信",
+      "theme_grade": "B",
+      "theme_score": 75.53,
+      "theme_stage": "次主线/强修复",
+      "theme_lifecycle_state": "sustained",
+      "candidate_grade": "A",
+      "candidate_leader_score": 97.19,
+      "deep_score": 66.25,
+      "deep_rating": "C",
+      "deep_label": "剔除/暂缓",
+      "shadow_observation_eligible": false,
+      "scores": {
+        "theme_binding": 88.54,
+        "financial_quality": 55.18,
+        "valuation_safety": 30.85,
+        "trading_structure": 77.51,
+        "data_quality": 88.0
+      },
+      "market": {
+        "close": 7.73,
+        "pct_chg": 9.9573,
+        "r5": -3.1328,
+        "r20": 13.6765,
+        "r60": 33.506,
+        "turnover_rate": 23.0276,
+        "pe_ttm": null,
+        "pb": 9.3003
+      },
+      "financial": {
+        "end_date": "20260331",
+        "roe": 2.3601,
+        "grossprofit_margin": 29.9125,
+        "netprofit_margin": 8.7597,
+        "or_yoy": 12.8058,
+        "netprofit_yoy": 476.9395,
+        "debt_to_assets": 27.7411,
+        "ocf_to_or": null
+      },
+      "risk_flags": [
+        "ST/名称风险",
+        "涨停强化但需防次日分歧"
+      ],
+      "data_gaps": [
+        "PE缺失"
+      ],
+      "research_boundary": "ResearchFirst; read_only; no_trade_order; no_cash_or_share_amounts",
+      "queue_reason": "主线分层进入A/B，个股候选进入A/B，进入ResearchFirst深研"
+    },
+    {
+      "priority": 6,
+      "code": "002281.SZ",
+      "name": "光迅科技",
+      "industry": "通信设备",
+      "theme": "AI算力/通信",
+      "theme_grade": "B",
+      "theme_score": 75.53,
+      "theme_stage": "次主线/强修复",
+      "theme_lifecycle_state": "sustained",
+      "candidate_grade": "A",
+      "candidate_leader_score": 88.31,
+      "deep_score": 61.42,
+      "deep_rating": "B",
+      "deep_label": "观察股",
+      "shadow_observation_eligible": false,
+      "scores": {
+        "theme_binding": 83.39,
+        "financial_quality": 53.94,
+        "valuation_safety": 14.88,
+        "trading_structure": 73.79,
+        "data_quality": 100.0
+      },
+      "market": {
+        "close": 266.2,
+        "pct_chg": 10.0,
+        "r5": 29.6008,
+        "r20": 22.5035,
+        "r60": 220.4141,
+        "turnover_rate": 5.2489,
+        "pe_ttm": 212.6291,
+        "pb": 21.3046
+      },
+      "financial": {
+        "end_date": "20260331",
+        "roe": 2.3491,
+        "grossprofit_margin": 26.8326,
+        "netprofit_margin": 8.3826,
+        "or_yoy": 24.7949,
+        "netprofit_yoy": 59.7559,
+        "debt_to_assets": 43.1308,
+        "ocf_to_or": null
+      },
+      "risk_flags": [
+        "5日涨幅偏热",
+        "涨停强化但需防次日分歧"
+      ],
+      "data_gaps": [],
+      "research_boundary": "ResearchFirst; read_only; no_trade_order; no_cash_or_share_amounts",
+      "queue_reason": "主线分层进入A/B，个股候选进入A/B，进入ResearchFirst深研"
+    }
+  ],
+  "summary": {
+    "queue_count": 6,
+    "stock_count": 6,
+    "eligible_count": 0,
+    "rating_counts": {
+      "S": 0,
+      "A": 0,
+      "B": 4,
+      "C": 2
+    },
+    "top_stock": "太极实业",
+    "data_gap_count": 1
+  },
+  "data_gaps": [
+    "PE缺失"
+  ],
+  "shadow_contract": {
+    "schema_version": "stock_deep_shadow_input.v1",
+    "mode": "stock_research_input",
+    "report_id": "stock_deep_review_2026-06-22_161121",
+    "leader_report_id": "leader_review_2026-06-22_155531",
+    "basis_date": "2026-06-18",
+    "generated_at": "2026-06-22 16:11:23 CST",
+    "constraints": {
+      "read_only": true,
+      "ratio_only": true,
+      "contains_trade_orders": false,
+      "contains_cash_amounts": false,
+      "contains_share_counts": false,
+      "source": "MyInvestLeader.stock_deep"
+    },
+    "stock_signals": [
+      {
+        "priority": 1,
+        "code": "600667.SH",
+        "name": "太极实业",
+        "theme": "硬科技电子/半导体",
+        "deep_rating": "C",
+        "deep_score": 59.32,
+        "shadow_observation_eligible": false,
+        "risk_flags": [
+          "5日涨幅偏热",
+          "20日涨幅偏热",
+          "涨停强化但需防次日分歧"
+        ],
+        "data_gaps": []
+      },
+      {
+        "priority": 2,
+        "code": "688515.SH",
+        "name": "裕太微",
+        "theme": "硬科技电子/半导体",
+        "deep_rating": "B",
+        "deep_score": 64.97,
+        "shadow_observation_eligible": false,
+        "risk_flags": [
+          "5日涨幅偏热",
+          "涨停强化但需防次日分歧"
+        ],
+        "data_gaps": [
+          "PE缺失"
+        ]
+      },
+      {
+        "priority": 3,
+        "code": "001365.SZ",
+        "name": "天海电子",
+        "theme": "硬科技电子/半导体",
+        "deep_rating": "B",
+        "deep_score": 65.77,
+        "shadow_observation_eligible": false,
+        "risk_flags": [
+          "涨停强化但需防次日分歧"
+        ],
+        "data_gaps": []
+      },
+      {
+        "priority": 4,
+        "code": "300166.SZ",
+        "name": "东方国信",
+        "theme": "AI算力/通信",
+        "deep_rating": "B",
+        "deep_score": 63.27,
+        "shadow_observation_eligible": false,
+        "risk_flags": [
+          "5日涨幅偏热",
+          "涨停强化但需防次日分歧"
+        ],
+        "data_gaps": [
+          "PE缺失"
+        ]
+      },
+      {
+        "priority": 5,
+        "code": "002354.SZ",
+        "name": "天娱数科",
+        "theme": "AI算力/通信",
+        "deep_rating": "C",
+        "deep_score": 66.25,
+        "shadow_observation_eligible": false,
+        "risk_flags": [
+          "ST/名称风险",
+          "涨停强化但需防次日分歧"
+        ],
+        "data_gaps": [
+          "PE缺失"
+        ]
+      },
+      {
+        "priority": 6,
+        "code": "002281.SZ",
+        "name": "光迅科技",
+        "theme": "AI算力/通信",
+        "deep_rating": "B",
+        "deep_score": 61.42,
+        "shadow_observation_eligible": false,
+        "risk_flags": [
+          "5日涨幅偏热",
+          "涨停强化但需防次日分歧"
+        ],
+        "data_gaps": []
+      }
+    ],
+    "data_gaps": [
+      "PE缺失"
+    ]
+  }
+}

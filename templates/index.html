@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>MyInvestLeader</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div>
+        <h1>MyInvestLeader</h1>
+        <p id="subtitle">A股主线龙头研究与影子仓位接口</p>
+      </div>
+      <nav class="nav">
+        <a href="/api/latest">完整研究</a>
+        <a href="/api/shadow/latest">影子接口</a>
+        <a href="/api/reports">历史</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="metrics" id="metrics"></section>
+      <section class="panel document-panel">
+        <div class="section-head">
+          <h2>研究文档</h2>
+          <span id="document-meta"></span>
+        </div>
+        <div class="doc-links" id="document-links"></div>
+      </section>
+      <section class="grid">
+        <div class="panel">
+          <div class="section-head">
+            <h2>主线龙头分布</h2>
+            <span id="report-meta"></span>
+          </div>
+          <div class="chart" id="score-chart"></div>
+        </div>
+        <div class="panel">
+          <div class="section-head">
+            <h2>影子仓位接口</h2>
+            <span id="shadow-state"></span>
+          </div>
+          <div id="shadow-contract" class="contract"></div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="section-head">
+          <h2>龙头候选矩阵</h2>
+          <span id="candidate-count"></span>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>主线</th>
+                <th>阶段</th>
+                <th>龙头分</th>
+                <th>分层</th>
+                <th>ETF龙头</th>
+                <th>A股龙头</th>
+                <th>缺口</th>
+              </tr>
+            </thead>
+            <tbody id="theme-rows"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="section-head">
+          <h2>数据缺口</h2>
+          <span id="gap-count"></span>
+        </div>
+        <ul class="gap-list" id="data-gaps"></ul>
+      </section>
+
+      <section class="panel">
+        <div class="section-head">
+          <h2>龙头股深研</h2>
+          <span id="stock-deep-meta"></span>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>股票</th>
+                <th>主线</th>
+                <th>龙头证据</th>
+                <th>深研评级</th>
+                <th>深研分</th>
+                <th>评分拆解</th>
+                <th>交易/估值</th>
+                <th>风险与缺口</th>
+              </tr>
+            </thead>
+            <tbody id="stock-deep-rows"></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+    <script src="/static/app.js?v=20260622_evidence_chain"></script>
+  </body>
+</html>

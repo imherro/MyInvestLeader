@@ -1,0 +1,50 @@
+{
+  "schema_version": "stock_deep_research.v1",
+  "report_id": "stock_deep_review_2026-06-22_164944",
+  "leader_report_id": "leader_review_2026-06-22_164931",
+  "generated_at": "2026-06-22 16:49:45 CST",
+  "basis_date": "2026-06-22",
+  "constraints": {
+    "read_only": true,
+    "research_first": true,
+    "ratio_only_for_shadow": true,
+    "contains_trade_orders": false,
+    "contains_cash_amounts": false,
+    "contains_share_counts": false
+  },
+  "queue": [],
+  "stocks": [],
+  "summary": {
+    "queue_count": 0,
+    "stock_count": 0,
+    "eligible_count": 0,
+    "evidence_confirmed_count": 0,
+    "rating_counts": {
+      "S": 0,
+      "A": 0,
+      "B": 0,
+      "C": 0
+    },
+    "top_stock": "",
+    "data_gap_count": 0
+  },
+  "data_gaps": [],
+  "shadow_contract": {
+    "schema_version": "stock_deep_shadow_input.v1",
+    "mode": "stock_research_input",
+    "report_id": "stock_deep_review_2026-06-22_164944",
+    "leader_report_id": "leader_review_2026-06-22_164931",
+    "basis_date": "2026-06-22",
+    "generated_at": "2026-06-22 16:49:45 CST",
+    "constraints": {
+      "read_only": true,
+      "ratio_only": true,
+      "contains_trade_orders": false,
+      "contains_cash_amounts": false,
+      "contains_share_counts": false,
+      "source": "MyInvestLeader.stock_deep"
+    },
+    "stock_signals": [],
+    "data_gaps": []
+  }
+}

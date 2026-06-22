@@ -1,0 +1,104 @@
+{
+  "version": "leader_evidence_sources.v1",
+  "notes": "Evidence rules for A-share leader research. Seed-list claims are research priors; dynamic Tushare and theme data provide confirmation evidence.",
+  "tier_rules": {
+    "evidence_confirmed": "Has an industry-role seed or manual claim, at least two hard evidence items, and evidence_score >= 70.",
+    "strong_candidate": "Has an industry-role seed or manual claim, but confirmation evidence is still incomplete.",
+    "market_hot_candidate": "No industry-role seed yet, but theme binding and market confirmation are strong.",
+    "insufficient_evidence": "Only weak evidence is available; keep in research backlog and do not treat as a confirmed leader."
+  },
+  "source_rules": [
+    {
+      "type": "industry_role_seed",
+      "source_name": "config/stock_leader_universe.json",
+      "source_kind": "curated_seed",
+      "trigger": "Manually maintained candidate seed. Used for recall, not standalone proof.",
+      "confidence": 0.55,
+      "hard_evidence": false
+    },
+    {
+      "type": "mainline_binding",
+      "source_name": "theme.okbbc latest + Tushare stock_basic",
+      "source_kind": "computed_dynamic",
+      "trigger": "Current mainline keywords match stock name, industry, or market board.",
+      "confidence": 0.62,
+      "hard_evidence": true
+    },
+    {
+      "type": "market_scale",
+      "source_name": "Tushare daily_basic.total_mv",
+      "source_kind": "tushare_dynamic",
+      "trigger": "Total market value percentile is at least 90%.",
+      "confidence": 0.72,
+      "hard_evidence": true
+    },
+    {
+      "type": "liquidity_confirmation",
+      "source_name": "Tushare daily.amount",
+      "source_kind": "tushare_dynamic",
+      "trigger": "Trading amount percentile is at least 80%.",
+      "confidence": 0.64,
+      "hard_evidence": true
+    },
+    {
+      "type": "capital_flow",
+      "source_name": "Tushare moneyflow",
+      "source_kind": "tushare_dynamic",
+      "trigger": "Large-order net inflow is positive and flow percentile is at least 70%.",
+      "confidence": 0.58,
+      "hard_evidence": true
+    }
+  ],
+  "manual_records": [
+    {
+      "code": "688981.SH",
+      "theme": "硬科技电子/半导体",
+      "leader_claim": "晶圆制造龙头"
+    },
+    {
+      "code": "688256.SH",
+      "theme": "硬科技电子/半导体",
+      "leader_claim": "AI芯片龙头"
+    },
+    {
+      "code": "300308.SZ",
+      "theme": "AI算力/通信",
+      "leader_claim": "高速光模块龙头"
+    },
+    {
+      "code": "601138.SH",
+      "theme": "AI算力/通信",
+      "leader_claim": "AI服务器制造龙头"
+    },
+    {
+      "code": "002371.SZ",
+      "theme": "硬科技电子/半导体",
+      "leader_claim": "半导体设备龙头"
+    },
+    {
+      "code": "688012.SH",
+      "theme": "硬科技电子/半导体",
+      "leader_claim": "刻蚀/薄膜设备龙头"
+    },
+    {
+      "code": "688041.SH",
+      "theme": "硬科技电子/半导体",
+      "leader_claim": "国产CPU/GPU算力芯片龙头"
+    },
+    {
+      "code": "300502.SZ",
+      "theme": "AI算力/通信",
+      "leader_claim": "高速光模块龙头"
+    },
+    {
+      "code": "002281.SZ",
+      "theme": "AI算力/通信",
+      "leader_claim": "光通信器件龙头"
+    },
+    {
+      "code": "300750.SZ",
+      "theme": "新能源/电力设备",
+      "leader_claim": "动力电池龙头"
+    }
+  ]
+}
