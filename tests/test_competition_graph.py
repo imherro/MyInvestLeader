@@ -76,3 +76,23 @@ def test_competition_graph_can_displace_score_top() -> None:
     assert graph["score_top_displaced"] is True
     assert graph["leader_swap"] is True
     assert "previous L1" in graph["leader_swap_reason"]
+
+
+def test_market_hot_candidate_cannot_be_l1_without_role_evidence() -> None:
+    theme = {
+        "theme": "AI算力/通信",
+        "stock_leaders": [
+            {
+                **stock("HOT", 100.0, 99.0, "Expansion", 1.00, 1.00, 10.0, None),
+                "leader_tier": "市场热点候选",
+                "theme_role_match": False,
+            },
+            stock("SEED", 92.0, 92.0, "Expansion", 0.85, 0.80, 2.0, 90.0),
+        ],
+    }
+
+    graph = build_theme_competition_graph(theme).to_dict()
+
+    assert graph["current_l1"] == "SEED"
+    hot = next(row for row in graph["leaders"] if row["code"] == "HOT")
+    assert hot["tier"] == "OUT"

@@ -73,6 +73,40 @@ def sample_theme_payload() -> dict:
     }
 
 
+def sample_ai_theme_payload() -> dict:
+    return {
+        "report_id": "mainline_review_ai_sample",
+        "result": {
+            "generated_at": "2026-06-22 15:34:51 CST",
+            "basis_date": "2026-06-18",
+            "nominal_today": "2026-06-22",
+            "completeness": {"basis": "20260618"},
+            "breadth": {"up_ratio": 56.7},
+            "broad_indexes": [{"code": "000300.SH", "name": "沪深300", "r1": 0.2, "r5": 1.2, "r20": 3.0}],
+            "theme_ranking": [
+                {
+                    "theme_id": "ai_compute_communication",
+                    "theme": "AI算力/通信",
+                    "stage": "次主线/强修复",
+                    "lifecycle_state": "accelerating",
+                    "evidence_score": 85,
+                    "market_score": 90,
+                    "policy_score": 60,
+                    "mainline_score_v6": 0.6,
+                    "sw_score": 96,
+                    "ths_score": 96,
+                    "etf_score": 95,
+                    "top_sw": "计算机",
+                    "top_ths": "通信设备、通信应用增值服务",
+                    "top_etf": "",
+                    "top_policy": "",
+                }
+            ],
+            "etf_top": [],
+        },
+    }
+
+
 def test_parse_etf_candidates() -> None:
     result = parse_etf_candidates("588200.SH 嘉实芯片ETF、159995.SZ 半导体ETF")
 
@@ -206,6 +240,53 @@ def test_strategic_leader_universe_promotes_known_leaders(monkeypatch) -> None:
     assert payload["shadow_contract"]["leader_signals"][0]["competition_graph"]["current_l1"]
     assert payload["shadow_contract"]["leader_signals"][0]["stock_candidates"][0]["competition_tier"]
     assert payload["shadow_contract"]["leader_signals"][0]["stock_candidates"][0]["ulls"] is not None
+
+
+def test_ai_communication_excludes_generic_financial_software_candidate(monkeypatch) -> None:
+    import pandas as pd
+
+    rows = pd.DataFrame(
+        [
+            {
+                "ts_code": "300033.SZ",
+                "name": "同花顺",
+                "industry": "软件服务",
+                "market": "创业板",
+                "pct_chg": 14.9,
+                "turnover_rate": 12.0,
+                "amount": 900000.0,
+                "large_net": 300.0,
+                "is_limit_up": False,
+                "amount_rank": 0.99,
+                "flow_rank": 0.99,
+                "mv_rank": 0.98,
+            },
+            {
+                "ts_code": "300308.SZ",
+                "name": "中际旭创",
+                "industry": "通信设备",
+                "market": "创业板",
+                "pct_chg": 1.2,
+                "turnover_rate": 3.5,
+                "amount": 800000.0,
+                "large_net": 200.0,
+                "is_limit_up": False,
+                "amount_rank": 0.9,
+                "flow_rank": 0.82,
+                "mv_rank": 0.95,
+            },
+        ]
+    )
+    monkeypatch.setattr(research, "fetch_tushare_fund_prices", lambda codes, basis_date: {})
+    monkeypatch.setattr(research, "_stock_universe", lambda basis_date: (rows, []))
+
+    _report_id, payload, _markdown = research.build_report(theme_payload=sample_ai_theme_payload())
+    ai_theme = payload["themes"][0]
+    codes = [row["code"] for row in ai_theme["stock_leaders"]]
+
+    assert "300033.SZ" not in codes
+    assert "300308.SZ" in codes
+    assert ai_theme["competition_graph"]["current_l1"] == "300308.SZ"
 
 
 def test_report_service_uses_safe_latest_file(tmp_path: Path, monkeypatch) -> None:

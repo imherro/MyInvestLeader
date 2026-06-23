@@ -174,6 +174,25 @@ def _stock_reason(
     return reasons
 
 
+def _primary_leader_eligible(stock: dict[str, Any]) -> bool:
+    if stock.get("theme_role_match") is False:
+        return False
+    tier = str(stock.get("leader_tier") or "")
+    if tier == "证据确认龙头":
+        return True
+    return stock.get("seed_score") is not None or stock.get("strategic_score") is not None
+
+
+def _cap_tier_for_evidence(tier: str, stock: dict[str, Any]) -> str:
+    if _primary_leader_eligible(stock):
+        return tier
+    if stock.get("theme_role_match") is False and tier in {"L1", "L2", "L3"}:
+        return "OUT"
+    if str(stock.get("leader_tier") or "") == "市场热点候选" and tier in {"L1", "L2"}:
+        return "L3"
+    return tier
+
+
 def build_theme_competition_graph(
     theme: dict[str, Any],
     history_ranks: dict[str, list[int]] | None = None,
@@ -266,12 +285,13 @@ def build_theme_competition_graph(
         row["ulls"] = float(convergence.ulls)
 
     ranked = sorted(interim, key=lambda row: (-row["ulls"], row["code"]))
+    primary_l1_code = next((row["code"] for row in ranked if _primary_leader_eligible(row["stock"])), ranked[0]["code"])
     leaders: list[CompetitionLeader] = []
     l2_budget = min(3, max(0, candidate_count - 1))
     l2_used = 0
     for rank, row in enumerate(ranked, start=1):
         lifecycle_state = row["lifecycle_state"]
-        if rank == 1:
+        if row["code"] == primary_l1_code:
             tier = "L1"
         elif lifecycle_state == "Decline":
             tier = "OUT"
@@ -285,6 +305,7 @@ def build_theme_competition_graph(
         else:
             tier = "OUT"
         stock = row["stock"]
+        tier = _cap_tier_for_evidence(tier, stock)
         convergence_payload = row["convergence"].to_dict()
         convergence_payload["tier"] = tier
         leaders.append(
@@ -340,7 +361,7 @@ def build_theme_competition_graph(
 
     top_stability = [leader.leadership_stability for leader in leaders[: min(3, len(leaders))]]
     leadership_stability = sum(top_stability) / len(top_stability) if top_stability else 0.0
-    current_l1 = leaders[0].code if leaders else None
+    current_l1 = next((leader.code for leader in leaders if leader.tier == "L1"), None)
     score_top = str(stocks[0].get("code") or "") if stocks else None
     score_top_displaced = bool(current_l1 and score_top and current_l1 != score_top)
     historical_swap = bool(current_l1 and previous_l1 and current_l1 != previous_l1)

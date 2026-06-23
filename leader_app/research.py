@@ -21,13 +21,42 @@ SHADOW_SCHEMA_VERSION = "leader_shadow_input.v1"
 
 THEME_KEYWORDS: dict[str, tuple[str, ...]] = {
     "硬科技电子/半导体": ("半导体", "芯片", "电子", "元件", "PCB", "集成电路", "消费电子", "光学"),
-    "AI算力/通信": ("通信", "算力", "光模块", "CPO", "5G", "人工智能", "AI", "服务器", "软件", "互联网"),
+    "AI算力/通信": ("通信", "算力", "光模块", "CPO", "5G", "人工智能", "AI", "服务器"),
     "高端制造/机器人/军工": ("机器人", "自动化", "机床", "军工", "装备", "机械", "航空", "航天", "船舶"),
     "建材/稳增长修复": ("建材", "水泥", "玻璃", "基建", "建筑", "装修", "非金属"),
     "新能源/电力设备": ("电池", "锂电", "光伏", "风电", "储能", "新能源", "电力设备", "电网"),
     "资源周期": ("有色", "小金属", "铜", "铝", "黄金", "稀土", "煤炭", "石油", "钢铁"),
     "消费/传媒": ("消费", "传媒", "游戏", "影视", "旅游", "家电", "食品", "饮料", "零售"),
     "创新药/医药": ("医药", "创新药", "医疗", "器械", "生物", "制药", "中药", "CRO"),
+}
+
+THEME_EXCLUDED_KEYWORDS: dict[str, tuple[str, ...]] = {
+    "AI算力/通信": ("软件", "互联网", "计算机", "通信应用增值服务"),
+}
+
+THEME_ROLE_KEYWORDS: dict[str, tuple[str, ...]] = {
+    "AI算力/通信": (
+        "通信",
+        "光模块",
+        "CPO",
+        "光器件",
+        "光通信",
+        "算力",
+        "服务器",
+        "IDC",
+        "数据中心",
+        "AI芯片",
+        "GPU",
+        "PCB",
+        "交换机",
+        "液冷",
+        "光纤",
+        "光缆",
+    ),
+}
+
+THEME_EXCLUDED_ROLE_TEXT: dict[str, tuple[str, ...]] = {
+    "AI算力/通信": ("软件服务", "证券", "金融", "财经", "互联网金融", "信息服务"),
 }
 
 LIFECYCLE_SCORE = {
@@ -266,12 +295,14 @@ def _theme_score(row: dict[str, Any]) -> float:
 
 
 def _theme_keywords(row: dict[str, Any]) -> tuple[str, ...]:
-    base = list(THEME_KEYWORDS.get(str(row.get("theme") or ""), ()))
+    theme_name = str(row.get("theme") or "")
+    excluded = set(THEME_EXCLUDED_KEYWORDS.get(theme_name, ()))
+    base = [item for item in THEME_KEYWORDS.get(theme_name, ()) if item not in excluded]
     for field in ("top_sw", "top_ths"):
         text = str(row.get(field) or "")
         for item in text.replace("、", ",").replace("，", ",").split(","):
             item = item.strip()
-            if 2 <= len(item) <= 8:
+            if 2 <= len(item) <= 8 and item not in excluded:
                 base.append(item)
     seen: set[str] = set()
     result = []
@@ -284,6 +315,17 @@ def _theme_keywords(row: dict[str, Any]) -> tuple[str, ...]:
 
 def _keyword_match(text: str, keywords: tuple[str, ...]) -> bool:
     return any(keyword and keyword in text for keyword in keywords)
+
+
+def _theme_role_match(theme_name: str, text: str, has_seed_claim: bool = False) -> bool:
+    if has_seed_claim:
+        return True
+    role_keywords = THEME_ROLE_KEYWORDS.get(theme_name)
+    if not role_keywords:
+        return True
+    if any(item and item in text for item in THEME_EXCLUDED_ROLE_TEXT.get(theme_name, ())):
+        return False
+    return any(item and item in text for item in role_keywords)
 
 
 def _load_stock_leader_universe() -> dict[str, Any]:
@@ -735,11 +777,20 @@ def _build_stock_leaders(
     )
     keyword_mask = text.apply(lambda value: _keyword_match(value, keywords))
     seed_mask = universe["ts_code"].astype(str).isin(set(seed_map))
-    mask = keyword_mask | seed_mask
+    role_mask = universe.apply(
+        lambda row: _theme_role_match(
+            str(theme_row.get("theme") or ""),
+            f"{row.get('name') or ''} {row.get('industry') or ''} {row.get('market') or ''}",
+            has_seed_claim=str(row.get("ts_code") or "") in seed_map,
+        ),
+        axis=1,
+    )
+    mask = seed_mask | (keyword_mask & role_mask)
     matched = universe.loc[mask].copy()
     if matched.empty:
         return []
     matched["keyword_match"] = keyword_mask.loc[matched.index]
+    matched["theme_role_match"] = role_mask.loc[matched.index]
     matched["seed_score"] = matched["ts_code"].astype(str).map(
         lambda code: safe_float(seed_map.get(code, {}).get("strategic_score"))
     )
@@ -789,6 +840,7 @@ def _build_stock_leaders(
                 "leader_claim": str(row.get("leader_claim") or row.get("leader_role") or ""),
                 "leader_tier": str(row.get("leader_tier") or ""),
                 "binding_source": str(row.get("binding_source") or ""),
+                "theme_role_match": bool(row.get("theme_role_match")),
                 "seed_score": _round(row.get("seed_score"), 4),
                 "strategic_score": _round(row.get("strategic_score"), 4),
                 "evidence_score": _round(row.get("evidence_score"), 4),
