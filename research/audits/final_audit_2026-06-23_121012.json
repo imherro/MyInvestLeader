@@ -1,0 +1,1007 @@
+{
+  "schema_version": "leader_final_audit.v1",
+  "audit_id": "final_audit_2026-06-23_121012",
+  "generated_at": "2026-06-23 12:10:12 CST",
+  "leader_report_id": "leader_review_2026-06-23_120947",
+  "basis_date": "2026-06-22",
+  "constraints": {
+    "read_only": true,
+    "no_trade_order": true,
+    "no_new_factor": true,
+    "no_ml": true
+  },
+  "FINAL_SYSTEM_AUDIT_REPORT": {
+    "sensitivity_score": 56.19,
+    "stability_score": 73.08,
+    "discriminability_score": 40.01,
+    "system_risk_flags": [
+      "over_smoothing_watch",
+      "under_separation_risk",
+      "regime_nullification_risk"
+    ],
+    "recommended_adjustments": [
+      "Do not roll back smoothing immediately; monitor one more report and consider changing smoothing from 0.7/0.3 to 0.8/0.2 if swap remains zero.",
+      "Increase L1/L2 separation discipline in reporting: flag themes where top1-top5 ULLS gap stays below 0.05 instead of forcing a stronger conclusion.",
+      "Slightly raise regime explanatory visibility; keep it as a modifier, but audit whether 0.10 regime weight is too low in BEAR/SIDEWAYS snapshots."
+    ]
+  },
+  "audits": {
+    "sensitivity": {
+      "sensitivity_score": 56.19,
+      "average_ulls_change_rate": 0.005676,
+      "rank_change_rate": 0.375,
+      "l1_change_rate": 0.083333,
+      "scenarios": [
+        {
+          "theme": "硬科技电子/半导体",
+          "signal": "volume",
+          "level": 0.05,
+          "target": "301308.SZ",
+          "ulls_change_rate": 0.001347,
+          "l1_changed": false,
+          "rank_change": -1
+        },
+        {
+          "theme": "硬科技电子/半导体",
+          "signal": "volume",
+          "level": 0.1,
+          "target": "301308.SZ",
+          "ulls_change_rate": 0.001347,
+          "l1_changed": false,
+          "rank_change": -1
+        },
+        {
+          "theme": "硬科技电子/半导体",
+          "signal": "volume",
+          "level": 0.15,
+          "target": "301308.SZ",
+          "ulls_change_rate": 0.001347,
+          "l1_changed": false,
+          "rank_change": -1
+        },
+        {
+          "theme": "硬科技电子/半导体",
+          "signal": "fund_flow",
+          "level": 0.05,
+          "target": "301308.SZ",
+          "ulls_change_rate": 0.001347,
+          "l1_changed": false,
+          "rank_change": -1
+        },
+        {
+          "theme": "硬科技电子/半导体",
+          "signal": "fund_flow",
+          "level": 0.1,
+          "target": "301308.SZ",
+          "ulls_change_rate": 0.001347,
+          "l1_changed": false,
+          "rank_change": -1
+        },
+        {
+          "theme": "硬科技电子/半导体",
+          "signal": "fund_flow",
+          "level": 0.15,
+          "target": "301308.SZ",
+          "ulls_change_rate": 0.001347,
+          "l1_changed": false,
+          "rank_change": -1
+        },
+        {
+          "theme": "硬科技电子/半导体",
+          "signal": "theme_strength",
+          "level": 0.05,
+          "target": "301308.SZ",
+          "ulls_change_rate": 0.01534,
+          "l1_changed": false,
+          "rank_change": 1
+        },
+        {
+          "theme": "硬科技电子/半导体",
+          "signal": "theme_strength",
+          "level": 0.1,
+          "target": "301308.SZ",
+          "ulls_change_rate": 0.01534,
+          "l1_changed": false,
+          "rank_change": 1
+        },
+        {
+          "theme": "硬科技电子/半导体",
+          "signal": "theme_strength",
+          "level": 0.15,
+          "target": "301308.SZ",
+          "ulls_change_rate": 0.01534,
+          "l1_changed": false,
+          "rank_change": 1
+        },
+        {
+          "theme": "AI算力/通信",
+          "signal": "volume",
+          "level": 0.05,
+          "target": "688256.SH",
+          "ulls_change_rate": 0.000106,
+          "l1_changed": false,
+          "rank_change": 0
+        },
+        {
+          "theme": "AI算力/通信",
+          "signal": "volume",
+          "level": 0.1,
+          "target": "688256.SH",
+          "ulls_change_rate": 0.000106,
+          "l1_changed": false,
+          "rank_change": 0
+        },
+        {
+          "theme": "AI算力/通信",
+          "signal": "volume",
+          "level": 0.15,
+          "target": "688256.SH",
+          "ulls_change_rate": 0.000106,
+          "l1_changed": false,
+          "rank_change": 0
+        },
+        {
+          "theme": "AI算力/通信",
+          "signal": "fund_flow",
+          "level": 0.05,
+          "target": "688256.SH",
+          "ulls_change_rate": 0.000634,
+          "l1_changed": false,
+          "rank_change": 0
+        },
+        {
+          "theme": "AI算力/通信",
+          "signal": "fund_flow",
+          "level": 0.1,
+          "target": "688256.SH",
+          "ulls_change_rate": 0.000634,
+          "l1_changed": false,
+          "rank_change": 0
+        },
+        {
+          "theme": "AI算力/通信",
+          "signal": "fund_flow",
+          "level": 0.15,
+          "target": "688256.SH",
+          "ulls_change_rate": 0.000634,
+          "l1_changed": false,
+          "rank_change": 0
+        },
+        {
+          "theme": "AI算力/通信",
+          "signal": "theme_strength",
+          "level": 0.05,
+          "target": "688256.SH",
+          "ulls_change_rate": 0.014888,
+          "l1_changed": true,
+          "rank_change": 1
+        },
+        {
+          "theme": "AI算力/通信",
+          "signal": "theme_strength",
+          "level": 0.1,
+          "target": "688256.SH",
+          "ulls_change_rate": 0.014888,
+          "l1_changed": true,
+          "rank_change": 1
+        },
+        {
+          "theme": "AI算力/通信",
+          "signal": "theme_strength",
+          "level": 0.15,
+          "target": "688256.SH",
+          "ulls_change_rate": 0.014888,
+          "l1_changed": true,
+          "rank_change": 1
+        },
+        {
+          "theme": "新能源/电力设备",
+          "signal": "volume",
+          "level": 0.05,
+          "target": "300750.SZ",
+          "ulls_change_rate": 0.003129,
+          "l1_changed": false,
+          "rank_change": 0
+        },
+        {
+          "theme": "新能源/电力设备",
+          "signal": "volume",
+          "level": 0.1,
+          "target": "300750.SZ",
+          "ulls_change_rate": 0.003129,
+          "l1_changed": false,
+          "rank_change": 0
+        },
+        {
+          "theme": "新能源/电力设备",
+          "signal": "volume",
+          "level": 0.15,
+          "target": "300750.SZ",
+          "ulls_change_rate": 0.003129,
+          "l1_changed": false,
+          "rank_change": 0
+        },
+        {
+          "theme": "新能源/电力设备",
+          "signal": "fund_flow",
+          "level": 0.05,
+          "target": "300750.SZ",
+          "ulls_change_rate": 0.002913,
+          "l1_changed": false,
+          "rank_change": 0
+        },
+        {
+          "theme": "新能源/电力设备",
+          "signal": "fund_flow",
+          "level": 0.1,
+          "target": "300750.SZ",
+          "ulls_change_rate": 0.002697,
+          "l1_changed": false,
+          "rank_change": 0
+        },
+        {
+          "theme": "新能源/电力设备",
+          "signal": "fund_flow",
+          "level": 0.15,
+          "target": "300750.SZ",
+          "ulls_change_rate": 0.002481,
+          "l1_changed": false,
+          "rank_change": 0
+        },
+        {
+          "theme": "新能源/电力设备",
+          "signal": "theme_strength",
+          "level": 0.05,
+          "target": "300750.SZ",
+          "ulls_change_rate": 0.019851,
+          "l1_changed": true,
+          "rank_change": 1
+        },
+        {
+          "theme": "新能源/电力设备",
+          "signal": "theme_strength",
+          "level": 0.1,
+          "target": "300750.SZ",
+          "ulls_change_rate": 0.036142,
+          "l1_changed": true,
+          "rank_change": 1
+        },
+        {
+          "theme": "新能源/电力设备",
+          "signal": "theme_strength",
+          "level": 0.15,
+          "target": "300750.SZ",
+          "ulls_change_rate": 0.036142,
+          "l1_changed": true,
+          "rank_change": 1
+        },
+        {
+          "theme": "资源周期",
+          "signal": "volume",
+          "level": 0.05,
+          "target": "603993.SH",
+          "ulls_change_rate": 0.000519,
+          "l1_changed": false,
+          "rank_change": 0
+        },
+        {
+          "theme": "资源周期",
+          "signal": "volume",
+          "level": 0.1,
+          "target": "603993.SH",
+          "ulls_change_rate": 0.000519,
+          "l1_changed": false,
+          "rank_change": 0
+        },
+        {
+          "theme": "资源周期",
+          "signal": "volume",
+          "level": 0.15,
+          "target": "603993.SH",
+          "ulls_change_rate": 0.000519,
+          "l1_changed": false,
+          "rank_change": 0
+        },
+        {
+          "theme": "资源周期",
+          "signal": "fund_flow",
+          "level": 0.05,
+          "target": "603993.SH",
+          "ulls_change_rate": 0.000208,
+          "l1_changed": false,
+          "rank_change": 0
+        },
+        {
+          "theme": "资源周期",
+          "signal": "fund_flow",
+          "level": 0.1,
+          "target": "603993.SH",
+          "ulls_change_rate": 0.000208,
+          "l1_changed": false,
+          "rank_change": 0
+        },
+        {
+          "theme": "资源周期",
+          "signal": "fund_flow",
+          "level": 0.15,
+          "target": "603993.SH",
+          "ulls_change_rate": 0.000208,
+          "l1_changed": false,
+          "rank_change": 0
+        },
+        {
+          "theme": "资源周期",
+          "signal": "theme_strength",
+          "level": 0.05,
+          "target": "603993.SH",
+          "ulls_change_rate": 0.012152,
+          "l1_changed": false,
+          "rank_change": 1
+        },
+        {
+          "theme": "资源周期",
+          "signal": "theme_strength",
+          "level": 0.1,
+          "target": "603993.SH",
+          "ulls_change_rate": 0.012152,
+          "l1_changed": false,
+          "rank_change": 1
+        },
+        {
+          "theme": "资源周期",
+          "signal": "theme_strength",
+          "level": 0.15,
+          "target": "603993.SH",
+          "ulls_change_rate": 0.012152,
+          "l1_changed": false,
+          "rank_change": 1
+        },
+        {
+          "theme": "建材/稳增长修复",
+          "signal": "volume",
+          "level": 0.05,
+          "target": "603993.SH",
+          "ulls_change_rate": 0.000103,
+          "l1_changed": false,
+          "rank_change": 0
+        },
+        {
+          "theme": "建材/稳增长修复",
+          "signal": "volume",
+          "level": 0.1,
+          "target": "603993.SH",
+          "ulls_change_rate": 0.000103,
+          "l1_changed": false,
+          "rank_change": 0
+        },
+        {
+          "theme": "建材/稳增长修复",
+          "signal": "volume",
+          "level": 0.15,
+          "target": "603993.SH",
+          "ulls_change_rate": 0.000103,
+          "l1_changed": false,
+          "rank_change": 0
+        },
+        {
+          "theme": "建材/稳增长修复",
+          "signal": "fund_flow",
+          "level": 0.05,
+          "target": "603993.SH",
+          "ulls_change_rate": 0.000309,
+          "l1_changed": false,
+          "rank_change": 0
+        },
+        {
+          "theme": "建材/稳增长修复",
+          "signal": "fund_flow",
+          "level": 0.1,
+          "target": "603993.SH",
+          "ulls_change_rate": 0.000309,
+          "l1_changed": false,
+          "rank_change": 0
+        },
+        {
+          "theme": "建材/稳增长修复",
+          "signal": "fund_flow",
+          "level": 0.15,
+          "target": "603993.SH",
+          "ulls_change_rate": 0.000309,
+          "l1_changed": false,
+          "rank_change": 0
+        },
+        {
+          "theme": "建材/稳增长修复",
+          "signal": "theme_strength",
+          "level": 0.05,
+          "target": "603993.SH",
+          "ulls_change_rate": 0.009379,
+          "l1_changed": false,
+          "rank_change": 1
+        },
+        {
+          "theme": "建材/稳增长修复",
+          "signal": "theme_strength",
+          "level": 0.1,
+          "target": "603993.SH",
+          "ulls_change_rate": 0.009379,
+          "l1_changed": false,
+          "rank_change": 1
+        },
+        {
+          "theme": "建材/稳增长修复",
+          "signal": "theme_strength",
+          "level": 0.15,
+          "target": "603993.SH",
+          "ulls_change_rate": 0.009379,
+          "l1_changed": false,
+          "rank_change": 1
+        },
+        {
+          "theme": "高端制造/机器人/军工",
+          "signal": "volume",
+          "level": 0.05,
+          "target": "002353.SZ",
+          "ulls_change_rate": 0.000614,
+          "l1_changed": false,
+          "rank_change": 0
+        },
+        {
+          "theme": "高端制造/机器人/军工",
+          "signal": "volume",
+          "level": 0.1,
+          "target": "002353.SZ",
+          "ulls_change_rate": 0.000614,
+          "l1_changed": false,
+          "rank_change": 0
+        },
+        {
+          "theme": "高端制造/机器人/军工",
+          "signal": "volume",
+          "level": 0.15,
+          "target": "002353.SZ",
+          "ulls_change_rate": 0.000614,
+          "l1_changed": false,
+          "rank_change": 0
+        },
+        {
+          "theme": "高端制造/机器人/军工",
+          "signal": "fund_flow",
+          "level": 0.05,
+          "target": "002353.SZ",
+          "ulls_change_rate": 0.000511,
+          "l1_changed": false,
+          "rank_change": 0
+        },
+        {
+          "theme": "高端制造/机器人/军工",
+          "signal": "fund_flow",
+          "level": 0.1,
+          "target": "002353.SZ",
+          "ulls_change_rate": 0.000511,
+          "l1_changed": false,
+          "rank_change": 0
+        },
+        {
+          "theme": "高端制造/机器人/军工",
+          "signal": "fund_flow",
+          "level": 0.15,
+          "target": "002353.SZ",
+          "ulls_change_rate": 0.000511,
+          "l1_changed": false,
+          "rank_change": 0
+        },
+        {
+          "theme": "高端制造/机器人/军工",
+          "signal": "theme_strength",
+          "level": 0.05,
+          "target": "002353.SZ",
+          "ulls_change_rate": 0.00808,
+          "l1_changed": false,
+          "rank_change": 1
+        },
+        {
+          "theme": "高端制造/机器人/军工",
+          "signal": "theme_strength",
+          "level": 0.1,
+          "target": "002353.SZ",
+          "ulls_change_rate": 0.00808,
+          "l1_changed": false,
+          "rank_change": 1
+        },
+        {
+          "theme": "高端制造/机器人/军工",
+          "signal": "theme_strength",
+          "level": 0.15,
+          "target": "002353.SZ",
+          "ulls_change_rate": 0.00808,
+          "l1_changed": false,
+          "rank_change": 1
+        },
+        {
+          "theme": "消费/传媒",
+          "signal": "volume",
+          "level": 0.05,
+          "target": "600186.SH",
+          "ulls_change_rate": 0.002483,
+          "l1_changed": false,
+          "rank_change": 0
+        },
+        {
+          "theme": "消费/传媒",
+          "signal": "volume",
+          "level": 0.1,
+          "target": "600186.SH",
+          "ulls_change_rate": 0.002483,
+          "l1_changed": false,
+          "rank_change": 0
+        },
+        {
+          "theme": "消费/传媒",
+          "signal": "volume",
+          "level": 0.15,
+          "target": "600186.SH",
+          "ulls_change_rate": 0.002483,
+          "l1_changed": false,
+          "rank_change": 0
+        },
+        {
+          "theme": "消费/传媒",
+          "signal": "fund_flow",
+          "level": 0.05,
+          "target": "600186.SH",
+          "ulls_change_rate": 0.00269,
+          "l1_changed": false,
+          "rank_change": 0
+        },
+        {
+          "theme": "消费/传媒",
+          "signal": "fund_flow",
+          "level": 0.1,
+          "target": "600186.SH",
+          "ulls_change_rate": 0.00269,
+          "l1_changed": false,
+          "rank_change": 0
+        },
+        {
+          "theme": "消费/传媒",
+          "signal": "fund_flow",
+          "level": 0.15,
+          "target": "600186.SH",
+          "ulls_change_rate": 0.00269,
+          "l1_changed": false,
+          "rank_change": 0
+        },
+        {
+          "theme": "消费/传媒",
+          "signal": "theme_strength",
+          "level": 0.05,
+          "target": "600186.SH",
+          "ulls_change_rate": 0.00869,
+          "l1_changed": false,
+          "rank_change": 0
+        },
+        {
+          "theme": "消费/传媒",
+          "signal": "theme_strength",
+          "level": 0.1,
+          "target": "600186.SH",
+          "ulls_change_rate": 0.00869,
+          "l1_changed": false,
+          "rank_change": 0
+        },
+        {
+          "theme": "消费/传媒",
+          "signal": "theme_strength",
+          "level": 0.15,
+          "target": "600186.SH",
+          "ulls_change_rate": 0.00869,
+          "l1_changed": false,
+          "rank_change": 0
+        },
+        {
+          "theme": "创新药/医药",
+          "signal": "volume",
+          "level": 0.05,
+          "target": "300759.SZ",
+          "ulls_change_rate": 0.003226,
+          "l1_changed": false,
+          "rank_change": 0
+        },
+        {
+          "theme": "创新药/医药",
+          "signal": "volume",
+          "level": 0.1,
+          "target": "300759.SZ",
+          "ulls_change_rate": 0.004058,
+          "l1_changed": false,
+          "rank_change": 0
+        },
+        {
+          "theme": "创新药/医药",
+          "signal": "volume",
+          "level": 0.15,
+          "target": "300759.SZ",
+          "ulls_change_rate": 0.004579,
+          "l1_changed": false,
+          "rank_change": 0
+        },
+        {
+          "theme": "创新药/医药",
+          "signal": "fund_flow",
+          "level": 0.05,
+          "target": "300759.SZ",
+          "ulls_change_rate": 0.002497,
+          "l1_changed": false,
+          "rank_change": 0
+        },
+        {
+          "theme": "创新药/医药",
+          "signal": "fund_flow",
+          "level": 0.1,
+          "target": "300759.SZ",
+          "ulls_change_rate": 0.002497,
+          "l1_changed": false,
+          "rank_change": 0
+        },
+        {
+          "theme": "创新药/医药",
+          "signal": "fund_flow",
+          "level": 0.15,
+          "target": "300759.SZ",
+          "ulls_change_rate": 0.002497,
+          "l1_changed": false,
+          "rank_change": 0
+        },
+        {
+          "theme": "创新药/医药",
+          "signal": "theme_strength",
+          "level": 0.05,
+          "target": "300759.SZ",
+          "ulls_change_rate": 0.01384,
+          "l1_changed": false,
+          "rank_change": 1
+        },
+        {
+          "theme": "创新药/医药",
+          "signal": "theme_strength",
+          "level": 0.1,
+          "target": "300759.SZ",
+          "ulls_change_rate": 0.01384,
+          "l1_changed": false,
+          "rank_change": 1
+        },
+        {
+          "theme": "创新药/医药",
+          "signal": "theme_strength",
+          "level": 0.15,
+          "target": "300759.SZ",
+          "ulls_change_rate": 0.01384,
+          "l1_changed": false,
+          "rank_change": 1
+        }
+      ]
+    },
+    "stability": {
+      "stability_score": 73.08,
+      "l1_change_rate": 0.09375,
+      "average_ulls_change_rate": 0.00715,
+      "regime_effect_rate": 0.008688,
+      "scenarios": [
+        {
+          "theme": "硬科技电子/半导体",
+          "scenario": "regime_to_sideways",
+          "l1_changed": false,
+          "average_ulls_change_rate": 0.007837
+        },
+        {
+          "theme": "硬科技电子/半导体",
+          "scenario": "regime_to_bull_strong",
+          "l1_changed": false,
+          "average_ulls_change_rate": 0.008869
+        },
+        {
+          "theme": "硬科技电子/半导体",
+          "scenario": "lifecycle_minor_downgrade",
+          "l1_changed": true,
+          "average_ulls_change_rate": 0.003817
+        },
+        {
+          "theme": "硬科技电子/半导体",
+          "scenario": "factor_noise_2pct",
+          "l1_changed": false,
+          "average_ulls_change_rate": 0.00792
+        },
+        {
+          "theme": "AI算力/通信",
+          "scenario": "regime_to_sideways",
+          "l1_changed": false,
+          "average_ulls_change_rate": 0.009327
+        },
+        {
+          "theme": "AI算力/通信",
+          "scenario": "regime_to_bull_strong",
+          "l1_changed": false,
+          "average_ulls_change_rate": 0.007704
+        },
+        {
+          "theme": "AI算力/通信",
+          "scenario": "lifecycle_minor_downgrade",
+          "l1_changed": true,
+          "average_ulls_change_rate": 0.003148
+        },
+        {
+          "theme": "AI算力/通信",
+          "scenario": "factor_noise_2pct",
+          "l1_changed": false,
+          "average_ulls_change_rate": 0.008479
+        },
+        {
+          "theme": "新能源/电力设备",
+          "scenario": "regime_to_sideways",
+          "l1_changed": false,
+          "average_ulls_change_rate": 0.014731
+        },
+        {
+          "theme": "新能源/电力设备",
+          "scenario": "regime_to_bull_strong",
+          "l1_changed": false,
+          "average_ulls_change_rate": 0.006522
+        },
+        {
+          "theme": "新能源/电力设备",
+          "scenario": "lifecycle_minor_downgrade",
+          "l1_changed": true,
+          "average_ulls_change_rate": 0.005095
+        },
+        {
+          "theme": "新能源/电力设备",
+          "scenario": "factor_noise_2pct",
+          "l1_changed": false,
+          "average_ulls_change_rate": 0.009056
+        },
+        {
+          "theme": "资源周期",
+          "scenario": "regime_to_sideways",
+          "l1_changed": false,
+          "average_ulls_change_rate": 0.008063
+        },
+        {
+          "theme": "资源周期",
+          "scenario": "regime_to_bull_strong",
+          "l1_changed": false,
+          "average_ulls_change_rate": 0.008774
+        },
+        {
+          "theme": "资源周期",
+          "scenario": "lifecycle_minor_downgrade",
+          "l1_changed": false,
+          "average_ulls_change_rate": 0.002215
+        },
+        {
+          "theme": "资源周期",
+          "scenario": "factor_noise_2pct",
+          "l1_changed": false,
+          "average_ulls_change_rate": 0.008453
+        },
+        {
+          "theme": "建材/稳增长修复",
+          "scenario": "regime_to_sideways",
+          "l1_changed": false,
+          "average_ulls_change_rate": 0.008523
+        },
+        {
+          "theme": "建材/稳增长修复",
+          "scenario": "regime_to_bull_strong",
+          "l1_changed": false,
+          "average_ulls_change_rate": 0.008216
+        },
+        {
+          "theme": "建材/稳增长修复",
+          "scenario": "lifecycle_minor_downgrade",
+          "l1_changed": false,
+          "average_ulls_change_rate": 0.001517
+        },
+        {
+          "theme": "建材/稳增长修复",
+          "scenario": "factor_noise_2pct",
+          "l1_changed": false,
+          "average_ulls_change_rate": 0.00807
+        },
+        {
+          "theme": "高端制造/机器人/军工",
+          "scenario": "regime_to_sideways",
+          "l1_changed": false,
+          "average_ulls_change_rate": 0.00875
+        },
+        {
+          "theme": "高端制造/机器人/军工",
+          "scenario": "regime_to_bull_strong",
+          "l1_changed": false,
+          "average_ulls_change_rate": 0.007792
+        },
+        {
+          "theme": "高端制造/机器人/军工",
+          "scenario": "lifecycle_minor_downgrade",
+          "l1_changed": false,
+          "average_ulls_change_rate": 0.001172
+        },
+        {
+          "theme": "高端制造/机器人/军工",
+          "scenario": "factor_noise_2pct",
+          "l1_changed": false,
+          "average_ulls_change_rate": 0.008109
+        },
+        {
+          "theme": "消费/传媒",
+          "scenario": "regime_to_sideways",
+          "l1_changed": false,
+          "average_ulls_change_rate": 0.008237
+        },
+        {
+          "theme": "消费/传媒",
+          "scenario": "regime_to_bull_strong",
+          "l1_changed": false,
+          "average_ulls_change_rate": 0.008724
+        },
+        {
+          "theme": "消费/传媒",
+          "scenario": "lifecycle_minor_downgrade",
+          "l1_changed": false,
+          "average_ulls_change_rate": 0.003653
+        },
+        {
+          "theme": "消费/传媒",
+          "scenario": "factor_noise_2pct",
+          "l1_changed": false,
+          "average_ulls_change_rate": 0.007303
+        },
+        {
+          "theme": "创新药/医药",
+          "scenario": "regime_to_sideways",
+          "l1_changed": false,
+          "average_ulls_change_rate": 0.007707
+        },
+        {
+          "theme": "创新药/医药",
+          "scenario": "regime_to_bull_strong",
+          "l1_changed": false,
+          "average_ulls_change_rate": 0.009228
+        },
+        {
+          "theme": "创新药/医药",
+          "scenario": "lifecycle_minor_downgrade",
+          "l1_changed": false,
+          "average_ulls_change_rate": 0.004137
+        },
+        {
+          "theme": "创新药/医药",
+          "scenario": "factor_noise_2pct",
+          "l1_changed": false,
+          "average_ulls_change_rate": 0.00765
+        }
+      ]
+    },
+    "discriminability": {
+      "discriminability_score": 40.01,
+      "average_l1_l2_gap": 0.007762,
+      "average_top1_top5_gap": 0.051463,
+      "score_cluster_flattening_rate": 0.75,
+      "themes": [
+        {
+          "theme": "硬科技电子/半导体",
+          "l1_l2_gap": 0.0014,
+          "top1_top5_gap": 0.0127,
+          "score_cluster_flattening": true
+        },
+        {
+          "theme": "AI算力/通信",
+          "l1_l2_gap": 0.0056,
+          "top1_top5_gap": 0.0215,
+          "score_cluster_flattening": true
+        },
+        {
+          "theme": "新能源/电力设备",
+          "l1_l2_gap": 0.0076,
+          "top1_top5_gap": 0.217,
+          "score_cluster_flattening": false
+        },
+        {
+          "theme": "资源周期",
+          "l1_l2_gap": 0.0084,
+          "top1_top5_gap": 0.0278,
+          "score_cluster_flattening": true
+        },
+        {
+          "theme": "建材/稳增长修复",
+          "l1_l2_gap": 0.0081,
+          "top1_top5_gap": 0.0205,
+          "score_cluster_flattening": true
+        },
+        {
+          "theme": "高端制造/机器人/军工",
+          "l1_l2_gap": 0.0022,
+          "top1_top5_gap": 0.01,
+          "score_cluster_flattening": true
+        },
+        {
+          "theme": "消费/传媒",
+          "l1_l2_gap": 0.0173,
+          "top1_top5_gap": 0.0653,
+          "score_cluster_flattening": false
+        },
+        {
+          "theme": "创新药/医药",
+          "l1_l2_gap": 0.0115,
+          "top1_top5_gap": 0.0369,
+          "score_cluster_flattening": true
+        }
+      ]
+    }
+  },
+  "competition_summary": {
+    "theme_count": 8,
+    "theme_with_l1_count": 5,
+    "leader_swap_count": 0,
+    "average_competition_intensity": 0.945,
+    "average_leadership_stability": 0.7783,
+    "swap_frequency": {
+      "before": 0.25,
+      "after": 0.0
+    },
+    "rank_volatility": {
+      "before": 0.2121,
+      "after": 0.2054
+    },
+    "l1_by_theme": [
+      {
+        "theme": "硬科技电子/半导体",
+        "code": "688981.SH",
+        "leader_swap": false,
+        "competition_intensity": 0.9711
+      },
+      {
+        "theme": "AI算力/通信",
+        "code": "601869.SH",
+        "leader_swap": false,
+        "competition_intensity": 0.9567
+      },
+      {
+        "theme": "新能源/电力设备",
+        "code": "300274.SZ",
+        "leader_swap": false,
+        "competition_intensity": 0.8978
+      },
+      {
+        "theme": "资源周期",
+        "code": null,
+        "leader_swap": false,
+        "competition_intensity": 0.9511
+      },
+      {
+        "theme": "建材/稳增长修复",
+        "code": null,
+        "leader_swap": false,
+        "competition_intensity": 0.9542
+      },
+      {
+        "theme": "高端制造/机器人/军工",
+        "code": null,
+        "leader_swap": false,
+        "competition_intensity": 0.9656
+      },
+      {
+        "theme": "消费/传媒",
+        "code": "600519.SH",
+        "leader_swap": false,
+        "competition_intensity": 0.9225
+      },
+      {
+        "theme": "创新药/医药",
+        "code": "600276.SH",
+        "leader_swap": false,
+        "competition_intensity": 0.9408
+      }
+    ]
+  }
+}

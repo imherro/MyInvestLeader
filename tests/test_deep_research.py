@@ -150,6 +150,7 @@ def test_build_stock_deep_report_contract() -> None:
     assert payload["constraints"]["contains_trade_orders"] is False
     assert payload["summary"]["stock_count"] == 2
     assert payload["stocks"][0]["code"] == "600667.SH"
+    assert payload["stocks"][0]["xueqiu_url"] == "https://xueqiu.com/S/SH600667"
     assert payload["stocks"][0]["deep_rating"] in {"S", "A", "B"}
     assert payload["stocks"][0]["candidate_leader_tier"] == "证据确认龙头"
     assert payload["stocks"][0]["candidate_hard_evidence_count"] == 3
@@ -158,10 +159,12 @@ def test_build_stock_deep_report_contract() -> None:
     assert payload["stocks"][1]["deep_rating"] != "S"
     assert payload["shadow_contract"]["constraints"]["contains_cash_amounts"] is False
     assert payload["shadow_contract"]["stock_signals"][0]["code"] == "600667.SH"
+    assert payload["shadow_contract"]["stock_signals"][0]["xueqiu_url"] == "https://xueqiu.com/S/SH600667"
     assert payload["shadow_contract"]["stock_signals"][0]["leader_tier"] == "证据确认龙头"
     assert payload["shadow_contract"]["stock_signals"][0]["factor_breakdown"][0]["name"] == "theme_strength"
     assert "ResearchFirst" in markdown
     assert "证据链" in markdown
+    assert "[太极实业](https://xueqiu.com/S/SH600667)" in markdown
 
 
 def test_stock_deep_service_reads_latest(tmp_path: Path) -> None:

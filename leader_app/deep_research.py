@@ -9,6 +9,7 @@ from typing import Any
 from zoneinfo import ZoneInfo
 
 from .config import ROOT_DIR, STOCK_REPORT_DIR, get_tushare_token
+from .links import markdown_name_link, xueqiu_stock_url
 from .pricing import safe_float
 
 
@@ -105,6 +106,7 @@ def select_deep_queue(leader_payload: dict[str, Any], max_per_theme: int = 3) ->
                     "theme_lifecycle_state": theme.get("lifecycle_state"),
                     "code": stock.get("code"),
                     "name": stock.get("name"),
+                    "xueqiu_url": stock.get("xueqiu_url") or xueqiu_stock_url(stock.get("code")),
                     "industry": stock.get("industry"),
                     "candidate_grade": stock.get("grade"),
                     "candidate_leader_score": stock.get("leader_score"),
@@ -414,6 +416,7 @@ def _build_stock_item(queue_item: dict[str, Any], diagnostics: dict[str, Any]) -
         "priority": queue_item.get("priority"),
         "code": code,
         "name": queue_item.get("name") or basic.get("name") or code,
+        "xueqiu_url": queue_item.get("xueqiu_url") or xueqiu_stock_url(code),
         "industry": queue_item.get("industry") or basic.get("industry") or "",
         "theme": queue_item.get("theme"),
         "theme_grade": queue_item.get("theme_grade"),
@@ -504,6 +507,7 @@ def build_stock_shadow_contract(payload: dict[str, Any]) -> dict[str, Any]:
                 "priority": row.get("priority"),
                 "code": row.get("code"),
                 "name": row.get("name"),
+                "xueqiu_url": row.get("xueqiu_url") or xueqiu_stock_url(row.get("code")),
                 "theme": row.get("theme"),
                 "deep_rating": row.get("deep_rating"),
                 "deep_score": row.get("deep_score"),
@@ -601,7 +605,7 @@ def render_markdown(payload: dict[str, Any]) -> str:
     for row in payload.get("stocks") or []:
         eligible = "入选" if row.get("shadow_observation_eligible") else "未入选"
         lines.append(
-            f"| {row.get('priority')} | {row.get('code')} {row.get('name')} | {row.get('theme')} | {row.get('candidate_leader_tier') or ''} | {row.get('candidate_leader_claim') or ''} | {row.get('candidate_evidence_score') or ''} | {row.get('candidate_evidence_count') or 0}/{row.get('candidate_hard_evidence_count') or 0} | {row.get('candidate_leader_score')} | {row.get('deep_score'):.2f} | {row.get('deep_rating')} {row.get('deep_label')} | {eligible} |"
+            f"| {row.get('priority')} | {row.get('code')} {markdown_name_link(row.get('code'), row.get('name'))} | {row.get('theme')} | {row.get('candidate_leader_tier') or ''} | {row.get('candidate_leader_claim') or ''} | {row.get('candidate_evidence_score') or ''} | {row.get('candidate_evidence_count') or 0}/{row.get('candidate_hard_evidence_count') or 0} | {row.get('candidate_leader_score')} | {row.get('deep_score'):.2f} | {row.get('deep_rating')} {row.get('deep_label')} | {eligible} |"
         )
     for row in payload.get("stocks") or []:
         scores = row.get("scores") or {}
@@ -614,7 +618,7 @@ def render_markdown(payload: dict[str, Any]) -> str:
         )
         lines += [
             "",
-            f"## {row.get('code')} {row.get('name')}：{row.get('deep_label')}",
+            f"## {row.get('code')} {markdown_name_link(row.get('code'), row.get('name'))}：{row.get('deep_label')}",
             "",
             f"- 主线：{row.get('theme')}；主线分层：{row.get('theme_grade')}；候选分：{row.get('candidate_leader_score')}",
             f"- 龙头认定：{row.get('candidate_leader_tier') or '未分层'}；角色：{row.get('candidate_leader_claim') or '未标注'}；证据分：{row.get('candidate_evidence_score')}；证据数：{row.get('candidate_evidence_count') or 0}；硬证据：{row.get('candidate_hard_evidence_count') or 0}",

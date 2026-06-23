@@ -366,6 +366,17 @@ tbody tr:last-child td {
   color: var(--muted);
 }
 
+.stock-link {
+  color: var(--blue);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.stock-link:hover,
+.stock-link:focus {
+  text-decoration: underline;
+}
+
 .gap-list {
   margin: 0;
   padding-left: 20px;

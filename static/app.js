@@ -1,9 +1,26 @@
 const gradeClass = (grade) => `grade-${String(grade || "d").toLowerCase()}`;
 
+const escapeHtml = (value) =>
+  String(value ?? "").replace(/[&<>"']/g, (char) => (
+    { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[char]
+  ));
+
 const fmt = (value, digits = 2) => {
   if (value === null || value === undefined || Number.isNaN(Number(value))) return "";
   return Number(value).toFixed(digits);
 };
+
+function xueqiuStockUrl(code) {
+  const match = String(code || "").trim().toUpperCase().match(/^(\d{6})\.(SH|SZ|BJ)$/);
+  return match ? `https://xueqiu.com/S/${match[2]}${match[1]}` : "";
+}
+
+function stockNameLink(row) {
+  const name = row?.name || row?.code || "";
+  const href = row?.xueqiu_url || xueqiuStockUrl(row?.code);
+  if (!href) return escapeHtml(name);
+  return `<a class="stock-link" href="${escapeHtml(href)}" target="_blank" rel="noopener noreferrer" title="在雪球打开 ${escapeHtml(name)}">${escapeHtml(name)}</a>`;
+}
 
 const metric = (label, value) => `
   <div class="metric">
@@ -91,7 +108,7 @@ function renderChart(themes) {
   chart.innerHTML = `<svg viewBox="0 0 ${width} ${height}" role="img" aria-label="主线龙头分布">${rows.join("")}</svg>`;
 }
 
-function candidateList(items) {
+function candidateList(items, linkStockNames = false) {
   if (!items || !items.length) return '<span class="muted">无</span>';
   return `<div class="compact-list">${items
     .slice(0, 3)
@@ -100,7 +117,7 @@ function candidateList(items) {
         <div class="candidate">
           <code>${row.code || ""}</code>
           <span>
-            ${row.name || ""}
+            ${linkStockNames ? stockNameLink(row) : escapeHtml(row.name || "")}
             <br><span class="muted">${row.leader_tier || row.binding_source || ""}</span>
             <br><span class="muted">${row.leader_claim || row.leader_role || ""}</span>
             <br><span class="muted">${fmt(row.leader_score)} 分 · ${row.competition_tier || "未分层"} · 证据 ${row.evidence_count ?? 0}/${row.hard_evidence_count ?? 0}</span>
@@ -122,7 +139,7 @@ function renderThemes(themes) {
           <td>${fmt(row.leader_score)}</td>
           <td><span class="pill ${gradeClass(row.leader_grade)}">${row.leader_label || row.leader_grade || ""}</span></td>
           <td>${candidateList(row.etf_leaders)}</td>
-          <td>${candidateList(row.stock_leaders)}</td>
+          <td>${candidateList(row.stock_leaders, true)}</td>
           <td>${(row.data_gaps || []).join("<br>") || '<span class="muted">无</span>'}</td>
         </tr>
       `,
@@ -139,7 +156,7 @@ function tierList(graph, tiers) {
       (row) => `
         <div>
           <span class="tier-label tier-${String(row.tier || "out").toLowerCase()}">${row.tier || ""}</span>
-          <code>${row.code || ""}</code> ${row.name || ""}
+          <code>${row.code || ""}</code> ${stockNameLink(row)}
           <br><span class="muted">ULLS ${fmt(row.ulls ?? row.leadership_score)} · 支配 ${fmt(row.dominance)} · 动量 ${row.momentum_rank || ""}</span>
         </div>
       `,
@@ -237,7 +254,7 @@ function renderStockDeep(stockDeep) {
       const risk = [...(row.risk_flags || []), ...(row.data_gaps || [])].join("<br>") || '<span class="muted">无</span>';
       return `
         <tr>
-          <td class="theme-cell">${row.code || ""}<br><span class="muted">${row.name || ""}</span></td>
+          <td class="theme-cell">${row.code || ""}<br><span class="muted">${stockNameLink(row)}</span></td>
           <td>${row.theme || ""}<br><span class="muted">${row.theme_grade || ""} · ${row.theme_stage || ""}</span></td>
           <td>${row.candidate_leader_tier || ""}<br><span class="muted">${row.candidate_leader_claim || ""}</span><br><span class="muted">证据 ${row.candidate_evidence_count ?? 0}/${row.candidate_hard_evidence_count ?? 0} · ${fmt(row.candidate_evidence_score)}</span></td>
           <td><span class="pill ${ratingClass(row.deep_rating)}">${row.deep_rating || ""} ${row.deep_label || ""}</span><br><span class="muted">${row.shadow_observation_eligible ? "影子池入选" : "未入影子池"}</span></td>

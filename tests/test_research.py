@@ -213,6 +213,7 @@ def test_strategic_leader_universe_promotes_known_leaders(monkeypatch) -> None:
     assert "swap_frequency" in payload["competition_summary"]
     assert payload["competition_summary"]["theme_with_l1_count"] >= 1
     smic = payload["themes"][0]["stock_leaders"][semiconductor_codes.index("688981.SH")]
+    assert smic["xueqiu_url"] == "https://xueqiu.com/S/SH688981"
     assert smic["binding_source"] == "候选种子+动态证据确认"
     assert smic["leader_tier"] == "证据确认龙头"
     assert smic["evidence_count"] >= 3
@@ -240,6 +241,8 @@ def test_strategic_leader_universe_promotes_known_leaders(monkeypatch) -> None:
     assert payload["shadow_contract"]["leader_signals"][0]["competition_graph"]["current_l1"]
     assert payload["shadow_contract"]["leader_signals"][0]["stock_candidates"][0]["competition_tier"]
     assert payload["shadow_contract"]["leader_signals"][0]["stock_candidates"][0]["ulls"] is not None
+    assert payload["shadow_contract"]["leader_signals"][0]["stock_candidates"][0]["xueqiu_url"].startswith("https://xueqiu.com/S/")
+    assert "[中芯国际](https://xueqiu.com/S/SH688981)" in _markdown
 
 
 def test_ai_communication_excludes_generic_financial_software_candidate(monkeypatch) -> None:

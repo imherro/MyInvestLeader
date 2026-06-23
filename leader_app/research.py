@@ -11,6 +11,7 @@ from zoneinfo import ZoneInfo
 from core.scoring import build_theme_competition_graph, calculate_score, calculate_score_breakdown, detect_market_regime
 
 from .config import DEFAULT_THEME_API_URL, REPORT_DIR, ROOT_DIR, get_tushare_token
+from .links import markdown_name_link, xueqiu_stock_url
 from .pricing import PricePoint, fetch_tushare_fund_prices, safe_float
 from .upstream import fetch_json, latest_result, parse_etf_candidates, stable_hash
 
@@ -828,10 +829,12 @@ def _build_stock_leaders(
         score_breakdown = row.get("score_breakdown") or {}
         regime = score_breakdown.get("regime") or {}
         lifecycle = score_breakdown.get("lifecycle") or {}
+        code = str(row.get("ts_code") or "")
         leaders.append(
             {
-                "code": str(row.get("ts_code") or ""),
+                "code": code,
                 "name": str(row.get("name") or ""),
+                "xueqiu_url": xueqiu_stock_url(code),
                 "industry": str(row.get("industry") or ""),
                 "leader_score": round(score, 2),
                 "grade": grade,
@@ -923,6 +926,7 @@ def build_shadow_contract(payload: dict[str, Any]) -> dict[str, Any]:
                     {
                         "code": row.get("code"),
                         "name": row.get("name"),
+                        "xueqiu_url": row.get("xueqiu_url") or xueqiu_stock_url(row.get("code")),
                         "industry": row.get("industry"),
                         "leader_score": row.get("leader_score"),
                         "grade": row.get("grade"),
@@ -1099,7 +1103,7 @@ def build_report(theme_payload: dict[str, Any] | None = None, theme_url: str = D
 def render_markdown(payload: dict[str, Any]) -> str:
     def competition_names(graph: dict[str, Any], tiers: set[str]) -> str:
         leaders = [
-            f"{row.get('code')} {row.get('name')}"
+            f"{row.get('code')} {markdown_name_link(row.get('code'), row.get('name'))}"
             for row in graph.get("leaders") or []
             if row.get("tier") in tiers
         ]
@@ -1166,7 +1170,7 @@ def render_markdown(payload: dict[str, Any]) -> str:
         ]
         for stock in item.get("stock_leaders") or []:
             lines.append(
-                f"| {stock.get('code')} | {stock.get('name')} | {stock.get('industry')} | {stock.get('competition_tier') or ''} | {stock.get('ulls') or ''} | {stock.get('competition_dominance') or ''} | {stock.get('leader_tier') or ''} | {stock.get('leader_claim') or stock.get('leader_role') or ''} | {stock.get('leader_score'):.2f} | {stock.get('evidence_score') or ''} | {stock.get('evidence_count') or 0} | {stock.get('hard_evidence_count') or 0} | {stock.get('binding_source') or ''} | {stock.get('pct_chg') or ''} | {stock.get('turnover_rate') or ''} |"
+                f"| {stock.get('code')} | {markdown_name_link(stock.get('code'), stock.get('name'))} | {stock.get('industry')} | {stock.get('competition_tier') or ''} | {stock.get('ulls') or ''} | {stock.get('competition_dominance') or ''} | {stock.get('leader_tier') or ''} | {stock.get('leader_claim') or stock.get('leader_role') or ''} | {stock.get('leader_score'):.2f} | {stock.get('evidence_score') or ''} | {stock.get('evidence_count') or 0} | {stock.get('hard_evidence_count') or 0} | {stock.get('binding_source') or ''} | {stock.get('pct_chg') or ''} | {stock.get('turnover_rate') or ''} |"
             )
         if not item.get("stock_leaders"):
             lines.append("| - | - | - | - | - | - | - | - | - | - | - | - | - | - | 数据不足或未匹配 |")
@@ -1179,7 +1183,7 @@ def render_markdown(payload: dict[str, Any]) -> str:
                     for source in evidence_items[:4]
                 ]
                 lines.append(
-                    f"- {stock.get('code')} {stock.get('name')}：{stock.get('leader_tier')}；{'; '.join(summaries) or '暂无证据项'}"
+                    f"- {stock.get('code')} {markdown_name_link(stock.get('code'), stock.get('name'))}：{stock.get('leader_tier')}；{'; '.join(summaries) or '暂无证据项'}"
                 )
         if item.get("data_gaps"):
             lines += ["", "数据缺口："]
