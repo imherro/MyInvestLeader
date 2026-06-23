@@ -198,8 +198,10 @@ def build_index_payload(report_id: str, payload: dict[str, Any], markdown: str) 
                 if row.get("leader_tier") == "证据确认龙头"
             ),
             "grade_counts": grade_counts,
+            "competition_summary": payload.get("competition_summary") or {},
         },
         "themes": themes,
+        "competition_summary": payload.get("competition_summary") or {},
         "market_context": payload.get("market_context") or {},
         "market_regime": payload.get("market_regime") or {},
         "shadow_contract": payload.get("shadow_contract") or {},

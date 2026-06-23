@@ -170,8 +170,13 @@ def test_strategic_leader_universe_promotes_known_leaders(monkeypatch) -> None:
 
     _report_id, payload, _markdown = research.build_report(theme_payload=sample_theme_payload())
     semiconductor_codes = [row["code"] for row in payload["themes"][0]["stock_leaders"]]
+    graph = payload["themes"][0]["competition_graph"]
 
     assert "688981.SH" in semiconductor_codes
+    assert graph["current_l1"]
+    assert sum(1 for row in graph["leaders"] if row["tier"] == "L1") == 1
+    assert graph["competition_intensity"] >= 0
+    assert payload["competition_summary"]["theme_with_l1_count"] >= 1
     smic = payload["themes"][0]["stock_leaders"][semiconductor_codes.index("688981.SH")]
     assert smic["binding_source"] == "候选种子+动态证据确认"
     assert smic["leader_tier"] == "证据确认龙头"
@@ -184,6 +189,10 @@ def test_strategic_leader_universe_promotes_known_leaders(monkeypatch) -> None:
     assert smic["stock_lifecycle_state"] in {"Accumulation", "Breakout", "Expansion", "Distribution", "Decline"}
     assert smic["lifecycle_multiplier"] is not None
     assert smic["lifecycle_reason"]
+    assert smic["competition_tier"] in {"L1", "L2", "L3", "OUT"}
+    assert smic["competition_dominance"] is not None
+    assert smic["volume_share_in_theme"] is not None
+    assert smic["fund_flow_share"] is not None
     assert {row["name"] for row in smic["factor_breakdown"]} == {
         "theme_strength",
         "volume_activity",
@@ -191,6 +200,8 @@ def test_strategic_leader_universe_promotes_known_leaders(monkeypatch) -> None:
         "cap_quality",
     }
     assert payload["themes"][0]["stock_leaders"][0]["code"] == "688981.SH"
+    assert payload["shadow_contract"]["leader_signals"][0]["competition_graph"]["current_l1"]
+    assert payload["shadow_contract"]["leader_signals"][0]["stock_candidates"][0]["competition_tier"]
 
 
 def test_report_service_uses_safe_latest_file(tmp_path: Path, monkeypatch) -> None:

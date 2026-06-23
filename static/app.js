@@ -15,12 +15,14 @@ const metric = (label, value) => `
 function renderMetrics(payload) {
   const report = payload.report || {};
   const metrics = payload.metrics || {};
+  const competition = payload.competition_summary || metrics.competition_summary || {};
   document.querySelector("#metrics").innerHTML = [
     metric("基准日", report.basis_date || "-"),
     metric("顶部主线", report.top_theme || "-"),
     metric("ETF候选", metrics.etf_candidate_count ?? 0),
     metric("A股候选", metrics.stock_candidate_count ?? 0),
     metric("证据确认", metrics.evidence_confirmed_stock_count ?? 0),
+    metric("竞争强度", fmt(competition.average_competition_intensity, 2) || "-"),
   ].join("");
   document.querySelector("#report-meta").textContent = `${report.report_id || ""} · ${report.generated_at || ""}`;
   document.querySelector("#candidate-count").textContent =
@@ -100,7 +102,7 @@ function candidateList(items) {
             ${row.name || ""}
             <br><span class="muted">${row.leader_tier || row.binding_source || ""}</span>
             <br><span class="muted">${row.leader_claim || row.leader_role || ""}</span>
-            <br><span class="muted">${fmt(row.leader_score)} 分 · 证据 ${row.evidence_count ?? 0}/${row.hard_evidence_count ?? 0}</span>
+            <br><span class="muted">${fmt(row.leader_score)} 分 · ${row.competition_tier || "未分层"} · 证据 ${row.evidence_count ?? 0}/${row.hard_evidence_count ?? 0}</span>
           </span>
           <b class="pill ${gradeClass(row.grade)}">${row.grade || ""}</b>
         </div>
@@ -124,6 +126,47 @@ function renderThemes(themes) {
         </tr>
       `,
     )
+    .join("");
+}
+
+function tierList(graph, tiers) {
+  const leaders = (graph.leaders || []).filter((row) => tiers.includes(row.tier));
+  if (!leaders.length) return '<span class="muted">无</span>';
+  return `<div class="tier-list">${leaders
+    .slice(0, 4)
+    .map(
+      (row) => `
+        <div>
+          <span class="tier-label tier-${String(row.tier || "out").toLowerCase()}">${row.tier || ""}</span>
+          <code>${row.code || ""}</code> ${row.name || ""}
+          <br><span class="muted">LS ${fmt(row.leadership_score)} · 支配 ${fmt(row.dominance)} · 动量 ${row.momentum_rank || ""}</span>
+        </div>
+      `,
+    )
+    .join("")}</div>`;
+}
+
+function renderCompetitionGraph(themes) {
+  const rows = document.querySelector("#competition-rows");
+  if (!themes.length) {
+    rows.innerHTML = '<tr><td colspan="7" class="empty">暂无竞争图谱</td></tr>';
+    return;
+  }
+  rows.innerHTML = themes
+    .map((theme) => {
+      const graph = theme.competition_graph || {};
+      return `
+        <tr>
+          <td class="theme-cell">${theme.rank}. ${theme.theme || ""}</td>
+          <td>${tierList(graph, ["L1"])}</td>
+          <td>${tierList(graph, ["L2"])}</td>
+          <td>${tierList(graph, ["L3"])}</td>
+          <td>${tierList(graph, ["OUT"])}</td>
+          <td>${fmt(graph.competition_intensity)}<br><span class="muted">稳定 ${fmt(graph.leadership_stability)}</span></td>
+          <td>${graph.leader_swap ? "是" : "否"}<br><span class="muted">${graph.leader_swap_reason || ""}</span></td>
+        </tr>
+      `;
+    })
     .join("");
 }
 
@@ -218,6 +261,7 @@ async function load() {
   renderMetrics(payload);
   renderDocumentLinks(payload);
   renderChart(themes);
+  renderCompetitionGraph(themes);
   renderThemes(themes);
   renderShadow(payload);
   renderGaps(payload.data_gaps || []);

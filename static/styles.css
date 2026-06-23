@@ -291,6 +291,45 @@ tbody tr:last-child td {
   overflow-wrap: anywhere;
 }
 
+.tier-list {
+  display: grid;
+  gap: 8px;
+  min-width: 260px;
+  line-height: 1.35;
+}
+
+.tier-label {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 36px;
+  min-height: 22px;
+  margin-right: 6px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.tier-l1 {
+  background: var(--soft-green);
+  color: #166534;
+}
+
+.tier-l2 {
+  background: var(--soft-blue);
+  color: #1d4ed8;
+}
+
+.tier-l3 {
+  background: var(--soft-amber);
+  color: #92400e;
+}
+
+.tier-out {
+  background: var(--soft-red);
+  color: #991b1b;
+}
+
 .pill {
   display: inline-flex;
   align-items: center;

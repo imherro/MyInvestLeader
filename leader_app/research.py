@@ -8,7 +8,7 @@ from pathlib import Path
 from typing import Any
 from zoneinfo import ZoneInfo
 
-from core.scoring import calculate_score, calculate_score_breakdown, detect_market_regime
+from core.scoring import build_theme_competition_graph, calculate_score, calculate_score_breakdown, detect_market_regime
 
 from .config import DEFAULT_THEME_API_URL, REPORT_DIR, ROOT_DIR, get_tushare_token
 from .pricing import PricePoint, fetch_tushare_fund_prices, safe_float
@@ -43,6 +43,92 @@ LIFECYCLE_SCORE = {
 
 LEADER_UNIVERSE_PATH = ROOT_DIR / "config" / "stock_leader_universe.json"
 LEADER_EVIDENCE_PATH = ROOT_DIR / "config" / "leader_evidence_sources.json"
+
+
+def _competition_history(theme_name: str, report_dir: Path = REPORT_DIR, limit: int = 5) -> dict[str, Any]:
+    ranks: dict[str, list[int]] = {}
+    previous_l1: str | None = None
+    if not report_dir.exists():
+        return {"ranks": ranks, "previous_l1": previous_l1}
+    files = sorted(report_dir.glob("leader_review_*.json"), key=lambda path: path.stat().st_mtime, reverse=True)
+    for path in files[:limit]:
+        try:
+            payload = json.loads(path.read_text(encoding="utf-8"))
+        except json.JSONDecodeError:
+            continue
+        theme = next((item for item in payload.get("themes") or [] if str(item.get("theme") or "") == theme_name), None)
+        if not theme:
+            continue
+        graph = theme.get("competition_graph") or {}
+        if previous_l1 is None:
+            previous_l1 = graph.get("current_l1")
+            if previous_l1 is None:
+                leaders = theme.get("stock_leaders") or []
+                previous_l1 = leaders[0].get("code") if leaders else None
+        for index, stock in enumerate(theme.get("stock_leaders") or [], start=1):
+            code = str(stock.get("code") or "")
+            if code:
+                ranks.setdefault(code, []).append(index)
+    return {"ranks": ranks, "previous_l1": previous_l1}
+
+
+def _apply_competition_graph(theme: dict[str, Any]) -> dict[str, Any]:
+    history = _competition_history(str(theme.get("theme") or ""))
+    graph = build_theme_competition_graph(
+        theme,
+        history_ranks=history.get("ranks") or {},
+        previous_l1=history.get("previous_l1"),
+    ).to_dict()
+    by_code = {row.get("code"): row for row in graph.get("leaders") or []}
+    for stock in theme.get("stock_leaders") or []:
+        item = by_code.get(stock.get("code")) or {}
+        stock["competition_tier"] = item.get("tier")
+        stock["competition_rank"] = item.get("leadership_rank")
+        stock["competition_leadership_score"] = item.get("leadership_score")
+        stock["competition_dominance"] = item.get("dominance")
+        stock["relative_score_gap"] = item.get("relative_score_gap")
+        stock["volume_share_in_theme"] = item.get("volume_share_in_theme")
+        stock["fund_flow_share"] = item.get("fund_flow_share")
+        stock["momentum_rank"] = item.get("momentum_rank")
+        stock["leadership_stability"] = item.get("leadership_stability")
+        stock["competition_reason"] = item.get("reason") or []
+    theme["competition_graph"] = graph
+    return theme
+
+
+def _competition_summary(themes: list[dict[str, Any]]) -> dict[str, Any]:
+    graphs = [theme.get("competition_graph") or {} for theme in themes if theme.get("competition_graph")]
+    if not graphs:
+        return {
+            "theme_count": 0,
+            "theme_with_l1_count": 0,
+            "leader_swap_count": 0,
+            "average_competition_intensity": 0.0,
+            "average_leadership_stability": 0.0,
+            "l1_by_theme": [],
+        }
+    return {
+        "theme_count": len(graphs),
+        "theme_with_l1_count": sum(1 for graph in graphs if graph.get("current_l1")),
+        "leader_swap_count": sum(1 for graph in graphs if graph.get("leader_swap")),
+        "average_competition_intensity": _round(
+            sum(float(graph.get("competition_intensity") or 0.0) for graph in graphs) / len(graphs),
+            4,
+        ),
+        "average_leadership_stability": _round(
+            sum(float(graph.get("leadership_stability") or 0.0) for graph in graphs) / len(graphs),
+            4,
+        ),
+        "l1_by_theme": [
+            {
+                "theme": graph.get("theme"),
+                "code": graph.get("current_l1"),
+                "leader_swap": graph.get("leader_swap"),
+                "competition_intensity": graph.get("competition_intensity"),
+            }
+            for graph in graphs
+        ],
+    }
 
 
 def _compact_date(value: str | None) -> str:
@@ -696,6 +782,14 @@ def build_shadow_contract(payload: dict[str, Any]) -> dict[str, Any]:
                 "leader_grade": theme.get("leader_grade"),
                 "score_weight_ratio": 0.0 if theme.get("leader_grade") == "D" else score,
                 "top_etf": theme.get("top_etf_raw") or "",
+                "competition_graph": {
+                    "current_l1": (theme.get("competition_graph") or {}).get("current_l1"),
+                    "competition_intensity": (theme.get("competition_graph") or {}).get("competition_intensity"),
+                    "leadership_stability": (theme.get("competition_graph") or {}).get("leadership_stability"),
+                    "leader_swap": (theme.get("competition_graph") or {}).get("leader_swap"),
+                    "leader_set": (theme.get("competition_graph") or {}).get("leader_set") or [],
+                    "laggard_set": (theme.get("competition_graph") or {}).get("laggard_set") or [],
+                },
                 "etf_candidates": [
                     {
                         "code": row.get("code"),
@@ -732,6 +826,16 @@ def build_shadow_contract(payload: dict[str, Any]) -> dict[str, Any]:
                         "lifecycle_confidence": row.get("lifecycle_confidence"),
                         "lifecycle_multiplier": row.get("lifecycle_multiplier"),
                         "lifecycle_reason": row.get("lifecycle_reason") or [],
+                        "competition_tier": row.get("competition_tier"),
+                        "competition_rank": row.get("competition_rank"),
+                        "competition_leadership_score": row.get("competition_leadership_score"),
+                        "competition_dominance": row.get("competition_dominance"),
+                        "relative_score_gap": row.get("relative_score_gap"),
+                        "volume_share_in_theme": row.get("volume_share_in_theme"),
+                        "fund_flow_share": row.get("fund_flow_share"),
+                        "momentum_rank": row.get("momentum_rank"),
+                        "leadership_stability": row.get("leadership_stability"),
+                        "competition_reason": row.get("competition_reason") or [],
                         "factor_breakdown": row.get("factor_breakdown") or [],
                         "pct_chg_ratio": row.get("pct_chg"),
                         "research_only": True,
@@ -793,36 +897,35 @@ def build_report(theme_payload: dict[str, Any] | None = None, theme_url: str = D
         elif not stock_leaders:
             theme_gaps.append("未匹配到A股龙头候选")
         all_data_gaps.extend(theme_gaps)
-        themes.append(
-            {
-                "rank": index,
-                "theme_id": row.get("theme_id") or "",
-                "theme": row.get("theme") or "",
-                "stage": row.get("stage") or "",
-                "lifecycle_state": row.get("lifecycle_state") or "",
-                "leader_score": round(score, 2),
-                "leader_grade": grade,
-                "leader_label": _leader_label(grade),
-                "evidence_score": _round(row.get("evidence_score"), 4),
-                "market_score": _round(row.get("market_score"), 4),
-                "policy_score": _round(row.get("policy_score"), 4),
-                "mainline_score_v6": _round(row.get("mainline_score_v6"), 4),
-                "sw_score": _round(row.get("sw_score"), 4),
-                "ths_score": _round(row.get("ths_score"), 4),
-                "etf_score": _round(row.get("etf_score"), 4),
-                "limit_count": int(safe_float(row.get("limit_count")) or 0),
-                "large_net": _round(row.get("large_net"), 4),
-                "top_sw": row.get("top_sw") or "",
-                "top_ths": row.get("top_ths") or "",
-                "top_etf_raw": row.get("top_etf") or "",
-                "top_policy": row.get("top_policy") or "",
-                "lifecycle_reasons": row.get("lifecycle_reasons") or [],
-                "keywords": list(_theme_keywords(row)),
-                "etf_leaders": etf_leaders,
-                "stock_leaders": stock_leaders,
-                "data_gaps": theme_gaps,
-            }
-        )
+        theme_item = {
+            "rank": index,
+            "theme_id": row.get("theme_id") or "",
+            "theme": row.get("theme") or "",
+            "stage": row.get("stage") or "",
+            "lifecycle_state": row.get("lifecycle_state") or "",
+            "leader_score": round(score, 2),
+            "leader_grade": grade,
+            "leader_label": _leader_label(grade),
+            "evidence_score": _round(row.get("evidence_score"), 4),
+            "market_score": _round(row.get("market_score"), 4),
+            "policy_score": _round(row.get("policy_score"), 4),
+            "mainline_score_v6": _round(row.get("mainline_score_v6"), 4),
+            "sw_score": _round(row.get("sw_score"), 4),
+            "ths_score": _round(row.get("ths_score"), 4),
+            "etf_score": _round(row.get("etf_score"), 4),
+            "limit_count": int(safe_float(row.get("limit_count")) or 0),
+            "large_net": _round(row.get("large_net"), 4),
+            "top_sw": row.get("top_sw") or "",
+            "top_ths": row.get("top_ths") or "",
+            "top_etf_raw": row.get("top_etf") or "",
+            "top_policy": row.get("top_policy") or "",
+            "lifecycle_reasons": row.get("lifecycle_reasons") or [],
+            "keywords": list(_theme_keywords(row)),
+            "etf_leaders": etf_leaders,
+            "stock_leaders": stock_leaders,
+            "data_gaps": theme_gaps,
+        }
+        themes.append(_apply_competition_graph(theme_item))
 
     payload: dict[str, Any] = {
         "schema_version": SCHEMA_VERSION,
@@ -860,6 +963,7 @@ def build_report(theme_payload: dict[str, Any] | None = None, theme_url: str = D
             "top_grade": themes[0].get("leader_grade") if themes else "",
             "data_gap_count": len(set(all_data_gaps)),
         },
+        "competition_summary": _competition_summary(themes),
         "themes": themes,
         "source_links": result.get("source_links") or {},
         "data_gaps": sorted(set(all_data_gaps)),
@@ -869,6 +973,14 @@ def build_report(theme_payload: dict[str, Any] | None = None, theme_url: str = D
 
 
 def render_markdown(payload: dict[str, Any]) -> str:
+    def competition_names(graph: dict[str, Any], tiers: set[str]) -> str:
+        leaders = [
+            f"{row.get('code')} {row.get('name')}"
+            for row in graph.get("leaders") or []
+            if row.get("tier") in tiers
+        ]
+        return "、".join(leaders) or "无"
+
     lines = [
         f"# A股主线龙头研究：{payload.get('basis_date')}",
         "",
@@ -885,6 +997,18 @@ def render_markdown(payload: dict[str, Any]) -> str:
     for item in payload.get("themes") or []:
         lines.append(
             f"| {item.get('rank')} | {item.get('theme')} | {item.get('stage')} | {item.get('leader_score'):.2f} | {item.get('leader_label')} | {len(item.get('etf_leaders') or [])} | {len(item.get('stock_leaders') or [])} |"
+        )
+    lines += [
+        "",
+        "## 主线竞争图谱",
+        "",
+        "| 主线 | L1主龙 | L2次龙 | L3跟随 | OUT | 竞争强度 | 稳定性 | 换位 |",
+        "| --- | --- | --- | --- | --- | ---: | ---: | --- |",
+    ]
+    for item in payload.get("themes") or []:
+        graph = item.get("competition_graph") or {}
+        lines.append(
+            f"| {item.get('theme')} | {competition_names(graph, {'L1'})} | {competition_names(graph, {'L2'})} | {competition_names(graph, {'L3'})} | {competition_names(graph, {'OUT'})} | {graph.get('competition_intensity') or 0} | {graph.get('leadership_stability') or 0} | {graph.get('leader_swap_reason') or '无'} |"
         )
     for item in payload.get("themes") or []:
         lines += [
@@ -913,15 +1037,15 @@ def render_markdown(payload: dict[str, Any]) -> str:
             "",
             "### A股龙头候选",
             "",
-            "| 代码 | 名称 | 行业 | 龙头认定 | 龙头角色 | 分数 | 证据分 | 证据数 | 硬证据 | 来源 | 1日 | 换手 |",
-            "| --- | --- | --- | --- | --- | ---: | ---: | ---: | ---: | --- | ---: | ---: |",
+            "| 代码 | 名称 | 行业 | 竞争层 | 支配度 | 龙头认定 | 龙头角色 | 分数 | 证据分 | 证据数 | 硬证据 | 来源 | 1日 | 换手 |",
+            "| --- | --- | --- | --- | ---: | --- | --- | ---: | ---: | ---: | ---: | --- | ---: | ---: |",
         ]
         for stock in item.get("stock_leaders") or []:
             lines.append(
-                f"| {stock.get('code')} | {stock.get('name')} | {stock.get('industry')} | {stock.get('leader_tier') or ''} | {stock.get('leader_claim') or stock.get('leader_role') or ''} | {stock.get('leader_score'):.2f} | {stock.get('evidence_score') or ''} | {stock.get('evidence_count') or 0} | {stock.get('hard_evidence_count') or 0} | {stock.get('binding_source') or ''} | {stock.get('pct_chg') or ''} | {stock.get('turnover_rate') or ''} |"
+                f"| {stock.get('code')} | {stock.get('name')} | {stock.get('industry')} | {stock.get('competition_tier') or ''} | {stock.get('competition_dominance') or ''} | {stock.get('leader_tier') or ''} | {stock.get('leader_claim') or stock.get('leader_role') or ''} | {stock.get('leader_score'):.2f} | {stock.get('evidence_score') or ''} | {stock.get('evidence_count') or 0} | {stock.get('hard_evidence_count') or 0} | {stock.get('binding_source') or ''} | {stock.get('pct_chg') or ''} | {stock.get('turnover_rate') or ''} |"
             )
         if not item.get("stock_leaders"):
-            lines.append("| - | - | - | - | - | - | - | - | - | - | - | 数据不足或未匹配 |")
+            lines.append("| - | - | - | - | - | - | - | - | - | - | - | - | - | 数据不足或未匹配 |")
         else:
             lines += ["", "证据链摘要："]
             for stock in item.get("stock_leaders") or []:
