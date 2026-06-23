@@ -204,9 +204,122 @@ def _dedupe_stock_results(stocks: list[dict[str, Any]], *, rating: str | None = 
     return sorted(results, key=_stock_result_sort_key)
 
 
-def _recommendation_history_record(report_id: str, payload: dict[str, Any], *, has_markdown: bool = False) -> dict[str, Any]:
+def _unknown_current_status() -> dict[str, Any]:
+    return {
+        "current_status": "unknown",
+        "current_status_label": "未判定",
+        "current_status_detail": "未提供当前报告上下文，无法判断是否仍有效。",
+    }
+
+
+def _out_current_status() -> dict[str, Any]:
+    return {
+        "current_status": "out_current_pool",
+        "current_status_label": "已出当前池",
+        "current_status_detail": "最新A池、深研队列和候选矩阵均未包含。",
+    }
+
+
+def _candidate_current_status(row: dict[str, Any], *, theme: str = "") -> dict[str, Any]:
+    tier = row.get("competition_tier") or row.get("tier") or row.get("candidate_leader_tier")
+    detail = f"最新竞争层级 {tier}；未入最新A池。" if tier else "仍在最新候选矩阵；未入最新A池。"
+    return {
+        "current_status": "candidate_only",
+        "current_status_label": "降为候选",
+        "current_status_detail": detail,
+        "current_theme": theme or row.get("theme") or "",
+        "current_deep_rating": row.get("deep_rating"),
+        "current_deep_label": row.get("deep_label"),
+        "current_deep_score": row.get("deep_score"),
+        "current_competition_tier": tier,
+        "current_candidate_leader_tier": row.get("candidate_leader_tier") or row.get("leader_tier"),
+        "current_candidate_leader_claim": row.get("candidate_leader_claim") or row.get("leader_claim"),
+        "current_evidence_count": row.get("candidate_evidence_count") or row.get("evidence_count"),
+        "current_hard_evidence_count": row.get("candidate_hard_evidence_count") or row.get("hard_evidence_count"),
+    }
+
+
+def _deep_current_status(row: dict[str, Any]) -> dict[str, Any]:
+    rating = row.get("deep_rating") or ""
+    label = row.get("deep_label") or ""
+    if rating == "A":
+        status = {
+            "current_status": "current_a_tracking",
+            "current_status_label": "仍在A池",
+            "current_status_detail": "最新深研仍为A可跟踪龙头。",
+        }
+    else:
+        status = {
+            "current_status": "candidate_only",
+            "current_status_label": "降为候选",
+            "current_status_detail": f"最新深研为{rating} {label}；未入最新A池。".strip(),
+        }
+    status.update(
+        {
+            "current_theme": row.get("theme") or "",
+            "current_deep_rating": rating,
+            "current_deep_label": label,
+            "current_deep_score": row.get("deep_score"),
+            "current_competition_tier": row.get("competition_tier") or row.get("candidate_leader_tier"),
+            "current_candidate_leader_tier": row.get("candidate_leader_tier"),
+            "current_candidate_leader_claim": row.get("candidate_leader_claim"),
+            "current_evidence_count": row.get("candidate_evidence_count"),
+            "current_hard_evidence_count": row.get("candidate_hard_evidence_count"),
+        }
+    )
+    return status
+
+
+def _current_recommendation_status_by_code(stocks: list[dict[str, Any]], themes: list[dict[str, Any]]) -> dict[str, dict[str, Any]]:
+    status_by_code: dict[str, dict[str, Any]] = {}
+    for theme in themes:
+        theme_name = str(theme.get("theme") or "")
+        for row in theme.get("stock_leaders") or []:
+            code = str(row.get("code") or "")
+            if code:
+                status_by_code[code] = _candidate_current_status(dict(row), theme=theme_name)
+        graph = theme.get("competition_graph") or {}
+        for row in graph.get("leaders") or []:
+            code = str(row.get("code") or "")
+            if code and code not in status_by_code:
+                status_by_code[code] = _candidate_current_status(dict(row), theme=theme_name)
+    for row in stocks:
+        code = str(row.get("code") or "")
+        if code and row.get("deep_rating") != "A":
+            status_by_code[code] = _deep_current_status(dict(row))
+    for row in _dedupe_stock_results(stocks, rating="A"):
+        code = str(row.get("code") or "")
+        if code:
+            status_by_code[code] = _deep_current_status(dict(row))
+    return status_by_code
+
+
+def _with_current_status(item: dict[str, Any], current_status_by_code: dict[str, dict[str, Any]] | None) -> dict[str, Any]:
+    code = str(item.get("code") or "")
+    if current_status_by_code is None:
+        status = _unknown_current_status()
+    else:
+        status = current_status_by_code.get(code) or _out_current_status()
+    return {**item, **status}
+
+
+def _current_status_summary(items: list[dict[str, Any]]) -> dict[str, int]:
+    summary = {"current_a_tracking": 0, "candidate_only": 0, "out_current_pool": 0, "unknown": 0}
+    for item in items:
+        key = str(item.get("current_status") or "unknown")
+        summary[key] = summary.get(key, 0) + 1
+    return summary
+
+
+def _recommendation_history_record(
+    report_id: str,
+    payload: dict[str, Any],
+    *,
+    has_markdown: bool = False,
+    current_status_by_code: dict[str, dict[str, Any]] | None = None,
+) -> dict[str, Any]:
     stocks = [dict(row) for row in (payload.get("stocks") or [])]
-    items = _dedupe_stock_results(stocks, rating="A")
+    items = [_with_current_status(item, current_status_by_code) for item in _dedupe_stock_results(stocks, rating="A")]
     return {
         "report_id": report_id,
         "leader_report_id": payload.get("leader_report_id"),
@@ -215,6 +328,7 @@ def _recommendation_history_record(report_id: str, payload: dict[str, Any], *, h
         "count": len(items),
         "items": items,
         "codes": [row.get("code") for row in items if row.get("code")],
+        "current_status_summary": _current_status_summary(items),
         "source_endpoint": f"/api/stocks/deep/reports/{report_id}",
         "markdown_endpoint": f"/api/stocks/deep/reports/{report_id}/markdown" if has_markdown else "",
         "has_markdown": has_markdown,
@@ -223,7 +337,11 @@ def _recommendation_history_record(report_id: str, payload: dict[str, Any], *, h
     }
 
 
-def list_recommendation_history(report_dir: Path = STOCK_REPORT_DIR, limit: int = 20) -> list[dict[str, Any]]:
+def list_recommendation_history(
+    report_dir: Path = STOCK_REPORT_DIR,
+    limit: int = 20,
+    current_status_by_code: dict[str, dict[str, Any]] | None = None,
+) -> list[dict[str, Any]]:
     records: list[dict[str, Any]] = []
     seen_basis_dates: set[str] = set()
     for path in _stock_json_files(report_dir):
@@ -237,6 +355,7 @@ def list_recommendation_history(report_dir: Path = STOCK_REPORT_DIR, limit: int 
                 path.stem,
                 payload,
                 has_markdown=path.with_suffix(".md").exists(),
+                current_status_by_code=current_status_by_code,
             )
         )
         if len(records) >= limit:
@@ -244,13 +363,29 @@ def list_recommendation_history(report_dir: Path = STOCK_REPORT_DIR, limit: int 
     return records
 
 
-def _key_results_payload(stock_index: dict[str, Any] | None) -> dict[str, Any]:
+def list_current_recommendation_history(report_dir: Path = STOCK_REPORT_DIR, limit: int = 20) -> list[dict[str, Any]]:
+    latest_stock = latest_stock_report()
+    current_stocks = list((latest_stock[1].get("stocks") if latest_stock else []) or [])
+    try:
+        _report_id, leader_payload, _markdown = latest_report()
+        current_themes = list(leader_payload.get("themes") or [])
+    except HTTPException:
+        current_themes = []
+    return list_recommendation_history(
+        report_dir=report_dir,
+        limit=limit,
+        current_status_by_code=_current_recommendation_status_by_code(current_stocks, current_themes),
+    )
+
+
+def _key_results_payload(stock_index: dict[str, Any] | None, themes: list[dict[str, Any]] | None = None) -> dict[str, Any]:
     stock_index = stock_index or {}
     report = stock_index.get("report") or {}
     stocks = [dict(row) for row in (stock_index.get("stocks") or [])]
     a_tracking = _dedupe_stock_results(stocks, rating="A")
     trackable = _dedupe_stock_results(stocks, eligible_only=True)
-    recommendation_history = list_recommendation_history()
+    current_status_by_code = _current_recommendation_status_by_code(stocks, themes or [])
+    recommendation_history = list_recommendation_history(current_status_by_code=current_status_by_code)
     return {
         "schema_version": KEY_RESULTS_SCHEMA_VERSION,
         "primary_output": {
@@ -418,7 +553,7 @@ def build_index_payload(report_id: str, payload: dict[str, Any], markdown: str) 
         },
         "themes": themes,
         "competition_summary": payload.get("competition_summary") or {},
-        "key_results": _key_results_payload(stock_index),
+        "key_results": _key_results_payload(stock_index, themes),
         "market_context": payload.get("market_context") or {},
         "market_regime": payload.get("market_regime") or {},
         "shadow_contract": payload.get("shadow_contract") or {},

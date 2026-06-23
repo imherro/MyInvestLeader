@@ -126,6 +126,32 @@ function historyLeaderList(items) {
     .join("")}</div>`;
 }
 
+function currentStatusClass(status) {
+  return {
+    current_a_tracking: "status-current",
+    candidate_only: "status-candidate",
+    out_current_pool: "status-out",
+    unknown: "status-unknown",
+  }[status] || "status-unknown";
+}
+
+function historyStatusList(items) {
+  if (!items || !items.length) return '<span class="muted">无</span>';
+  return `<div class="history-status-list">${items
+    .slice(0, 8)
+    .map((row) => {
+      const detail = row.current_status_detail || row.current_theme || "";
+      return `
+        <div class="history-status-item">
+          <span class="status-pill ${currentStatusClass(row.current_status)}">${escapeHtml(row.current_status_label || "未判定")}</span>
+          <span>${stockCodeLink(row)} ${stockNameText(row)}</span>
+          ${detail ? `<small>${escapeHtml(detail)}</small>` : ""}
+        </div>
+      `;
+    })
+    .join("")}</div>`;
+}
+
 function renderRecommendationHistory(payload) {
   const history = payload.key_results?.recommendation_history || {};
   const records = history.records || [];
@@ -134,7 +160,7 @@ function renderRecommendationHistory(payload) {
   if (!meta || !rows) return;
   meta.textContent = `${history.record_count ?? records.length} 日 · /api/stocks/deep/recommendations/history`;
   if (!records.length) {
-    rows.innerHTML = '<tr><td colspan="4" class="empty">暂无推荐历史；生成龙头股深研后会自动沉淀。</td></tr>';
+    rows.innerHTML = '<tr><td colspan="5" class="empty">暂无推荐历史；生成龙头股深研后会自动沉淀。</td></tr>';
     return;
   }
   rows.innerHTML = records
@@ -144,6 +170,7 @@ function renderRecommendationHistory(payload) {
         <tr>
           <td class="theme-cell">${escapeHtml(record.basis_date || "")}<br><span class="muted">${escapeHtml(record.generated_at || "")}</span></td>
           <td>${historyLeaderList(record.items || [])}</td>
+          <td>${historyStatusList(record.items || [])}</td>
           <td>${record.count ?? 0}</td>
           <td><a href="${escapeHtml(record.markdown_endpoint || record.source_endpoint || "#")}" target="_blank" rel="noreferrer">${escapeHtml(record.report_id || "")}</a></td>
         </tr>

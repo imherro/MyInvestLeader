@@ -13,7 +13,7 @@ from .service import (
     build_index_payload,
     latest_report,
     latest_stock_report,
-    list_recommendation_history,
+    list_current_recommendation_history,
     list_reports,
     list_stock_reports,
     load_markdown,
@@ -103,7 +103,7 @@ def api_stock_deep_reports() -> dict[str, Any]:
 
 @app.get("/api/stocks/deep/recommendations/history")
 def api_stock_deep_recommendation_history() -> dict[str, Any]:
-    return {"records": list_recommendation_history()}
+    return {"records": list_current_recommendation_history()}
 
 
 @app.get("/api/stocks/deep/reports/{report_id}")

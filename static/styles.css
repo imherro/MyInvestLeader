@@ -185,6 +185,53 @@ main {
   white-space: nowrap;
 }
 
+.history-status-list {
+  display: grid;
+  gap: 7px;
+  min-width: 360px;
+}
+
+.history-status-item {
+  display: grid;
+  grid-template-columns: 82px minmax(0, 1fr);
+  gap: 6px 8px;
+  align-items: center;
+}
+
+.history-status-item small {
+  grid-column: 2;
+  color: var(--muted);
+  line-height: 1.35;
+}
+
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 22px;
+  padding: 2px 7px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.status-current {
+  background: var(--soft-green);
+  color: #166534;
+}
+
+.status-candidate {
+  background: var(--soft-amber);
+  color: #92400e;
+}
+
+.status-out,
+.status-unknown {
+  background: var(--soft-red);
+  color: #991b1b;
+}
+
 .doc-links {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));

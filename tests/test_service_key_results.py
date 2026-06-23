@@ -58,7 +58,7 @@ def test_index_payload_exposes_primary_a_tracking_results(monkeypatch) -> None:
     monkeypatch.setattr(
         service,
         "list_recommendation_history",
-        lambda: [
+        lambda *args, **kwargs: [
             {
                 "report_id": "stock_deep_review_sample",
                 "basis_date": "2026-06-18",
@@ -68,6 +68,7 @@ def test_index_payload_exposes_primary_a_tracking_results(monkeypatch) -> None:
                     stock_row("300750.SZ", "宁德时代", "新能源/电力设备", "A", 74.77),
                     stock_row("688256.SH", "寒武纪", "硬科技电子/半导体", "A", 73.1),
                 ],
+                "current_status_summary": {"current_a_tracking": 2},
             }
         ],
     )
@@ -158,3 +159,54 @@ def test_recommendation_history_keeps_latest_report_per_basis_date(tmp_path) -> 
     assert records[1]["has_markdown"] is True
     assert records[0]["read_only"] is True
     assert records[0]["contains_trade_orders"] is False
+    assert records[0]["items"][0]["current_status"] == "unknown"
+
+
+def test_recommendation_history_marks_current_status(tmp_path) -> None:
+    history_path = tmp_path / "stock_deep_review_2026-06-19_153000.json"
+    write_stock_report(
+        history_path,
+        basis_date="2026-06-18",
+        generated_at="2026-06-19 15:30:00 CST",
+        stocks=[
+            stock_row("688256.SH", "寒武纪", "AI算力/通信", "A", 74.0),
+            stock_row("300308.SZ", "中际旭创", "AI算力/通信", "A", 72.0),
+            stock_row("688981.SH", "中芯国际", "硬科技电子/半导体", "A", 70.0),
+        ],
+    )
+    current_status_by_code = service._current_recommendation_status_by_code(
+        stocks=[stock_row("688256.SH", "寒武纪", "AI算力/通信", "A", 73.1)],
+        themes=[
+            {
+                "theme": "AI算力/通信",
+                "stock_leaders": [
+                    {
+                        "code": "300308.SZ",
+                        "name": "中际旭创",
+                        "competition_tier": "L3",
+                        "leader_tier": "证据确认龙头",
+                        "leader_claim": "高速光模块龙头",
+                        "evidence_count": 4,
+                        "hard_evidence_count": 3,
+                    }
+                ],
+            }
+        ],
+    )
+
+    records = service.list_recommendation_history(
+        report_dir=tmp_path,
+        current_status_by_code=current_status_by_code,
+    )
+    items = {row["code"]: row for row in records[0]["items"]}
+
+    assert items["688256.SH"]["current_status_label"] == "仍在A池"
+    assert items["300308.SZ"]["current_status_label"] == "降为候选"
+    assert items["300308.SZ"]["current_competition_tier"] == "L3"
+    assert items["688981.SH"]["current_status_label"] == "已出当前池"
+    assert records[0]["current_status_summary"] == {
+        "current_a_tracking": 1,
+        "candidate_only": 1,
+        "out_current_pool": 1,
+        "unknown": 0,
+    }
