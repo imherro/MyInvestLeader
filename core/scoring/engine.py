@@ -3,6 +3,7 @@ from __future__ import annotations
 from typing import Any
 
 from .factors import BaseFactor, CapQualityFactor, FundFlowFactor, ThemeFactor, VolumeFactor
+from .lifecycle import detect_leader_lifecycle
 from .regime import detect_market_regime
 
 
@@ -26,12 +27,14 @@ class ScoringEngine:
             results.append(result)
             raw_factor_score += result.score
         regime = detect_market_regime(market_context)
-        total = raw_factor_score * regime.multiplier
+        lifecycle = detect_leader_lifecycle(stock_context, results, regime.regime)
+        total = raw_factor_score * regime.multiplier * lifecycle.stage_score_multiplier
         return {
             "score": max(0.0, min(1.0, total)),
             "raw_factor_score": max(0.0, min(1.0, raw_factor_score)),
             "factors": results,
             "regime": regime,
+            "lifecycle": lifecycle,
         }
 
     def score_many(
@@ -70,12 +73,14 @@ def calculate_score_breakdown(
     result = default_stock_scoring_engine().score(stock, stock_universe, market_context)
     factors = [factor.to_dict() for factor in result["factors"]]
     regime = result["regime"].to_dict()
+    lifecycle = result["lifecycle"].to_dict()
     return {
         "model": "factorized_scoring_engine.v1",
         "score": round(float(result["score"]) * 100.0, 6),
         "raw_factor_score": round(float(result["raw_factor_score"]) * 100.0, 6),
         "normalized_score": round(float(result["score"]), 6),
         "regime": regime,
+        "lifecycle": lifecycle,
         "factors": factors,
         "weights": {factor["name"]: factor["weight"] for factor in factors},
     }

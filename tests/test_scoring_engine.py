@@ -44,10 +44,11 @@ def sample_context() -> dict[str, Any]:
 
 def test_factorized_score_matches_legacy_formula() -> None:
     context = sample_context()
-    new_score = calculate_score(context)
+    breakdown = calculate_score_breakdown(context)
     old_score = legacy_score(context)
 
-    assert abs(new_score - old_score) <= old_score * 0.01
+    assert abs(breakdown["raw_factor_score"] - old_score) <= old_score * 0.01
+    assert breakdown["score"] >= breakdown["raw_factor_score"]
 
 
 def test_breakdown_has_required_factor_names() -> None:
@@ -94,5 +95,6 @@ def test_engine_accepts_plugin_factor_without_changes() -> None:
 
     result = ScoringEngine([ConstantFactor()]).score({})
 
-    assert result["score"] == 0.4
+    assert result["raw_factor_score"] == 0.4
+    assert result["score"] == 0.36000000000000004
     assert result["factors"][0].name == "constant"

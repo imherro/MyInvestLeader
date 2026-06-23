@@ -181,6 +181,9 @@ def test_strategic_leader_universe_promotes_known_leaders(monkeypatch) -> None:
     assert smic["regime"] == "BULL_WEAK"
     assert smic["regime_multiplier"] == 1.0
     assert smic["regime_reason"]
+    assert smic["stock_lifecycle_state"] in {"Accumulation", "Breakout", "Expansion", "Distribution", "Decline"}
+    assert smic["lifecycle_multiplier"] is not None
+    assert smic["lifecycle_reason"]
     assert {row["name"] for row in smic["factor_breakdown"]} == {
         "theme_strength",
         "volume_activity",

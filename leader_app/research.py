@@ -626,6 +626,7 @@ def _build_stock_leaders(
         evidence_sources = row.get("evidence_sources") or []
         score_breakdown = row.get("score_breakdown") or {}
         regime = score_breakdown.get("regime") or {}
+        lifecycle = score_breakdown.get("lifecycle") or {}
         leaders.append(
             {
                 "code": str(row.get("ts_code") or ""),
@@ -656,6 +657,10 @@ def _build_stock_leaders(
                 "regime": regime.get("regime"),
                 "regime_multiplier": _round(regime.get("multiplier"), 4),
                 "regime_reason": regime.get("reason") or [],
+                "stock_lifecycle_state": lifecycle.get("state"),
+                "lifecycle_confidence": _round(lifecycle.get("confidence"), 4),
+                "lifecycle_multiplier": _round(lifecycle.get("stage_score_multiplier"), 4),
+                "lifecycle_reason": lifecycle.get("reason") or [],
                 "factor_breakdown": score_breakdown.get("factors") or [],
                 "data_gaps": [],
                 "research_boundary": "research_only_no_trade_order",
@@ -723,6 +728,10 @@ def build_shadow_contract(payload: dict[str, Any]) -> dict[str, Any]:
                         "regime": row.get("regime"),
                         "regime_multiplier": row.get("regime_multiplier"),
                         "regime_reason": row.get("regime_reason") or [],
+                        "stock_lifecycle_state": row.get("stock_lifecycle_state"),
+                        "lifecycle_confidence": row.get("lifecycle_confidence"),
+                        "lifecycle_multiplier": row.get("lifecycle_multiplier"),
+                        "lifecycle_reason": row.get("lifecycle_reason") or [],
                         "factor_breakdown": row.get("factor_breakdown") or [],
                         "pct_chg_ratio": row.get("pct_chg"),
                         "research_only": True,
