@@ -8,7 +8,7 @@ from pathlib import Path
 from typing import Any
 from zoneinfo import ZoneInfo
 
-from core.scoring import calculate_score, calculate_score_breakdown
+from core.scoring import calculate_score, calculate_score_breakdown, detect_market_regime
 
 from .config import DEFAULT_THEME_API_URL, REPORT_DIR, ROOT_DIR, get_tushare_token
 from .pricing import PricePoint, fetch_tushare_fund_prices, safe_float
@@ -548,15 +548,27 @@ def _market_heat_score(row: Any) -> float:
     )
 
 
-def _stock_score(row: Any, universe: list[dict[str, Any]] | None = None) -> float:
-    return _clamp(calculate_score(row, universe))
+def _stock_score(
+    row: Any,
+    universe: list[dict[str, Any]] | None = None,
+    market_context: dict[str, Any] | None = None,
+) -> float:
+    return _clamp(calculate_score(row, universe, market_context))
 
 
-def _stock_score_breakdown(row: Any, universe: list[dict[str, Any]] | None = None) -> dict[str, Any]:
-    return calculate_score_breakdown(row, universe)
+def _stock_score_breakdown(
+    row: Any,
+    universe: list[dict[str, Any]] | None = None,
+    market_context: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    return calculate_score_breakdown(row, universe, market_context)
 
 
-def _build_stock_leaders(theme_row: dict[str, Any], universe: Any | None) -> list[dict[str, Any]]:
+def _build_stock_leaders(
+    theme_row: dict[str, Any],
+    universe: Any | None,
+    market_context: dict[str, Any] | None = None,
+) -> list[dict[str, Any]]:
     if universe is None:
         return []
     keywords = _theme_keywords(theme_row)
@@ -604,7 +616,7 @@ def _build_stock_leaders(theme_row: dict[str, Any], universe: Any | None) -> lis
     matched["latest_evidence_date"] = profiles.apply(lambda item: item.get("latest_evidence_date"))
     matched["evidence_sources"] = profiles.apply(lambda item: item.get("evidence_sources"))
     universe_records = matched.to_dict("records")
-    matched["score_breakdown"] = matched.apply(lambda row: _stock_score_breakdown(row, universe_records), axis=1)
+    matched["score_breakdown"] = matched.apply(lambda row: _stock_score_breakdown(row, universe_records, market_context), axis=1)
     matched["leader_score"] = matched["score_breakdown"].apply(lambda item: safe_float((item or {}).get("score")) or 0.0)
     matched = matched.sort_values(["leader_score", "evidence_score", "seed_score", "amount"], ascending=[False, False, False, False]).head(8)
     leaders = []
@@ -613,6 +625,7 @@ def _build_stock_leaders(theme_row: dict[str, Any], universe: Any | None) -> lis
         grade = _grade(score)
         evidence_sources = row.get("evidence_sources") or []
         score_breakdown = row.get("score_breakdown") or {}
+        regime = score_breakdown.get("regime") or {}
         leaders.append(
             {
                 "code": str(row.get("ts_code") or ""),
@@ -639,6 +652,10 @@ def _build_stock_leaders(theme_row: dict[str, Any], universe: Any | None) -> lis
                 "flow_rank": _round(row.get("flow_rank"), 4),
                 "liquidity_rank": _round(row.get("amount_rank"), 4),
                 "score_model": score_breakdown.get("model"),
+                "raw_factor_score": _round(score_breakdown.get("raw_factor_score"), 4),
+                "regime": regime.get("regime"),
+                "regime_multiplier": _round(regime.get("multiplier"), 4),
+                "regime_reason": regime.get("reason") or [],
                 "factor_breakdown": score_breakdown.get("factors") or [],
                 "data_gaps": [],
                 "research_boundary": "research_only_no_trade_order",
@@ -702,6 +719,10 @@ def build_shadow_contract(payload: dict[str, Any]) -> dict[str, Any]:
                         "latest_evidence_date": row.get("latest_evidence_date"),
                         "binding_source": row.get("binding_source"),
                         "score_model": row.get("score_model"),
+                        "raw_factor_score": row.get("raw_factor_score"),
+                        "regime": row.get("regime"),
+                        "regime_multiplier": row.get("regime_multiplier"),
+                        "regime_reason": row.get("regime_reason") or [],
                         "factor_breakdown": row.get("factor_breakdown") or [],
                         "pct_chg_ratio": row.get("pct_chg"),
                         "research_only": True,
@@ -738,6 +759,11 @@ def build_report(theme_payload: dict[str, Any] | None = None, theme_url: str = D
     etf_top = [dict(row) for row in (result.get("etf_top") or [])]
     basis_date = str(result.get("basis_date") or datetime.now(TZ).date().isoformat())
     report_id = _now_report_id()
+    market_context = {
+        "breadth": result.get("breadth") or {},
+        "broad_indexes": result.get("broad_indexes") or [],
+    }
+    market_regime = detect_market_regime(market_context).to_dict()
     data_sources = (ROOT_DIR / "数据源.md").read_text(encoding="utf-8") if (ROOT_DIR / "数据源.md").exists() else ""
     fund_codes = _candidate_fund_codes(theme_rows, etf_top)
     price_map = fetch_tushare_fund_prices(fund_codes, basis_date)
@@ -749,7 +775,7 @@ def build_report(theme_payload: dict[str, Any] | None = None, theme_url: str = D
         score = _theme_score(row)
         grade = _grade(score)
         etf_leaders = _build_etf_leaders(row, etf_top, price_map)
-        stock_leaders = _build_stock_leaders({**row, "basis_date": basis_date}, stock_universe)
+        stock_leaders = _build_stock_leaders({**row, "basis_date": basis_date}, stock_universe, market_context)
         theme_gaps = []
         if not etf_leaders:
             theme_gaps.append("未形成ETF龙头候选")
@@ -809,10 +835,8 @@ def build_report(theme_payload: dict[str, Any] | None = None, theme_url: str = D
             "theme_content_hash": stable_hash(raw_theme),
             "basis_completeness": result.get("completeness") or {},
         },
-        "market_context": {
-            "breadth": result.get("breadth") or {},
-            "broad_indexes": result.get("broad_indexes") or [],
-        },
+        "market_context": market_context,
+        "market_regime": market_regime,
         "leader_summary": {
             "theme_count": len(themes),
             "etf_candidate_count": sum(len(row.get("etf_leaders") or []) for row in themes),

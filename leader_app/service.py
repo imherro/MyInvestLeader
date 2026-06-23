@@ -201,6 +201,7 @@ def build_index_payload(report_id: str, payload: dict[str, Any], markdown: str) 
         },
         "themes": themes,
         "market_context": payload.get("market_context") or {},
+        "market_regime": payload.get("market_regime") or {},
         "shadow_contract": payload.get("shadow_contract") or {},
         "data_gaps": payload.get("data_gaps") or [],
         "reports": list_reports(),

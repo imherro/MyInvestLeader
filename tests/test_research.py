@@ -178,6 +178,9 @@ def test_strategic_leader_universe_promotes_known_leaders(monkeypatch) -> None:
     assert smic["evidence_count"] >= 3
     assert smic["hard_evidence_count"] >= 2
     assert smic["score_model"] == "factorized_scoring_engine.v1"
+    assert smic["regime"] == "BULL_WEAK"
+    assert smic["regime_multiplier"] == 1.0
+    assert smic["regime_reason"]
     assert {row["name"] for row in smic["factor_breakdown"]} == {
         "theme_strength",
         "volume_activity",
