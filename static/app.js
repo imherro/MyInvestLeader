@@ -15,11 +15,16 @@ function xueqiuStockUrl(code) {
   return match ? `https://xueqiu.com/S/${match[2]}${match[1]}` : "";
 }
 
-function stockNameLink(row) {
-  const name = row?.name || row?.code || "";
+function stockCodeLink(row) {
+  const code = row?.code || "";
   const href = row?.xueqiu_url || xueqiuStockUrl(row?.code);
-  if (!href) return escapeHtml(name);
-  return `<a class="stock-link" href="${escapeHtml(href)}" target="_blank" rel="noopener noreferrer" title="在雪球打开 ${escapeHtml(name)}">${escapeHtml(name)}</a>`;
+  if (!href) return `<code>${escapeHtml(code)}</code>`;
+  const name = row?.name ? ` ${row.name}` : "";
+  return `<a class="stock-link stock-code-link" href="${escapeHtml(href)}" target="_blank" rel="noopener noreferrer" title="在雪球打开 ${escapeHtml(code)}${escapeHtml(name)}"><code>${escapeHtml(code)}</code></a>`;
+}
+
+function stockNameText(row) {
+  return escapeHtml(row?.name || "");
 }
 
 const metric = (label, value) => `
@@ -99,8 +104,8 @@ function renderKeyResults(payload) {
       return `
         <div class="key-result">
           <div class="key-result-line">
-            <code>${escapeHtml(row.code || "")}</code>
-            ${stockNameLink(row)}
+            ${stockCodeLink(row)}
+            <span>${stockNameText(row)}</span>
             <span class="pill ${ratingClass(row.deep_rating)}">${escapeHtml(row.deep_rating || "")} ${escapeHtml(row.deep_label || "")}</span>
             <span class="key-result-detail">${escapeHtml(themes || "-")}</span>
             <span class="key-result-detail">深研 ${fmt(row.deep_score)}</span>
@@ -149,9 +154,9 @@ function candidateList(items, linkStockNames = false) {
     .map(
       (row) => `
         <div class="candidate">
-          <code>${row.code || ""}</code>
+          ${linkStockNames ? stockCodeLink(row) : `<code>${escapeHtml(row.code || "")}</code>`}
           <span>
-            ${linkStockNames ? stockNameLink(row) : escapeHtml(row.name || "")}
+            ${escapeHtml(row.name || "")}
             <br><span class="muted">${row.leader_tier || row.binding_source || ""}</span>
             <br><span class="muted">${row.leader_claim || row.leader_role || ""}</span>
             <br><span class="muted">${fmt(row.leader_score)} 分 · ${row.competition_tier || "未分层"} · 证据 ${row.evidence_count ?? 0}/${row.hard_evidence_count ?? 0}</span>
@@ -190,7 +195,7 @@ function tierList(graph, tiers) {
       (row) => `
         <div>
           <span class="tier-label tier-${String(row.tier || "out").toLowerCase()}">${row.tier || ""}</span>
-          <code>${row.code || ""}</code> ${stockNameLink(row)}
+          ${stockCodeLink(row)} ${stockNameText(row)}
           <br><span class="muted">ULLS ${fmt(row.ulls ?? row.leadership_score)} · 支配 ${fmt(row.dominance)} · 动量 ${row.momentum_rank || ""}</span>
         </div>
       `,
@@ -288,7 +293,7 @@ function renderStockDeep(stockDeep) {
       const risk = [...(row.risk_flags || []), ...(row.data_gaps || [])].join("<br>") || '<span class="muted">无</span>';
       return `
         <tr>
-          <td class="theme-cell">${row.code || ""}<br><span class="muted">${stockNameLink(row)}</span></td>
+          <td class="theme-cell">${stockCodeLink(row)}<br><span class="muted">${stockNameText(row)}</span></td>
           <td>${row.theme || ""}<br><span class="muted">${row.theme_grade || ""} · ${row.theme_stage || ""}</span></td>
           <td>${row.candidate_leader_tier || ""}<br><span class="muted">${row.candidate_leader_claim || ""}</span><br><span class="muted">证据 ${row.candidate_evidence_count ?? 0}/${row.candidate_hard_evidence_count ?? 0} · ${fmt(row.candidate_evidence_score)}</span></td>
           <td><span class="pill ${ratingClass(row.deep_rating)}">${row.deep_rating || ""} ${row.deep_label || ""}</span><br><span class="muted">${row.shadow_observation_eligible ? "影子池入选" : "未入影子池"}</span></td>
