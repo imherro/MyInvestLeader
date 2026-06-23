@@ -143,13 +143,12 @@ main {
   gap: 0;
   border: 1px solid var(--line);
   border-radius: 6px;
-  overflow: hidden;
+  overflow-x: auto;
+  overflow-y: hidden;
 }
 
 .key-result {
-  display: grid;
-  gap: 8px;
-  padding: 12px;
+  padding: 9px 12px;
   background: #fbfcfd;
   border-bottom: 1px solid var(--line);
 }
@@ -158,19 +157,19 @@ main {
   border-bottom: 0;
 }
 
-.key-result-main,
-.key-result-meta {
+.key-result-line {
   display: flex;
   align-items: center;
-  flex-wrap: wrap;
-  gap: 8px;
+  gap: 10px;
+  min-width: max-content;
+  white-space: nowrap;
 }
 
-.key-result-main code {
+.key-result-line code {
   color: var(--muted);
 }
 
-.key-result-meta {
+.key-result-detail {
   color: var(--muted);
   font-size: 12px;
 }

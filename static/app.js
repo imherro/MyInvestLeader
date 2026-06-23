@@ -93,18 +93,19 @@ function renderKeyResults(payload) {
     .slice(0, 8)
     .map((row) => {
       const themes = (row.themes || [row.theme]).filter(Boolean).join(" / ");
+      const tier = row.candidate_leader_tier
+        ? `<span class="key-result-detail">${escapeHtml(row.candidate_leader_tier)}</span>`
+        : "";
       return `
         <div class="key-result">
-          <div class="key-result-main">
+          <div class="key-result-line">
             <code>${escapeHtml(row.code || "")}</code>
             ${stockNameLink(row)}
             <span class="pill ${ratingClass(row.deep_rating)}">${escapeHtml(row.deep_rating || "")} ${escapeHtml(row.deep_label || "")}</span>
-          </div>
-          <div class="key-result-meta">
-            <span>${escapeHtml(themes || "-")}</span>
-            <span>深研 ${fmt(row.deep_score)}</span>
-            <span>${escapeHtml(row.candidate_leader_tier || "")}</span>
-            <span>证据 ${row.candidate_evidence_count ?? 0}/${row.candidate_hard_evidence_count ?? 0}</span>
+            <span class="key-result-detail">${escapeHtml(themes || "-")}</span>
+            <span class="key-result-detail">深研 ${fmt(row.deep_score)}</span>
+            ${tier}
+            <span class="key-result-detail">证据 ${row.candidate_evidence_count ?? 0}/${row.candidate_hard_evidence_count ?? 0}</span>
           </div>
         </div>
       `;
