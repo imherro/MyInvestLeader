@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from core.scoring import BaseFactor, FactorResult, ScoringEngine, calculate_score, calculate_score_breakdown
+from core.scoring import BaseFactor, FactorResult, ScoringEngine, calculate_score, calculate_score_breakdown, percentile_rank
 
 
 def legacy_score(context: dict[str, Any]) -> float:
@@ -60,13 +60,37 @@ def test_breakdown_has_required_factor_names() -> None:
     assert all(0.0 <= row["value"] <= 1.0 for row in factors)
 
 
+def test_percentile_rank_uses_midpoint_ties() -> None:
+    assert percentile_rank([10.0, 20.0, 30.0], 20.0) == 0.5
+    assert percentile_rank([20.0, 20.0, 20.0], 20.0) == 0.5
+
+
+def test_same_raw_value_changes_across_universes() -> None:
+    stock = {**sample_context(), "amount": 100.0, "total_mv": 100.0, "large_net": 100.0}
+    weak_universe = [
+        {**stock, "amount": 10.0, "total_mv": 10.0, "large_net": 10.0},
+        stock,
+        {**stock, "amount": 20.0, "total_mv": 20.0, "large_net": 20.0},
+    ]
+    strong_universe = [
+        {**stock, "amount": 1000.0, "total_mv": 1000.0, "large_net": 1000.0},
+        stock,
+        {**stock, "amount": 2000.0, "total_mv": 2000.0, "large_net": 2000.0},
+    ]
+
+    weak_score = calculate_score(stock, weak_universe)
+    strong_score = calculate_score(stock, strong_universe)
+
+    assert weak_score > strong_score
+
+
 def test_engine_accepts_plugin_factor_without_changes() -> None:
     class ConstantFactor(BaseFactor):
         name = "constant"
         weight = 0.5
 
-        def compute(self, context: dict[str, Any]) -> FactorResult:
-            return FactorResult(self.name, 0.8, self.weight, 0.4, {"source": "test"})
+        def compute_raw(self, context: dict[str, Any]) -> float:
+            return 80.0
 
     result = ScoringEngine([ConstantFactor()]).score({})
 

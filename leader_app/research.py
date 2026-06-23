@@ -548,12 +548,12 @@ def _market_heat_score(row: Any) -> float:
     )
 
 
-def _stock_score(row: Any) -> float:
-    return _clamp(calculate_score(row))
+def _stock_score(row: Any, universe: list[dict[str, Any]] | None = None) -> float:
+    return _clamp(calculate_score(row, universe))
 
 
-def _stock_score_breakdown(row: Any) -> dict[str, Any]:
-    return calculate_score_breakdown(row)
+def _stock_score_breakdown(row: Any, universe: list[dict[str, Any]] | None = None) -> dict[str, Any]:
+    return calculate_score_breakdown(row, universe)
 
 
 def _build_stock_leaders(theme_row: dict[str, Any], universe: Any | None) -> list[dict[str, Any]]:
@@ -603,8 +603,9 @@ def _build_stock_leaders(theme_row: dict[str, Any], universe: Any | None) -> lis
     matched["hard_evidence_count"] = profiles.apply(lambda item: item.get("hard_evidence_count"))
     matched["latest_evidence_date"] = profiles.apply(lambda item: item.get("latest_evidence_date"))
     matched["evidence_sources"] = profiles.apply(lambda item: item.get("evidence_sources"))
-    matched["leader_score"] = matched.apply(_stock_score, axis=1)
-    matched["score_breakdown"] = matched.apply(_stock_score_breakdown, axis=1)
+    universe_records = matched.to_dict("records")
+    matched["score_breakdown"] = matched.apply(lambda row: _stock_score_breakdown(row, universe_records), axis=1)
+    matched["leader_score"] = matched["score_breakdown"].apply(lambda item: safe_float((item or {}).get("score")) or 0.0)
     matched = matched.sort_values(["leader_score", "evidence_score", "seed_score", "amount"], ascending=[False, False, False, False]).head(8)
     leaders = []
     for _, row in matched.iterrows():
