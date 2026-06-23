@@ -134,6 +134,47 @@ main {
   padding-bottom: 12px;
 }
 
+.key-results-panel {
+  border-left: 4px solid var(--green);
+}
+
+.key-results {
+  display: grid;
+  gap: 0;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.key-result {
+  display: grid;
+  gap: 8px;
+  padding: 12px;
+  background: #fbfcfd;
+  border-bottom: 1px solid var(--line);
+}
+
+.key-result:last-child {
+  border-bottom: 0;
+}
+
+.key-result-main,
+.key-result-meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.key-result-main code {
+  color: var(--muted);
+}
+
+.key-result-meta {
+  color: var(--muted);
+  font-size: 12px;
+}
+
 .doc-links {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));

@@ -79,6 +79,39 @@ function renderDocumentLinks(payload) {
   ].join("");
 }
 
+function renderKeyResults(payload) {
+  const primary = payload.key_results?.primary_output || {};
+  const items = primary.items || [];
+  document.querySelector("#key-results-meta").textContent =
+    `${primary.count ?? items.length} 只 · /api/index · key_results.primary_output.items`;
+  const target = document.querySelector("#key-results");
+  if (!items.length) {
+    target.innerHTML = '<div class="empty">暂无 A 可跟踪龙头；请查看深研表中的观察股和数据缺口。</div>';
+    return;
+  }
+  target.innerHTML = items
+    .slice(0, 8)
+    .map((row) => {
+      const themes = (row.themes || [row.theme]).filter(Boolean).join(" / ");
+      return `
+        <div class="key-result">
+          <div class="key-result-main">
+            <code>${escapeHtml(row.code || "")}</code>
+            ${stockNameLink(row)}
+            <span class="pill ${ratingClass(row.deep_rating)}">${escapeHtml(row.deep_rating || "")} ${escapeHtml(row.deep_label || "")}</span>
+          </div>
+          <div class="key-result-meta">
+            <span>${escapeHtml(themes || "-")}</span>
+            <span>深研 ${fmt(row.deep_score)}</span>
+            <span>${escapeHtml(row.candidate_leader_tier || "")}</span>
+            <span>证据 ${row.candidate_evidence_count ?? 0}/${row.candidate_hard_evidence_count ?? 0}</span>
+          </div>
+        </div>
+      `;
+    })
+    .join("");
+}
+
 function renderChart(themes) {
   const chart = document.querySelector("#score-chart");
   if (!themes.length) {
@@ -277,6 +310,7 @@ async function load() {
   const payload = await response.json();
   const themes = payload.themes || [];
   renderMetrics(payload);
+  renderKeyResults(payload);
   renderDocumentLinks(payload);
   renderChart(themes);
   renderCompetitionGraph(themes);

@@ -77,6 +77,16 @@ python .\scripts\run_web.py --port 8014
 - 最新单股深研：`http://127.0.0.1:8014/api/stocks/deep/latest`
 - 单股深研影子池接口：`http://127.0.0.1:8014/api/stocks/deep/shadow/latest`
 
+## 集成接口
+
+`/api/index` 是页面主接口，也作为其他系统集成 MyInvestLeader 的首选接口。它包含页面主要内容和关键成果：
+
+- `key_results.primary_output.items`：首屏展示的“龙头股深研 A可跟踪龙头”，按股票代码去重，包含代码、名称、雪球链接、所属主线、深研评级、深研分、证据计数、风险和数据缺口。
+- `key_results.integration`：接口边界声明，只读、比例化，不包含交易指令、资金金额或股数。
+- `themes`：主线龙头候选矩阵和竞争图谱。
+- `stock_deep_research.stocks`：完整龙头股深研明细。
+- `shadow_contract`：只读影子仓位输入信号。
+
 ## 边界
 
 - 只输出研究与模拟输入，不连接真实下单。
