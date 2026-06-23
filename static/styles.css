@@ -418,6 +418,84 @@ tbody tr:last-child td {
   text-decoration: underline;
 }
 
+.process-panel {
+  margin-bottom: 0;
+}
+
+.process-flow {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(180px, 1fr));
+  gap: 10px;
+}
+
+.process-step {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+  min-width: 0;
+}
+
+.process-card {
+  min-width: 0;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: #fbfcfd;
+}
+
+.process-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.process-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  background: var(--soft-green);
+  color: #166534;
+  font-weight: 700;
+}
+
+.process-card dl {
+  margin: 0;
+}
+
+.process-card dt {
+  margin-top: 9px;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.process-card dt:first-child {
+  margin-top: 0;
+}
+
+.process-card dd {
+  margin: 3px 0 0;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+.process-card code {
+  color: var(--blue);
+  white-space: normal;
+}
+
+.process-arrow {
+  align-self: center;
+  color: var(--muted);
+  font-size: 20px;
+  font-weight: 700;
+}
+
 .gap-list {
   margin: 0;
   padding-left: 20px;
@@ -441,8 +519,18 @@ td {
 
   .grid,
   .metrics,
-  .doc-links {
+  .doc-links,
+  .process-flow {
     grid-template-columns: 1fr;
+  }
+
+  .process-step {
+    grid-template-columns: 1fr;
+  }
+
+  .process-arrow {
+    justify-self: center;
+    transform: rotate(90deg);
   }
 
   .nav {

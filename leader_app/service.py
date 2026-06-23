@@ -239,6 +239,48 @@ def _key_results_payload(stock_index: dict[str, Any] | None) -> dict[str, Any]:
             "contains_cash_amounts": False,
             "contains_share_counts": False,
         },
+        "process_flow": [
+            {
+                "step": 1,
+                "title": "最早股票池",
+                "data_source": "Tushare全A股票池 + 项目龙头种子库",
+                "basis": "stock_basic、daily、daily_basic、moneyflow、limit_list_d，以及config/stock_leader_universe.json。",
+                "pass_rule": "形成可研究的全A基础池；种子库只负责防漏，不直接给出最终结论。",
+                "output_data_path": "internal.stock_universe",
+            },
+            {
+                "step": 2,
+                "title": "候选矩阵",
+                "data_source": "主线关键词、行业映射、种子命中、主题角色门槛和动态行情证据",
+                "basis": "候选必须满足种子命中，或关键词命中且主题角色匹配；再计算证据分、硬证据数和龙头分。",
+                "pass_rule": "按leader_score、evidence_score、seed_score和成交额排序，每条主线保留前排候选。",
+                "output_data_path": "themes[].stock_leaders",
+            },
+            {
+                "step": 3,
+                "title": "竞争图谱",
+                "data_source": "候选矩阵内的同主线股票",
+                "basis": "综合基础因子、成交/流动性、资金流、动量、证据稳定性、生命周期和市场环境，计算ULLS。",
+                "pass_rule": "按ULLS和证据资格分为L1、L2、L3、OUT；主题角色不匹配直接OUT，纯市场热点最高L3。",
+                "output_data_path": "themes[].competition_graph.leaders",
+            },
+            {
+                "step": 4,
+                "title": "龙头股深研",
+                "data_source": "A/B主线前排候选，以及短期弱主线里的证据确认龙头",
+                "basis": "按主题绑定、财务质量、估值安全、交易结构和数据质量做单股深研评分。",
+                "pass_rule": "输出S/A/B/C研究评级；风险标记、财务估值缺口和交易过热会压低评级。",
+                "output_data_path": "stock_deep_research.stocks",
+            },
+            {
+                "step": 5,
+                "title": "A可跟踪龙头",
+                "data_source": "龙头股深研结果",
+                "basis": "取deep_rating=A的可跟踪龙头，按股票代码去重，保留所属主线、深研分、证据计数和风险缺口。",
+                "pass_rule": "作为页面首屏关键成果和外部系统集成主输出；仍然只读，不是交易指令。",
+                "output_data_path": "key_results.primary_output.items",
+            },
+        ],
     }
 
 

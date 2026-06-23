@@ -66,3 +66,13 @@ def test_index_payload_exposes_primary_a_tracking_results(monkeypatch) -> None:
     assert cambricon["themes"] == ["AI算力/通信", "硬科技电子/半导体"]
     assert index["key_results"]["integration"]["primary_data_path"] == "key_results.primary_output.items"
     assert index["key_results"]["integration"]["contains_trade_orders"] is False
+    process_flow = index["key_results"]["process_flow"]
+    assert [step["title"] for step in process_flow] == [
+        "最早股票池",
+        "候选矩阵",
+        "竞争图谱",
+        "龙头股深研",
+        "A可跟踪龙头",
+    ]
+    assert process_flow[-1]["output_data_path"] == "key_results.primary_output.items"
+    assert all(step["basis"] and step["pass_rule"] for step in process_flow)

@@ -301,6 +301,41 @@ function renderStockDeep(stockDeep) {
     .join("");
 }
 
+function renderProcessFlow(payload) {
+  const flow = payload.key_results?.process_flow || [];
+  const target = document.querySelector("#process-flow");
+  if (!target) return;
+  if (!flow.length) {
+    target.innerHTML = '<div class="empty">暂无流程说明</div>';
+    return;
+  }
+  target.innerHTML = flow
+    .map(
+      (step, index) => `
+        <div class="process-step">
+          <div class="process-card">
+            <div class="process-title">
+              <span class="process-number">${step.step ?? index + 1}</span>
+              <strong>${escapeHtml(step.title || "")}</strong>
+            </div>
+            <dl>
+              <dt>数据来源</dt>
+              <dd>${escapeHtml(step.data_source || "")}</dd>
+              <dt>筛选依据</dt>
+              <dd>${escapeHtml(step.basis || "")}</dd>
+              <dt>优胜劣汰</dt>
+              <dd>${escapeHtml(step.pass_rule || "")}</dd>
+              <dt>输出</dt>
+              <dd><code>${escapeHtml(step.output_data_path || "")}</code></dd>
+            </dl>
+          </div>
+          ${index < flow.length - 1 ? '<div class="process-arrow" aria-hidden="true">→</div>' : ""}
+        </div>
+      `,
+    )
+    .join("");
+}
+
 async function load() {
   const response = await fetch("/api/index");
   if (!response.ok) {
@@ -318,6 +353,7 @@ async function load() {
   renderShadow(payload);
   renderGaps(payload.data_gaps || []);
   renderStockDeep(payload.stock_deep_research);
+  renderProcessFlow(payload);
 }
 
 load().catch((error) => {
