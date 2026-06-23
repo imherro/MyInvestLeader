@@ -8,6 +8,7 @@ from pathlib import Path
 ROOT_DIR = Path(__file__).resolve().parents[1]
 REPORT_DIR = ROOT_DIR / "research" / "leaders"
 STOCK_REPORT_DIR = ROOT_DIR / "research" / "stocks"
+AUDIT_REPORT_DIR = ROOT_DIR / "research" / "audits"
 ENV_PATH = ROOT_DIR / ".env"
 
 DEFAULT_THEME_API_URL = "https://theme.okbbc.com/api/latest"
