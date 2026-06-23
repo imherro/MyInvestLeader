@@ -3,14 +3,7 @@ from __future__ import annotations
 from dataclasses import asdict, dataclass
 from typing import Any
 
-
-LIFECYCLE_COMPETITION_WEIGHT = {
-    "Accumulation": 0.68,
-    "Breakout": 0.88,
-    "Expansion": 1.00,
-    "Distribution": 0.42,
-    "Decline": 0.18,
-}
+from .convergence import build_correlation_guard, calculate_ulls
 
 
 @dataclass(frozen=True)
@@ -19,6 +12,8 @@ class CompetitionLeader:
     name: str
     tier: str
     leadership_rank: int
+    ulls: float
+    raw_ulls: float
     leadership_score: float
     dominance: float
     normalized_theme_score: float
@@ -31,6 +26,11 @@ class CompetitionLeader:
     persistence_score: float
     lifecycle_state: str
     regime: str
+    convergence_explanations: dict[str, Any]
+    correlation_guard: dict[str, Any]
+    smoothed: bool
+    previous_ulls: float | None
+    competition_role: str
     reason: list[str]
 
     def to_dict(self) -> dict[str, Any]:
@@ -51,6 +51,8 @@ class ThemeCompetitionGraph:
     previous_l1: str | None
     leader_swap: bool
     leader_swap_reason: str
+    score_top_displaced: bool
+    rank_volatility: float
 
     def to_dict(self) -> dict[str, Any]:
         payload = asdict(self)
@@ -152,9 +154,9 @@ def _stock_reason(
 ) -> list[str]:
     reasons = []
     if tier == "L1":
-        reasons.append("theme-level competition score ranks first")
+        reasons.append("ULLS ranks first after convergence smoothing")
     elif tier == "L2":
-        reasons.append("secondary leader with competitive dominance")
+        reasons.append("secondary leader under converged ULLS")
     elif tier == "L3":
         reasons.append("follows the leading cluster but lacks top dominance")
     else:
@@ -176,9 +178,11 @@ def build_theme_competition_graph(
     theme: dict[str, Any],
     history_ranks: dict[str, list[int]] | None = None,
     previous_l1: str | None = None,
+    previous_ulls: dict[str, float] | None = None,
 ) -> ThemeCompetitionGraph:
     stocks = [dict(row) for row in (theme.get("stock_leaders") or []) if row.get("code")]
     history_ranks = history_ranks or {}
+    previous_ulls = previous_ulls or {}
     theme_name = str(theme.get("theme") or "")
     if not stocks:
         return ThemeCompetitionGraph(
@@ -194,6 +198,8 @@ def build_theme_competition_graph(
             previous_l1=previous_l1,
             leader_swap=False,
             leader_swap_reason="no stock candidates",
+            score_top_displaced=False,
+            rank_volatility=0.0,
         )
 
     scores = [_num(stock.get("leader_score")) for stock in stocks]
@@ -214,9 +220,7 @@ def build_theme_competition_graph(
         flow_dominance = _relative_to_max(flow_values, index)
         momentum_rank, momentum_score = momentum.get(code, (candidate_count, 0.0))
         lifecycle_state = str(stock.get("stock_lifecycle_state") or "Accumulation")
-        lifecycle_score = LIFECYCLE_COMPETITION_WEIGHT.get(lifecycle_state, 0.58)
         regime_multiplier = _num(stock.get("regime_multiplier"), 1.0)
-        regime_component = _clamp(regime_multiplier / 1.10)
         factor_component = _clamp(raw_scores[index] / 100.0)
         stability = _persistence_score(stock, history_ranks, candidate_count)
         dominance = _clamp(
@@ -226,17 +230,11 @@ def build_theme_competition_graph(
             + momentum_score * 0.18
             + stability * 0.08
         )
-        leadership_score = _clamp(
-            factor_component * 0.30
-            + dominance * 0.35
-            + lifecycle_score * 0.20
-            + regime_component * 0.10
-            + stability * 0.05
-        )
         interim.append(
             {
                 "stock": stock,
                 "code": code,
+                "factor_component": factor_component,
                 "normalized_theme_score": normalized_theme_score,
                 "relative_score_gap": relative_score_gap,
                 "volume_share": volume_share,
@@ -244,14 +242,30 @@ def build_theme_competition_graph(
                 "momentum_rank": momentum_rank,
                 "momentum_score": momentum_score,
                 "dominance": dominance,
-                "leadership_score": leadership_score,
                 "stability": stability,
                 "lifecycle_state": lifecycle_state,
+                "regime_multiplier": regime_multiplier,
                 "regime": str(stock.get("regime") or ""),
             }
         )
 
-    ranked = sorted(interim, key=lambda row: (-row["leadership_score"], row["code"]))
+    guard = build_correlation_guard(
+        [row["factor_component"] for row in interim],
+        [row["dominance"] for row in interim],
+    )
+    for row in interim:
+        convergence = calculate_ulls(
+            factor_score=row["factor_component"],
+            lifecycle_state=row["lifecycle_state"],
+            regime_multiplier=row["regime_multiplier"],
+            dominance=row["dominance"],
+            guard=guard,
+            previous_ulls=previous_ulls.get(row["code"]),
+        )
+        row["convergence"] = convergence
+        row["ulls"] = float(convergence.ulls)
+
+    ranked = sorted(interim, key=lambda row: (-row["ulls"], row["code"]))
     leaders: list[CompetitionLeader] = []
     l2_budget = min(3, max(0, candidate_count - 1))
     l2_used = 0
@@ -263,21 +277,25 @@ def build_theme_competition_graph(
             tier = "OUT"
         elif lifecycle_state == "Distribution" and row["dominance"] < 0.78:
             tier = "OUT"
-        elif l2_used < l2_budget and row["leadership_score"] >= 0.62:
+        elif l2_used < l2_budget and row["ulls"] >= 0.62:
             tier = "L2"
             l2_used += 1
-        elif row["leadership_score"] >= 0.48 and row["relative_score_gap"] <= 0.42:
+        elif row["ulls"] >= 0.48 and row["relative_score_gap"] <= 0.42:
             tier = "L3"
         else:
             tier = "OUT"
         stock = row["stock"]
+        convergence_payload = row["convergence"].to_dict()
+        convergence_payload["tier"] = tier
         leaders.append(
             CompetitionLeader(
                 code=row["code"],
                 name=str(stock.get("name") or ""),
                 tier=tier,
                 leadership_rank=rank,
-                leadership_score=_round(row["leadership_score"]),
+                ulls=_round(row["ulls"]),
+                raw_ulls=_round(float(row["convergence"].raw_ulls)),
+                leadership_score=_round(row["ulls"]),
                 dominance=_round(row["dominance"]),
                 normalized_theme_score=_round(row["normalized_theme_score"]),
                 relative_score_gap=_round(row["relative_score_gap"]),
@@ -289,6 +307,11 @@ def build_theme_competition_graph(
                 persistence_score=_round(row["stability"]),
                 lifecycle_state=lifecycle_state,
                 regime=row["regime"],
+                convergence_explanations=convergence_payload["explanations"],
+                correlation_guard=convergence_payload["correlation_guard"],
+                smoothed=bool(convergence_payload["smoothed"]),
+                previous_ulls=convergence_payload["previous_ulls"],
+                competition_role="explanatory_normalizer",
                 reason=_stock_reason(
                     tier=tier,
                     dominance=row["dominance"],
@@ -321,13 +344,19 @@ def build_theme_competition_graph(
     score_top = str(stocks[0].get("code") or "") if stocks else None
     score_top_displaced = bool(current_l1 and score_top and current_l1 != score_top)
     historical_swap = bool(current_l1 and previous_l1 and current_l1 != previous_l1)
-    leader_swap = score_top_displaced or historical_swap
+    leader_swap = historical_swap
     if historical_swap:
-        leader_swap_reason = f"current L1 differs from previous L1 {previous_l1}"
+        leader_swap_reason = f"ULLS-smoothed L1 differs from previous L1 {previous_l1}"
     elif score_top_displaced:
-        leader_swap_reason = f"competition L1 differs from raw score top {score_top}"
+        leader_swap_reason = f"ULLS L1 differs from raw score top {score_top}; treated as explanation, not swap"
     else:
-        leader_swap_reason = "competition L1 aligns with score top"
+        leader_swap_reason = "ULLS L1 aligns with previous/score context"
+    movement = []
+    denominator = max(1, candidate_count - 1)
+    for leader in leaders:
+        previous_rank = (history_ranks.get(leader.code) or [leader.leadership_rank])[0]
+        movement.append(abs(leader.leadership_rank - previous_rank) / denominator)
+    rank_volatility = sum(movement) / len(movement) if movement else 0.0
 
     return ThemeCompetitionGraph(
         theme=theme_name,
@@ -342,4 +371,6 @@ def build_theme_competition_graph(
         previous_l1=previous_l1,
         leader_swap=leader_swap,
         leader_swap_reason=leader_swap_reason,
+        score_top_displaced=score_top_displaced,
+        rank_volatility=_round(rank_volatility),
     )

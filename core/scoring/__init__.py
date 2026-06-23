@@ -1,6 +1,7 @@
 """Factorized scoring engine exports."""
 
 from .competition_graph import CompetitionLeader, ThemeCompetitionGraph, build_theme_competition_graph
+from .convergence import ConvergenceResult, CorrelationGuard, build_correlation_guard, calculate_ulls
 from .engine import ScoringEngine, calculate_score, calculate_score_breakdown, default_stock_scoring_engine
 from .factors import BaseFactor, CapQualityFactor, FundFlowFactor, ThemeFactor, VolumeFactor
 from .lifecycle import LifecycleResult, detect_leader_lifecycle
@@ -12,6 +13,8 @@ __all__ = [
     "BaseFactor",
     "CapQualityFactor",
     "CompetitionLeader",
+    "ConvergenceResult",
+    "CorrelationGuard",
     "FactorResult",
     "FundFlowFactor",
     "LifecycleResult",
@@ -22,8 +25,10 @@ __all__ = [
     "ThemeCompetitionGraph",
     "VolumeFactor",
     "build_theme_competition_graph",
+    "build_correlation_guard",
     "calculate_score",
     "calculate_score_breakdown",
+    "calculate_ulls",
     "default_stock_scoring_engine",
     "detect_leader_lifecycle",
     "detect_market_regime",

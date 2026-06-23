@@ -23,6 +23,7 @@ function renderMetrics(payload) {
     metric("A股候选", metrics.stock_candidate_count ?? 0),
     metric("证据确认", metrics.evidence_confirmed_stock_count ?? 0),
     metric("竞争强度", fmt(competition.average_competition_intensity, 2) || "-"),
+    metric("换位频率", competition.swap_frequency ? `${fmt(competition.swap_frequency.before, 2)}→${fmt(competition.swap_frequency.after, 2)}` : "-"),
   ].join("");
   document.querySelector("#report-meta").textContent = `${report.report_id || ""} · ${report.generated_at || ""}`;
   document.querySelector("#candidate-count").textContent =
@@ -139,7 +140,7 @@ function tierList(graph, tiers) {
         <div>
           <span class="tier-label tier-${String(row.tier || "out").toLowerCase()}">${row.tier || ""}</span>
           <code>${row.code || ""}</code> ${row.name || ""}
-          <br><span class="muted">LS ${fmt(row.leadership_score)} · 支配 ${fmt(row.dominance)} · 动量 ${row.momentum_rank || ""}</span>
+          <br><span class="muted">ULLS ${fmt(row.ulls ?? row.leadership_score)} · 支配 ${fmt(row.dominance)} · 动量 ${row.momentum_rank || ""}</span>
         </div>
       `,
     )

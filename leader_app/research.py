@@ -47,9 +47,10 @@ LEADER_EVIDENCE_PATH = ROOT_DIR / "config" / "leader_evidence_sources.json"
 
 def _competition_history(theme_name: str, report_dir: Path = REPORT_DIR, limit: int = 5) -> dict[str, Any]:
     ranks: dict[str, list[int]] = {}
+    previous_ulls: dict[str, float] = {}
     previous_l1: str | None = None
     if not report_dir.exists():
-        return {"ranks": ranks, "previous_l1": previous_l1}
+        return {"ranks": ranks, "previous_l1": previous_l1, "previous_ulls": previous_ulls}
     files = sorted(report_dir.glob("leader_review_*.json"), key=lambda path: path.stat().st_mtime, reverse=True)
     for path in files[:limit]:
         try:
@@ -65,11 +66,18 @@ def _competition_history(theme_name: str, report_dir: Path = REPORT_DIR, limit: 
             if previous_l1 is None:
                 leaders = theme.get("stock_leaders") or []
                 previous_l1 = leaders[0].get("code") if leaders else None
+            for leader in graph.get("leaders") or []:
+                code = str(leader.get("code") or "")
+                score = safe_float(leader.get("ulls"))
+                if score is None:
+                    score = safe_float(leader.get("leadership_score"))
+                if code and score is not None:
+                    previous_ulls[code] = float(score)
         for index, stock in enumerate(theme.get("stock_leaders") or [], start=1):
             code = str(stock.get("code") or "")
             if code:
                 ranks.setdefault(code, []).append(index)
-    return {"ranks": ranks, "previous_l1": previous_l1}
+    return {"ranks": ranks, "previous_l1": previous_l1, "previous_ulls": previous_ulls}
 
 
 def _apply_competition_graph(theme: dict[str, Any]) -> dict[str, Any]:
@@ -78,12 +86,15 @@ def _apply_competition_graph(theme: dict[str, Any]) -> dict[str, Any]:
         theme,
         history_ranks=history.get("ranks") or {},
         previous_l1=history.get("previous_l1"),
+        previous_ulls=history.get("previous_ulls") or {},
     ).to_dict()
     by_code = {row.get("code"): row for row in graph.get("leaders") or []}
     for stock in theme.get("stock_leaders") or []:
         item = by_code.get(stock.get("code")) or {}
         stock["competition_tier"] = item.get("tier")
         stock["competition_rank"] = item.get("leadership_rank")
+        stock["ulls"] = item.get("ulls")
+        stock["raw_ulls"] = item.get("raw_ulls")
         stock["competition_leadership_score"] = item.get("leadership_score")
         stock["competition_dominance"] = item.get("dominance")
         stock["relative_score_gap"] = item.get("relative_score_gap")
@@ -91,12 +102,49 @@ def _apply_competition_graph(theme: dict[str, Any]) -> dict[str, Any]:
         stock["fund_flow_share"] = item.get("fund_flow_share")
         stock["momentum_rank"] = item.get("momentum_rank")
         stock["leadership_stability"] = item.get("leadership_stability")
+        stock["convergence_explanations"] = item.get("convergence_explanations") or {}
+        stock["correlation_guard"] = item.get("correlation_guard") or {}
+        stock["ulls_smoothed"] = item.get("smoothed")
+        stock["previous_ulls"] = item.get("previous_ulls")
+        stock["competition_role"] = item.get("competition_role")
         stock["competition_reason"] = item.get("reason") or []
     theme["competition_graph"] = graph
     return theme
 
 
-def _competition_summary(themes: list[dict[str, Any]]) -> dict[str, Any]:
+def _previous_competition_summary(report_dir: Path = REPORT_DIR) -> dict[str, Any]:
+    if not report_dir.exists():
+        return {}
+    files = sorted(report_dir.glob("leader_review_*.json"), key=lambda path: path.stat().st_mtime, reverse=True)
+    for path in files:
+        try:
+            payload = json.loads(path.read_text(encoding="utf-8"))
+        except json.JSONDecodeError:
+            continue
+        summary = payload.get("competition_summary") or {}
+        if summary:
+            return summary
+    return {}
+
+
+def _summary_frequency(summary: dict[str, Any]) -> float | None:
+    frequency = (summary.get("swap_frequency") or {}).get("after")
+    if frequency is not None:
+        return safe_float(frequency)
+    theme_count = safe_float(summary.get("theme_count")) or 0.0
+    if theme_count <= 0:
+        return None
+    return (safe_float(summary.get("leader_swap_count")) or 0.0) / theme_count
+
+
+def _summary_rank_volatility(summary: dict[str, Any]) -> float | None:
+    volatility = (summary.get("rank_volatility") or {}).get("after")
+    if volatility is not None:
+        return safe_float(volatility)
+    return _summary_frequency(summary)
+
+
+def _competition_summary(themes: list[dict[str, Any]], previous_summary: dict[str, Any] | None = None) -> dict[str, Any]:
     graphs = [theme.get("competition_graph") or {} for theme in themes if theme.get("competition_graph")]
     if not graphs:
         return {
@@ -105,12 +153,20 @@ def _competition_summary(themes: list[dict[str, Any]]) -> dict[str, Any]:
             "leader_swap_count": 0,
             "average_competition_intensity": 0.0,
             "average_leadership_stability": 0.0,
+            "swap_frequency": {"before": 0.0, "after": 0.0},
+            "rank_volatility": {"before": 0.0, "after": 0.0},
             "l1_by_theme": [],
         }
+    previous_summary = previous_summary or {}
+    leader_swap_count = sum(1 for graph in graphs if graph.get("leader_swap"))
+    swap_frequency_after = leader_swap_count / len(graphs)
+    rank_volatility_after = sum(float(graph.get("rank_volatility") or 0.0) for graph in graphs) / len(graphs)
+    swap_frequency_before = _summary_frequency(previous_summary)
+    rank_volatility_before = _summary_rank_volatility(previous_summary)
     return {
         "theme_count": len(graphs),
         "theme_with_l1_count": sum(1 for graph in graphs if graph.get("current_l1")),
-        "leader_swap_count": sum(1 for graph in graphs if graph.get("leader_swap")),
+        "leader_swap_count": leader_swap_count,
         "average_competition_intensity": _round(
             sum(float(graph.get("competition_intensity") or 0.0) for graph in graphs) / len(graphs),
             4,
@@ -119,6 +175,14 @@ def _competition_summary(themes: list[dict[str, Any]]) -> dict[str, Any]:
             sum(float(graph.get("leadership_stability") or 0.0) for graph in graphs) / len(graphs),
             4,
         ),
+        "swap_frequency": {
+            "before": _round(swap_frequency_before if swap_frequency_before is not None else swap_frequency_after, 4),
+            "after": _round(swap_frequency_after, 4),
+        },
+        "rank_volatility": {
+            "before": _round(rank_volatility_before if rank_volatility_before is not None else rank_volatility_after, 4),
+            "after": _round(rank_volatility_after, 4),
+        },
         "l1_by_theme": [
             {
                 "theme": graph.get("theme"),
@@ -828,6 +892,8 @@ def build_shadow_contract(payload: dict[str, Any]) -> dict[str, Any]:
                         "lifecycle_reason": row.get("lifecycle_reason") or [],
                         "competition_tier": row.get("competition_tier"),
                         "competition_rank": row.get("competition_rank"),
+                        "ulls": row.get("ulls"),
+                        "raw_ulls": row.get("raw_ulls"),
                         "competition_leadership_score": row.get("competition_leadership_score"),
                         "competition_dominance": row.get("competition_dominance"),
                         "relative_score_gap": row.get("relative_score_gap"),
@@ -835,6 +901,11 @@ def build_shadow_contract(payload: dict[str, Any]) -> dict[str, Any]:
                         "fund_flow_share": row.get("fund_flow_share"),
                         "momentum_rank": row.get("momentum_rank"),
                         "leadership_stability": row.get("leadership_stability"),
+                        "convergence_explanations": row.get("convergence_explanations") or {},
+                        "correlation_guard": row.get("correlation_guard") or {},
+                        "ulls_smoothed": row.get("ulls_smoothed"),
+                        "previous_ulls": row.get("previous_ulls"),
+                        "competition_role": row.get("competition_role"),
                         "competition_reason": row.get("competition_reason") or [],
                         "factor_breakdown": row.get("factor_breakdown") or [],
                         "pct_chg_ratio": row.get("pct_chg"),
@@ -881,6 +952,7 @@ def build_report(theme_payload: dict[str, Any] | None = None, theme_url: str = D
     fund_codes = _candidate_fund_codes(theme_rows, etf_top)
     price_map = fetch_tushare_fund_prices(fund_codes, basis_date)
     stock_universe, stock_gaps = _stock_universe(basis_date)
+    previous_competition_summary = _previous_competition_summary()
 
     themes: list[dict[str, Any]] = []
     all_data_gaps = list(stock_gaps)
@@ -963,7 +1035,7 @@ def build_report(theme_payload: dict[str, Any] | None = None, theme_url: str = D
             "top_grade": themes[0].get("leader_grade") if themes else "",
             "data_gap_count": len(set(all_data_gaps)),
         },
-        "competition_summary": _competition_summary(themes),
+        "competition_summary": _competition_summary(themes, previous_competition_summary),
         "themes": themes,
         "source_links": result.get("source_links") or {},
         "data_gaps": sorted(set(all_data_gaps)),
@@ -1037,15 +1109,15 @@ def render_markdown(payload: dict[str, Any]) -> str:
             "",
             "### A股龙头候选",
             "",
-            "| 代码 | 名称 | 行业 | 竞争层 | 支配度 | 龙头认定 | 龙头角色 | 分数 | 证据分 | 证据数 | 硬证据 | 来源 | 1日 | 换手 |",
-            "| --- | --- | --- | --- | ---: | --- | --- | ---: | ---: | ---: | ---: | --- | ---: | ---: |",
+            "| 代码 | 名称 | 行业 | 竞争层 | ULLS | 支配度 | 龙头认定 | 龙头角色 | 分数 | 证据分 | 证据数 | 硬证据 | 来源 | 1日 | 换手 |",
+            "| --- | --- | --- | --- | ---: | ---: | --- | --- | ---: | ---: | ---: | ---: | --- | ---: | ---: |",
         ]
         for stock in item.get("stock_leaders") or []:
             lines.append(
-                f"| {stock.get('code')} | {stock.get('name')} | {stock.get('industry')} | {stock.get('competition_tier') or ''} | {stock.get('competition_dominance') or ''} | {stock.get('leader_tier') or ''} | {stock.get('leader_claim') or stock.get('leader_role') or ''} | {stock.get('leader_score'):.2f} | {stock.get('evidence_score') or ''} | {stock.get('evidence_count') or 0} | {stock.get('hard_evidence_count') or 0} | {stock.get('binding_source') or ''} | {stock.get('pct_chg') or ''} | {stock.get('turnover_rate') or ''} |"
+                f"| {stock.get('code')} | {stock.get('name')} | {stock.get('industry')} | {stock.get('competition_tier') or ''} | {stock.get('ulls') or ''} | {stock.get('competition_dominance') or ''} | {stock.get('leader_tier') or ''} | {stock.get('leader_claim') or stock.get('leader_role') or ''} | {stock.get('leader_score'):.2f} | {stock.get('evidence_score') or ''} | {stock.get('evidence_count') or 0} | {stock.get('hard_evidence_count') or 0} | {stock.get('binding_source') or ''} | {stock.get('pct_chg') or ''} | {stock.get('turnover_rate') or ''} |"
             )
         if not item.get("stock_leaders"):
-            lines.append("| - | - | - | - | - | - | - | - | - | - | - | - | - | 数据不足或未匹配 |")
+            lines.append("| - | - | - | - | - | - | - | - | - | - | - | - | - | - | 数据不足或未匹配 |")
         else:
             lines += ["", "证据链摘要："]
             for stock in item.get("stock_leaders") or []:

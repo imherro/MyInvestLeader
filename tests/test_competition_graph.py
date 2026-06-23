@@ -51,6 +51,8 @@ def test_theme_competition_graph_assigns_unique_l1_and_out() -> None:
     assert graph["leader_set"]
     assert graph["competition_intensity"] > 0
     assert graph["leadership_stability"] > 0
+    assert graph["leaders"][0]["ulls"] == graph["leaders"][0]["leadership_score"]
+    assert graph["leaders"][0]["competition_role"] == "explanatory_normalizer"
     assert any(row["tier"] == "OUT" and row["code"] == "D" for row in graph["leaders"])
     assert {"relative_score_gap", "volume_share_in_theme", "fund_flow_share", "momentum_rank"}.issubset(
         graph["leaders"][0]
@@ -67,9 +69,10 @@ def test_competition_graph_can_displace_score_top() -> None:
         ],
     }
 
-    graph = build_theme_competition_graph(theme).to_dict()
+    graph = build_theme_competition_graph(theme, previous_l1="SCORE_TOP").to_dict()
 
     assert graph["current_l1"] == "COMPETITION_L1"
     assert graph["score_top"] == "SCORE_TOP"
+    assert graph["score_top_displaced"] is True
     assert graph["leader_swap"] is True
-    assert "raw score top" in graph["leader_swap_reason"]
+    assert "previous L1" in graph["leader_swap_reason"]
