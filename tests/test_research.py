@@ -177,6 +177,13 @@ def test_strategic_leader_universe_promotes_known_leaders(monkeypatch) -> None:
     assert smic["leader_tier"] == "证据确认龙头"
     assert smic["evidence_count"] >= 3
     assert smic["hard_evidence_count"] >= 2
+    assert smic["score_model"] == "factorized_scoring_engine.v1"
+    assert {row["name"] for row in smic["factor_breakdown"]} == {
+        "theme_strength",
+        "volume_activity",
+        "fund_flow",
+        "cap_quality",
+    }
     assert payload["themes"][0]["stock_leaders"][0]["code"] == "688981.SH"
 
 

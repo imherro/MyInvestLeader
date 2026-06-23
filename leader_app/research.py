@@ -8,6 +8,8 @@ from pathlib import Path
 from typing import Any
 from zoneinfo import ZoneInfo
 
+from core.scoring import calculate_score, calculate_score_breakdown
+
 from .config import DEFAULT_THEME_API_URL, REPORT_DIR, ROOT_DIR, get_tushare_token
 from .pricing import PricePoint, fetch_tushare_fund_prices, safe_float
 from .upstream import fetch_json, latest_result, parse_etf_candidates, stable_hash
@@ -547,25 +549,11 @@ def _market_heat_score(row: Any) -> float:
 
 
 def _stock_score(row: Any) -> float:
-    market_heat = _market_heat_score(row)
-    seed_score = safe_float(row.get("seed_score"))
-    if seed_score is None or math.isnan(float(seed_score)):
-        seed_score = 56.0 if bool(row.get("keyword_match")) else 40.0
-    evidence_score = safe_float(row.get("evidence_score")) or 35.0
-    raw_seed = safe_float(row.get("seed_score"))
-    has_seed = raw_seed is not None and not math.isnan(float(raw_seed))
-    if bool(row.get("keyword_match")) and has_seed:
-        binding_score = 82.0
-    elif has_seed:
-        binding_score = 76.0
-    elif bool(row.get("keyword_match")):
-        binding_score = 70.0
-    else:
-        binding_score = 45.0
-    score = float(seed_score) * 0.35 + binding_score * 0.20 + market_heat * 0.25 + evidence_score * 0.20
-    if str(row.get("leader_tier") or "") == "证据不足候选":
-        score -= 8.0
-    return _clamp(score)
+    return _clamp(calculate_score(row))
+
+
+def _stock_score_breakdown(row: Any) -> dict[str, Any]:
+    return calculate_score_breakdown(row)
 
 
 def _build_stock_leaders(theme_row: dict[str, Any], universe: Any | None) -> list[dict[str, Any]]:
@@ -616,12 +604,14 @@ def _build_stock_leaders(theme_row: dict[str, Any], universe: Any | None) -> lis
     matched["latest_evidence_date"] = profiles.apply(lambda item: item.get("latest_evidence_date"))
     matched["evidence_sources"] = profiles.apply(lambda item: item.get("evidence_sources"))
     matched["leader_score"] = matched.apply(_stock_score, axis=1)
+    matched["score_breakdown"] = matched.apply(_stock_score_breakdown, axis=1)
     matched = matched.sort_values(["leader_score", "evidence_score", "seed_score", "amount"], ascending=[False, False, False, False]).head(8)
     leaders = []
     for _, row in matched.iterrows():
         score = float(row.get("leader_score") or 0.0)
         grade = _grade(score)
         evidence_sources = row.get("evidence_sources") or []
+        score_breakdown = row.get("score_breakdown") or {}
         leaders.append(
             {
                 "code": str(row.get("ts_code") or ""),
@@ -647,6 +637,8 @@ def _build_stock_leaders(theme_row: dict[str, Any], universe: Any | None) -> lis
                 "is_limit_up": bool(row.get("is_limit_up")),
                 "flow_rank": _round(row.get("flow_rank"), 4),
                 "liquidity_rank": _round(row.get("amount_rank"), 4),
+                "score_model": score_breakdown.get("model"),
+                "factor_breakdown": score_breakdown.get("factors") or [],
                 "data_gaps": [],
                 "research_boundary": "research_only_no_trade_order",
             }
@@ -708,6 +700,8 @@ def build_shadow_contract(payload: dict[str, Any]) -> dict[str, Any]:
                         "hard_evidence_count": row.get("hard_evidence_count"),
                         "latest_evidence_date": row.get("latest_evidence_date"),
                         "binding_source": row.get("binding_source"),
+                        "score_model": row.get("score_model"),
+                        "factor_breakdown": row.get("factor_breakdown") or [],
                         "pct_chg_ratio": row.get("pct_chg"),
                         "research_only": True,
                     }

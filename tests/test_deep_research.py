@@ -57,6 +57,16 @@ def sample_leader_payload() -> dict:
                             },
                         ],
                         "market_heat_score": 80,
+                        "score_model": "factorized_scoring_engine.v1",
+                        "factor_breakdown": [
+                            {
+                                "name": "theme_strength",
+                                "value": 0.8,
+                                "weight": 0.75,
+                                "score": 0.6,
+                                "evidence": {},
+                            }
+                        ],
                     },
                     {
                         "code": "688515.SH",
@@ -143,10 +153,13 @@ def test_build_stock_deep_report_contract() -> None:
     assert payload["stocks"][0]["deep_rating"] in {"S", "A", "B"}
     assert payload["stocks"][0]["candidate_leader_tier"] == "证据确认龙头"
     assert payload["stocks"][0]["candidate_hard_evidence_count"] == 3
+    assert payload["stocks"][0]["candidate_score_model"] == "factorized_scoring_engine.v1"
+    assert payload["stocks"][0]["candidate_factor_breakdown"][0]["name"] == "theme_strength"
     assert payload["stocks"][1]["deep_rating"] != "S"
     assert payload["shadow_contract"]["constraints"]["contains_cash_amounts"] is False
     assert payload["shadow_contract"]["stock_signals"][0]["code"] == "600667.SH"
     assert payload["shadow_contract"]["stock_signals"][0]["leader_tier"] == "证据确认龙头"
+    assert payload["shadow_contract"]["stock_signals"][0]["factor_breakdown"][0]["name"] == "theme_strength"
     assert "ResearchFirst" in markdown
     assert "证据链" in markdown
 

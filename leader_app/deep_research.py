@@ -125,6 +125,8 @@ def select_deep_queue(leader_payload: dict[str, Any], max_per_theme: int = 3) ->
                     "candidate_latest_evidence_date": stock.get("latest_evidence_date"),
                     "candidate_evidence_sources": stock.get("evidence_sources") or [],
                     "candidate_market_heat_score": stock.get("market_heat_score"),
+                    "candidate_score_model": stock.get("score_model"),
+                    "candidate_factor_breakdown": stock.get("factor_breakdown") or [],
                     "queue_reason": queue_reason,
                 }
             )
@@ -424,6 +426,8 @@ def _build_stock_item(queue_item: dict[str, Any], diagnostics: dict[str, Any]) -
         "candidate_latest_evidence_date": queue_item.get("candidate_latest_evidence_date"),
         "candidate_evidence_sources": queue_item.get("candidate_evidence_sources") or [],
         "candidate_market_heat_score": queue_item.get("candidate_market_heat_score"),
+        "candidate_score_model": queue_item.get("candidate_score_model"),
+        "candidate_factor_breakdown": queue_item.get("candidate_factor_breakdown") or [],
         "deep_score": round(total, 2),
         "deep_rating": rating,
         "deep_label": _rating_label(rating),
@@ -492,6 +496,8 @@ def build_stock_shadow_contract(payload: dict[str, Any]) -> dict[str, Any]:
                 "evidence_score": row.get("candidate_evidence_score"),
                 "evidence_count": row.get("candidate_evidence_count"),
                 "hard_evidence_count": row.get("candidate_hard_evidence_count"),
+                "score_model": row.get("candidate_score_model"),
+                "factor_breakdown": row.get("candidate_factor_breakdown") or [],
                 "shadow_observation_eligible": row.get("shadow_observation_eligible"),
                 "risk_flags": row.get("risk_flags") or [],
                 "data_gaps": row.get("data_gaps") or [],
