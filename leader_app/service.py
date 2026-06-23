@@ -204,12 +204,53 @@ def _dedupe_stock_results(stocks: list[dict[str, Any]], *, rating: str | None = 
     return sorted(results, key=_stock_result_sort_key)
 
 
+def _recommendation_history_record(report_id: str, payload: dict[str, Any], *, has_markdown: bool = False) -> dict[str, Any]:
+    stocks = [dict(row) for row in (payload.get("stocks") or [])]
+    items = _dedupe_stock_results(stocks, rating="A")
+    return {
+        "report_id": report_id,
+        "leader_report_id": payload.get("leader_report_id"),
+        "generated_at": payload.get("generated_at"),
+        "basis_date": payload.get("basis_date"),
+        "count": len(items),
+        "items": items,
+        "codes": [row.get("code") for row in items if row.get("code")],
+        "source_endpoint": f"/api/stocks/deep/reports/{report_id}",
+        "markdown_endpoint": f"/api/stocks/deep/reports/{report_id}/markdown" if has_markdown else "",
+        "has_markdown": has_markdown,
+        "read_only": True,
+        "contains_trade_orders": False,
+    }
+
+
+def list_recommendation_history(report_dir: Path = STOCK_REPORT_DIR, limit: int = 20) -> list[dict[str, Any]]:
+    records: list[dict[str, Any]] = []
+    seen_basis_dates: set[str] = set()
+    for path in _stock_json_files(report_dir):
+        payload = load_stock_report(path.stem, report_dir)
+        basis_date = str(payload.get("basis_date") or path.stem)
+        if basis_date in seen_basis_dates:
+            continue
+        seen_basis_dates.add(basis_date)
+        records.append(
+            _recommendation_history_record(
+                path.stem,
+                payload,
+                has_markdown=path.with_suffix(".md").exists(),
+            )
+        )
+        if len(records) >= limit:
+            break
+    return records
+
+
 def _key_results_payload(stock_index: dict[str, Any] | None) -> dict[str, Any]:
     stock_index = stock_index or {}
     report = stock_index.get("report") or {}
     stocks = [dict(row) for row in (stock_index.get("stocks") or [])]
     a_tracking = _dedupe_stock_results(stocks, rating="A")
     trackable = _dedupe_stock_results(stocks, eligible_only=True)
+    recommendation_history = list_recommendation_history()
     return {
         "schema_version": KEY_RESULTS_SCHEMA_VERSION,
         "primary_output": {
@@ -230,9 +271,19 @@ def _key_results_payload(stock_index: dict[str, Any] | None) -> dict[str, Any]:
             "count": len(trackable),
             "items": trackable,
         },
+        "recommendation_history": {
+            "id": "daily_a_tracking_leader_history",
+            "title": "每日推荐龙头历史",
+            "description": "从历史龙头股深研报告抽取每个基准日的A可跟踪龙头；用于复核，不是交易指令。",
+            "source_endpoint": "/api/stocks/deep/recommendations/history",
+            "record_count": len(recommendation_history),
+            "daily_latest_only": True,
+            "records": recommendation_history,
+        },
         "integration": {
             "endpoint": "/api/index",
             "primary_data_path": "key_results.primary_output.items",
+            "history_data_path": "key_results.recommendation_history.records",
             "read_only": True,
             "ratio_only": True,
             "contains_trade_orders": False,
@@ -329,6 +380,11 @@ def build_index_payload(report_id: str, payload: dict[str, Any], markdown: str) 
             "primary_result_path": "key_results.primary_output.items",
             "sections": [
                 {"id": "key-results", "title": "A可跟踪龙头", "data_path": "key_results.primary_output.items"},
+                {
+                    "id": "recommendation-history",
+                    "title": "每日推荐龙头历史",
+                    "data_path": "key_results.recommendation_history.records",
+                },
                 {"id": "metrics", "title": "研究概览", "data_path": "metrics"},
                 {"id": "competition", "title": "主线竞争图谱", "data_path": "themes[].competition_graph"},
                 {"id": "candidate-matrix", "title": "龙头候选矩阵", "data_path": "themes"},

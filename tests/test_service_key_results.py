@@ -1,5 +1,8 @@
 from __future__ import annotations
 
+import json
+import os
+
 from leader_app import service
 
 
@@ -52,9 +55,26 @@ def test_index_payload_exposes_primary_a_tracking_results(monkeypatch) -> None:
     monkeypatch.setattr(service, "latest_stock_report", lambda: ("stock_deep_review_sample", stock_payload, "markdown"))
     monkeypatch.setattr(service, "list_stock_reports", lambda: [])
     monkeypatch.setattr(service, "list_reports", lambda: [])
+    monkeypatch.setattr(
+        service,
+        "list_recommendation_history",
+        lambda: [
+            {
+                "report_id": "stock_deep_review_sample",
+                "basis_date": "2026-06-18",
+                "generated_at": "2026-06-23 12:10:05 CST",
+                "count": 2,
+                "items": [
+                    stock_row("300750.SZ", "宁德时代", "新能源/电力设备", "A", 74.77),
+                    stock_row("688256.SH", "寒武纪", "硬科技电子/半导体", "A", 73.1),
+                ],
+            }
+        ],
+    )
 
     index = service.build_index_payload("leader_review_sample", {"themes": [], "data_gaps": []}, "")
     primary = index["key_results"]["primary_output"]
+    history = index["key_results"]["recommendation_history"]
 
     assert index["page"]["primary_endpoint"] == "/api/index"
     assert index["page"]["primary_result_path"] == "key_results.primary_output.items"
@@ -65,7 +85,10 @@ def test_index_payload_exposes_primary_a_tracking_results(monkeypatch) -> None:
     assert cambricon["theme"] == "AI算力/通信、硬科技电子/半导体"
     assert cambricon["themes"] == ["AI算力/通信", "硬科技电子/半导体"]
     assert index["key_results"]["integration"]["primary_data_path"] == "key_results.primary_output.items"
+    assert index["key_results"]["integration"]["history_data_path"] == "key_results.recommendation_history.records"
     assert index["key_results"]["integration"]["contains_trade_orders"] is False
+    assert history["record_count"] == 1
+    assert history["records"][0]["basis_date"] == "2026-06-18"
     process_flow = index["key_results"]["process_flow"]
     assert [step["title"] for step in process_flow] == [
         "最早股票池",
@@ -76,3 +99,62 @@ def test_index_payload_exposes_primary_a_tracking_results(monkeypatch) -> None:
     ]
     assert process_flow[-1]["output_data_path"] == "key_results.primary_output.items"
     assert all(step["basis"] and step["pass_rule"] for step in process_flow)
+
+
+def write_stock_report(path, *, basis_date: str, generated_at: str, stocks: list[dict]) -> None:
+    path.write_text(
+        json.dumps(
+            {
+                "schema_version": "stock_deep_research.v1",
+                "leader_report_id": "leader_review_sample",
+                "generated_at": generated_at,
+                "basis_date": basis_date,
+                "stocks": stocks,
+                "data_gaps": [],
+            },
+            ensure_ascii=False,
+        ),
+        encoding="utf-8",
+    )
+
+
+def test_recommendation_history_keeps_latest_report_per_basis_date(tmp_path) -> None:
+    old_same_day = tmp_path / "stock_deep_review_2026-06-19_090000.json"
+    latest_same_day = tmp_path / "stock_deep_review_2026-06-19_153000.json"
+    next_day = tmp_path / "stock_deep_review_2026-06-20_090000.json"
+
+    write_stock_report(
+        old_same_day,
+        basis_date="2026-06-18",
+        generated_at="2026-06-19 09:00:00 CST",
+        stocks=[stock_row("688256.SH", "寒武纪", "硬科技电子/半导体", "A", 70.0)],
+    )
+    write_stock_report(
+        latest_same_day,
+        basis_date="2026-06-18",
+        generated_at="2026-06-19 15:30:00 CST",
+        stocks=[stock_row("300750.SZ", "宁德时代", "新能源/电力设备", "A", 74.0)],
+    )
+    latest_same_day.with_suffix(".md").write_text("# 深研", encoding="utf-8")
+    write_stock_report(
+        next_day,
+        basis_date="2026-06-19",
+        generated_at="2026-06-20 09:00:00 CST",
+        stocks=[
+            stock_row("688981.SH", "中芯国际", "硬科技电子/半导体", "A", 76.0),
+            stock_row("000063.SZ", "中兴通讯", "AI算力/通信", "B", 62.0),
+        ],
+    )
+
+    os.utime(old_same_day, (1_800_000_000, 1_800_000_000))
+    os.utime(latest_same_day, (1_800_000_100, 1_800_000_100))
+    os.utime(next_day, (1_800_000_200, 1_800_000_200))
+
+    records = service.list_recommendation_history(report_dir=tmp_path)
+
+    assert [record["basis_date"] for record in records] == ["2026-06-19", "2026-06-18"]
+    assert records[0]["codes"] == ["688981.SH"]
+    assert records[1]["codes"] == ["300750.SZ"]
+    assert records[1]["has_markdown"] is True
+    assert records[0]["read_only"] is True
+    assert records[0]["contains_trade_orders"] is False

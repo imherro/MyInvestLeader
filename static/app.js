@@ -118,6 +118,40 @@ function renderKeyResults(payload) {
     .join("");
 }
 
+function historyLeaderList(items) {
+  if (!items || !items.length) return '<span class="muted">无 A 可跟踪龙头</span>';
+  return `<div class="history-leaders">${items
+    .slice(0, 8)
+    .map((row) => `<span>${stockCodeLink(row)} ${stockNameText(row)}</span>`)
+    .join("")}</div>`;
+}
+
+function renderRecommendationHistory(payload) {
+  const history = payload.key_results?.recommendation_history || {};
+  const records = history.records || [];
+  const meta = document.querySelector("#recommendation-history-meta");
+  const rows = document.querySelector("#recommendation-history-rows");
+  if (!meta || !rows) return;
+  meta.textContent = `${history.record_count ?? records.length} 日 · /api/stocks/deep/recommendations/history`;
+  if (!records.length) {
+    rows.innerHTML = '<tr><td colspan="4" class="empty">暂无推荐历史；生成龙头股深研后会自动沉淀。</td></tr>';
+    return;
+  }
+  rows.innerHTML = records
+    .slice(0, 10)
+    .map(
+      (record) => `
+        <tr>
+          <td class="theme-cell">${escapeHtml(record.basis_date || "")}<br><span class="muted">${escapeHtml(record.generated_at || "")}</span></td>
+          <td>${historyLeaderList(record.items || [])}</td>
+          <td>${record.count ?? 0}</td>
+          <td><a href="${escapeHtml(record.markdown_endpoint || record.source_endpoint || "#")}" target="_blank" rel="noreferrer">${escapeHtml(record.report_id || "")}</a></td>
+        </tr>
+      `,
+    )
+    .join("");
+}
+
 function renderChart(themes) {
   const chart = document.querySelector("#score-chart");
   if (!themes.length) {
@@ -352,6 +386,7 @@ async function load() {
   const themes = payload.themes || [];
   renderMetrics(payload);
   renderKeyResults(payload);
+  renderRecommendationHistory(payload);
   renderDocumentLinks(payload);
   renderChart(themes);
   renderCompetitionGraph(themes);
