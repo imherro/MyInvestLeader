@@ -15,6 +15,11 @@ function xueqiuStockUrl(code) {
   return match ? `https://xueqiu.com/S/${match[2]}${match[1]}` : "";
 }
 
+function stockResearchUrl(code) {
+  const normalized = String(code || "").trim().toUpperCase();
+  return normalized ? `https://stock.okbbc.com/research?stock=${encodeURIComponent(normalized)}` : "";
+}
+
 function stockCodeLink(row) {
   const code = row?.code || "";
   const href = row?.xueqiu_url || xueqiuStockUrl(row?.code);
@@ -24,7 +29,11 @@ function stockCodeLink(row) {
 }
 
 function stockNameText(row) {
-  return escapeHtml(row?.name || "");
+  const name = row?.name || "";
+  const href = stockResearchUrl(row?.code);
+  if (!name) return "";
+  if (!href) return escapeHtml(name);
+  return `<a class="stock-link stock-name-link" href="${escapeHtml(href)}" target="_blank" rel="noopener noreferrer" title="打开个股研究 ${escapeHtml(row?.code || "")}">${escapeHtml(name)}</a>`;
 }
 
 const metric = (label, value) => `

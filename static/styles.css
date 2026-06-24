@@ -475,6 +475,10 @@ tbody tr:last-child td {
   text-decoration: underline;
 }
 
+.stock-name-link {
+  font-weight: 600;
+}
+
 .process-panel {
   margin-bottom: 0;
 }
