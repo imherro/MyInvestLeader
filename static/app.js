@@ -226,7 +226,7 @@ function candidateList(items, linkStockNames = false) {
         <div class="candidate">
           ${linkStockNames ? stockCodeLink(row) : `<code>${escapeHtml(row.code || "")}</code>`}
           <span>
-            ${escapeHtml(row.name || "")}
+            ${linkStockNames ? stockNameText(row) : escapeHtml(row.name || "")}
             <br><span class="muted">${row.leader_tier || row.binding_source || ""}</span>
             <br><span class="muted">${row.leader_claim || row.leader_role || ""}</span>
             <br><span class="muted">${fmt(row.leader_score)} 分 · ${row.competition_tier || "未分层"} · 证据 ${row.evidence_count ?? 0}/${row.hard_evidence_count ?? 0}</span>
