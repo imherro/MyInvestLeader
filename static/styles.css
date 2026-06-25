@@ -39,18 +39,14 @@ p {
   margin: 0;
 }
 
-.topbar {
-  position: sticky;
-  top: 0;
-  z-index: 10;
+.app-title {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  padding: 16px 24px;
-  background: rgba(255, 255, 255, 0.95);
-  border-bottom: 1px solid var(--line);
-  backdrop-filter: blur(10px);
+  width: min(1400px, calc(100vw - 32px));
+  margin: 18px auto 0;
+  padding: 0 2px;
 }
 
 h1 {
@@ -58,41 +54,13 @@ h1 {
   font-weight: 700;
 }
 
-.topbar p,
+.app-title p,
 .section-head span {
   color: var(--muted);
 }
 
-.nav {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-.nav a {
-  min-height: 36px;
-  display: inline-flex;
-  align-items: center;
-  padding: 0 12px;
-  border: 1px solid var(--line);
-  border-radius: 6px;
-  background: var(--surface);
-  color: var(--text);
-  text-decoration: none;
-  white-space: nowrap;
-}
-
-.nav a:hover,
-.nav a:focus {
-  border-color: var(--green);
-  color: var(--green);
-}
-
-.nav-active {
-  border-color: var(--green) !important;
-  background: var(--soft-green) !important;
-  color: #166534 !important;
-  font-weight: 700;
+.app-title p {
+  margin-top: 4px;
 }
 
 main {
@@ -585,7 +553,7 @@ td {
 }
 
 @media (max-width: 940px) {
-  .topbar,
+  .app-title,
   .section-head {
     align-items: flex-start;
     flex-direction: column;
@@ -605,14 +573,5 @@ td {
   .process-arrow {
     justify-self: center;
     transform: rotate(90deg);
-  }
-
-  .nav {
-    width: 100%;
-  }
-
-  .nav a {
-    flex: 1 1 140px;
-    justify-content: center;
   }
 }

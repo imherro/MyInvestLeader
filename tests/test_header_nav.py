@@ -3,20 +3,14 @@ from __future__ import annotations
 from pathlib import Path
 
 
-def test_header_uses_unified_system_navigation() -> None:
+def test_template_embeds_unified_header_and_footer() -> None:
     html = Path("templates/index.html").read_text(encoding="utf-8")
-    expected_links = [
-        ("首页", "https://invest.okbbc.com/"),
-        ("市场", "https://market.okbbc.com/"),
-        ("主线", "https://theme.okbbc.com/"),
-        ("影子", "https://shadow.okbbc.com/"),
-        ("龙头", "https://leader.okbbc.com/"),
-        ("个股", "https://stock.okbbc.com/"),
-        ("操作", "https://position.okbbc.com/"),
-    ]
 
-    assert 'aria-label="MyInvest 系统导航"' in html
-    for label, href in expected_links:
-        assert f'href="{href}"' in html
-        assert f">{label}</a>" in html
-    assert 'aria-current="page">龙头</a>' in html
+    assert "<div data-myinvest-header></div>" in html
+    assert "<div data-myinvest-footer></div>" in html
+    assert 'src="https://invest.okbbc.com/header.js"' in html
+    assert 'src="https://invest.okbbc.com/footer.js"' in html
+    assert 'data-target="[data-myinvest-header]"' in html
+    assert 'data-target="[data-myinvest-footer]"' in html
+    assert 'class="app-title"' in html
+    assert "A股主线龙头研究与影子仓位接口" in html

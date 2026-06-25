@@ -7,20 +7,13 @@
     <link rel="stylesheet" href="/static/styles.css" />
   </head>
   <body>
-    <header class="topbar">
+    <div data-myinvest-header></div>
+
+    <header class="app-title">
       <div>
         <h1>MyInvestLeader</h1>
         <p id="subtitle">A股主线龙头研究与影子仓位接口</p>
       </div>
-      <nav class="nav" aria-label="MyInvest 系统导航">
-        <a href="https://invest.okbbc.com/">首页</a>
-        <a href="https://market.okbbc.com/">市场</a>
-        <a href="https://theme.okbbc.com/">主线</a>
-        <a href="https://shadow.okbbc.com/">影子</a>
-        <a class="nav-active" href="https://leader.okbbc.com/" aria-current="page">龙头</a>
-        <a href="https://stock.okbbc.com/">个股</a>
-        <a href="https://position.okbbc.com/">操作</a>
-      </nav>
     </header>
 
     <main>
@@ -162,7 +155,9 @@
         <div class="process-flow" id="process-flow"></div>
       </section>
     </main>
+    <div data-myinvest-footer></div>
     <script src="/static/app.js?v=20260624_candidate_name_links"></script>
-    <script src="https://invest.okbbc.com/footer.js" defer></script>
+    <script src="https://invest.okbbc.com/header.js" data-target="[data-myinvest-header]" defer></script>
+    <script src="https://invest.okbbc.com/footer.js" data-target="[data-myinvest-footer]" defer></script>
   </body>
 </html>
