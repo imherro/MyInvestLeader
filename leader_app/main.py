@@ -10,6 +10,10 @@ from fastapi.templating import Jinja2Templates
 
 from .config import ROOT_DIR
 from .service import (
+    SYSTEM_DESCRIPTION,
+    SYSTEM_NAME,
+    SYSTEM_VERSION,
+    build_api_catalog,
     build_index_payload,
     latest_report,
     latest_stock_report,
@@ -24,9 +28,9 @@ from .service import (
 
 
 app = FastAPI(
-    title="MyInvestLeader",
-    version="0.1.0",
-    description="Read-only A-share mainline leader research and shadow-account input API.",
+    title=SYSTEM_NAME,
+    version=SYSTEM_VERSION,
+    description=SYSTEM_DESCRIPTION,
 )
 
 app.mount("/static", StaticFiles(directory=ROOT_DIR / "static"), name="static")
@@ -53,6 +57,11 @@ def health() -> dict[str, Any]:
         "latest_stock_deep_report_id": stock_reports[0]["report_id"] if stock_reports else None,
         "checked_at": datetime.now().isoformat(timespec="seconds"),
     }
+
+
+@app.get("/api")
+def api_catalog(request: Request) -> dict[str, Any]:
+    return build_api_catalog(base_url=str(request.base_url).rstrip("/"))
 
 
 @app.get("/api/index")

@@ -13,6 +13,9 @@ from .config import REPORT_DIR, STOCK_REPORT_DIR
 REPORT_ID_RE = re.compile(r"^leader_review_\d{4}-\d{2}-\d{2}_\d{6}$")
 STOCK_REPORT_ID_RE = re.compile(r"^stock_deep_review_\d{4}-\d{2}-\d{2}_\d{6}$")
 KEY_RESULTS_SCHEMA_VERSION = "leader_index_key_results.v1"
+SYSTEM_NAME = "MyInvestLeader"
+SYSTEM_VERSION = "0.1.0"
+SYSTEM_DESCRIPTION = "A股主线龙头筛选、深研分析与影子仓位只读输入系统。"
 
 
 def _json_files(report_dir: Path = REPORT_DIR) -> list[Path]:
@@ -498,6 +501,185 @@ def _stock_index_payload() -> dict[str, Any] | None:
     }
 
 
+def _catalog_endpoint(
+    method: str,
+    path: str,
+    purpose: str,
+    returns: str,
+    *,
+    params: list[dict[str, Any]] | None = None,
+    read_only: bool = True,
+) -> dict[str, Any]:
+    return {
+        "method": method,
+        "path": path,
+        "purpose": purpose,
+        "params": params or [],
+        "returns": returns,
+        "read_only": read_only,
+    }
+
+
+def build_api_catalog(base_url: str = "") -> dict[str, Any]:
+    normalized_base_url = base_url.rstrip("/")
+    report_id_param = {
+        "name": "report_id",
+        "in": "path",
+        "required": True,
+        "description": "时间戳研究报告ID，例如 leader_review_YYYY-MM-DD_HHMMSS。",
+    }
+    stock_report_id_param = {
+        "name": "report_id",
+        "in": "path",
+        "required": True,
+        "description": "股票深研报告ID，例如 stock_deep_review_YYYY-MM-DD_HHMMSS。",
+    }
+    groups = [
+        {
+            "id": "docs",
+            "title": "文档入口",
+            "description": "系统首页、接口目录和自动生成的 OpenAPI 文档。",
+            "endpoints": [
+                _catalog_endpoint("GET", "/", "Web 首页，展示当前龙头研究关键结果。", "HTML 页面。"),
+                _catalog_endpoint("GET", "/api", "统一接口目录，只返回说明，不读取研究文件或触发计算。", "接口目录 JSON。"),
+                _catalog_endpoint("GET", "/docs", "FastAPI Swagger 文档。", "交互式 OpenAPI 文档页面。"),
+                _catalog_endpoint("GET", "/redoc", "FastAPI ReDoc 文档。", "ReDoc 文档页面。"),
+                _catalog_endpoint("GET", "/openapi.json", "OpenAPI 机器可读描述。", "OpenAPI JSON schema。"),
+            ],
+        },
+        {
+            "id": "current_data",
+            "title": "当前数据",
+            "description": "当前最新研究报告、深研结果和影子系统输入。",
+            "endpoints": [
+                _catalog_endpoint("GET", "/api/latest", "读取最新主线龙头研究 JSON。", "report_id 与完整 leader_research 结果。"),
+                _catalog_endpoint("GET", "/api/shadow/latest", "读取最新影子仓位输入合约。", "leader_shadow_input 只读比例化信号。"),
+                _catalog_endpoint("GET", "/api/stocks/deep/latest", "读取最新龙头股深研 JSON。", "report_id 与完整 stock_deep_research 结果。"),
+                _catalog_endpoint("GET", "/api/stocks/deep/shadow/latest", "读取最新单股深研影子池输入。", "stock_deep_shadow_input 只读比例化信号。"),
+            ],
+        },
+        {
+            "id": "analysis_results",
+            "title": "分析结果",
+            "description": "页面主接口和跨系统集成首选入口。",
+            "endpoints": [
+                _catalog_endpoint(
+                    "GET",
+                    "/api/index",
+                    "读取首页和外部集成所需的关键成果。",
+                    "page、report、metrics、themes、key_results、stock_deep_research、shadow_contract 等。",
+                ),
+            ],
+        },
+        {
+            "id": "history_data",
+            "title": "历史数据",
+            "description": "历史主线龙头报告、龙头股深研报告和每日A可跟踪龙头记录。",
+            "endpoints": [
+                _catalog_endpoint("GET", "/api/reports", "列出历史主线龙头研究报告。", "reports 数组。"),
+                _catalog_endpoint(
+                    "GET",
+                    "/api/reports/{report_id}",
+                    "读取指定主线龙头研究报告 JSON。",
+                    "指定 report_id 的 leader_research 结果。",
+                    params=[report_id_param],
+                ),
+                _catalog_endpoint(
+                    "GET",
+                    "/api/reports/{report_id}/markdown",
+                    "读取指定主线龙头研究 Markdown。",
+                    "text/markdown 文本。",
+                    params=[report_id_param],
+                ),
+                _catalog_endpoint("GET", "/api/stocks/deep/reports", "列出历史龙头股深研报告。", "reports 数组。"),
+                _catalog_endpoint(
+                    "GET",
+                    "/api/stocks/deep/reports/{report_id}",
+                    "读取指定龙头股深研报告 JSON。",
+                    "指定 report_id 的 stock_deep_research 结果。",
+                    params=[stock_report_id_param],
+                ),
+                _catalog_endpoint(
+                    "GET",
+                    "/api/stocks/deep/reports/{report_id}/markdown",
+                    "读取指定龙头股深研 Markdown。",
+                    "text/markdown 文本。",
+                    params=[stock_report_id_param],
+                ),
+                _catalog_endpoint(
+                    "GET",
+                    "/api/stocks/deep/recommendations/history",
+                    "读取每日A可跟踪龙头历史记录。",
+                    "records 数组，按基准日保留最近一次A可跟踪龙头清单。",
+                ),
+            ],
+        },
+        {
+            "id": "system_status",
+            "title": "系统状态",
+            "description": "只读健康检查。",
+            "endpoints": [
+                _catalog_endpoint("GET", "/health", "系统健康检查和最新报告计数。", "ok、read_only、report_count、latest_report_id 等。"),
+            ],
+        },
+    ]
+    total_endpoints = sum(len(group["endpoints"]) for group in groups)
+    return {
+        "system": {
+            "name": SYSTEM_NAME,
+            "version": SYSTEM_VERSION,
+            "description": SYSTEM_DESCRIPTION,
+        },
+        "base_url": normalized_base_url,
+        "docs": {
+            "swagger": "/docs",
+            "redoc": "/redoc",
+            "openapi": "/openapi.json",
+            "swagger_url": f"{normalized_base_url}/docs" if normalized_base_url else "/docs",
+            "redoc_url": f"{normalized_base_url}/redoc" if normalized_base_url else "/redoc",
+            "openapi_url": f"{normalized_base_url}/openapi.json" if normalized_base_url else "/openapi.json",
+        },
+        "recommended_entrypoints": [
+            {
+                "path": "/api/index",
+                "purpose": "首选集成入口，包含页面主要内容和A可跟踪龙头关键成果。",
+                "data_path": "key_results.primary_output.items",
+            },
+            {
+                "path": "/api/stocks/deep/latest",
+                "purpose": "读取最新龙头股深研明细。",
+                "data_path": "result.stocks",
+            },
+            {
+                "path": "/api/stocks/deep/recommendations/history",
+                "purpose": "复核每日A可跟踪龙头历史。",
+                "data_path": "records",
+            },
+            {
+                "path": "/api/shadow/latest",
+                "purpose": "给影子仓位系统读取只读比例化主线信号。",
+                "data_path": "leader_signals",
+            },
+        ],
+        "safety": {
+            "read_only": True,
+            "no_recompute": True,
+            "no_write": True,
+            "no_trade_order": True,
+            "ratio_only_for_shadow": True,
+            "contains_cash_amounts": False,
+            "contains_share_counts": False,
+            "boundaries": [
+                "/api 只返回接口说明，不触发研究重算、文件写入、交易、同步或外部调用。",
+                "影子仓位相关接口只输出比例化研究信号，不包含真实资金、股数、下单指令或真实持仓写入。",
+                "研究结论用于龙头筛选和分析，不等同于买卖建议。",
+            ],
+        },
+        "groups": groups,
+        "total_endpoints": total_endpoints,
+    }
+
+
 def build_index_payload(report_id: str, payload: dict[str, Any], markdown: str) -> dict[str, Any]:
     themes = payload.get("themes") or []
     top_theme = themes[0] if themes else {}
@@ -554,6 +736,7 @@ def build_index_payload(report_id: str, payload: dict[str, Any], markdown: str) 
         "themes": themes,
         "competition_summary": payload.get("competition_summary") or {},
         "key_results": _key_results_payload(stock_index, themes),
+        "api_catalog": build_api_catalog(),
         "market_context": payload.get("market_context") or {},
         "market_regime": payload.get("market_regime") or {},
         "shadow_contract": payload.get("shadow_contract") or {},

@@ -72,6 +72,7 @@ python .\scripts\run_web.py --port 8014
 默认地址：
 
 - 首页：`http://127.0.0.1:8014/`
+- 统一接口目录：`http://127.0.0.1:8014/api`
 - 最新研究：`http://127.0.0.1:8014/api/latest`
 - 影子仓位接口：`http://127.0.0.1:8014/api/shadow/latest`
 - 最新单股深研：`http://127.0.0.1:8014/api/stocks/deep/latest`
@@ -79,6 +80,16 @@ python .\scripts\run_web.py --port 8014
 - 每日推荐龙头历史：`http://127.0.0.1:8014/api/stocks/deep/recommendations/history`
 
 ## 集成接口
+
+`/api` 是统一接口目录，只返回说明，不触发研究重算、文件写入、交易、同步或外部调用。它返回：
+
+- `system`：系统名称、版本和说明。
+- `base_url`：当前请求的基础地址。
+- `docs`：`/docs`、`/redoc`、`/openapi.json`。
+- `recommended_entrypoints`：推荐集成入口，优先使用 `/api/index`。
+- `safety`：只读、比例化、无交易指令、无真实资金和股数字段等边界。
+- `groups`：按文档入口、当前数据、分析结果、历史数据、系统状态分组列出公开接口。
+- `total_endpoints`：公开接口总数。
 
 `/api/index` 是页面主接口，也作为其他系统集成 MyInvestLeader 的首选接口。它包含页面主要内容和关键成果：
 

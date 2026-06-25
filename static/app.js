@@ -412,6 +412,80 @@ function renderProcessFlow(payload) {
     .join("");
 }
 
+function renderApiCatalog(payload) {
+  const catalog = payload.api_catalog || {};
+  const meta = document.querySelector("#api-catalog-meta");
+  const target = document.querySelector("#api-catalog");
+  if (!meta || !target) return;
+  const groups = catalog.groups || [];
+  const recommended = catalog.recommended_entrypoints || [];
+  const safety = catalog.safety || {};
+  meta.textContent = `${catalog.total_endpoints ?? 0} 个公开接口 · GET /api`;
+  if (!groups.length) {
+    target.innerHTML = '<div class="empty">暂无接口目录</div>';
+    return;
+  }
+  const recommendedHtml = recommended.length
+    ? recommended
+        .map(
+          (item) => `
+            <a class="api-entrypoint" href="${escapeHtml(item.path || "#")}" target="_blank" rel="noreferrer">
+              <code>${escapeHtml(item.path || "")}</code>
+              <span>${escapeHtml(item.purpose || "")}</span>
+            </a>
+          `,
+        )
+        .join("")
+    : '<span class="muted">暂无推荐入口</span>';
+  const groupHtml = groups
+    .map(
+      (group) => `
+        <div class="api-group-card">
+          <strong>${escapeHtml(group.title || group.id || "")}</strong>
+          <span>${(group.endpoints || []).length} 个接口</span>
+          <small>${escapeHtml(group.description || "")}</small>
+        </div>
+      `,
+    )
+    .join("");
+  const safetyHtml = (safety.boundaries || [])
+    .map((item) => `<li>${escapeHtml(item)}</li>`)
+    .join("");
+  target.innerHTML = `
+    <div class="api-summary-grid">
+      <div class="api-summary-card">
+        <span>系统</span>
+        <strong>${escapeHtml(catalog.system?.name || "MyInvestLeader")}</strong>
+        <small>${escapeHtml(catalog.system?.version || "")}</small>
+      </div>
+      <div class="api-summary-card">
+        <span>接口目录</span>
+        <strong><a href="/api" target="_blank" rel="noreferrer">GET /api</a></strong>
+        <small>只读说明，不触发计算</small>
+      </div>
+      <div class="api-summary-card">
+        <span>OpenAPI</span>
+        <strong><a href="/docs" target="_blank" rel="noreferrer">/docs</a></strong>
+        <small><a href="/redoc" target="_blank" rel="noreferrer">/redoc</a> · <a href="/openapi.json" target="_blank" rel="noreferrer">/openapi.json</a></small>
+      </div>
+    </div>
+    <div class="api-catalog-grid">
+      <div>
+        <h3>推荐入口</h3>
+        <div class="api-entrypoints">${recommendedHtml}</div>
+      </div>
+      <div>
+        <h3>接口分组</h3>
+        <div class="api-groups">${groupHtml}</div>
+      </div>
+    </div>
+    <div class="api-safety">
+      <h3>安全边界</h3>
+      <ul>${safetyHtml}</ul>
+    </div>
+  `;
+}
+
 async function load() {
   const response = await fetch("/api/index");
   if (!response.ok) {
@@ -431,6 +505,7 @@ async function load() {
   renderGaps(payload.data_gaps || []);
   renderStockDeep(payload.stock_deep_research);
   renderProcessFlow(payload);
+  renderApiCatalog(payload);
 }
 
 load().catch((error) => {
