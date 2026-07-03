@@ -1,0 +1,4112 @@
+{
+  "schema_version": "stock_deep_research.v1",
+  "report_id": "stock_deep_review_2026-07-03_111733",
+  "leader_report_id": "leader_review_2026-07-03_111619",
+  "generated_at": "2026-07-03 11:17:59 CST",
+  "basis_date": "2026-07-02",
+  "constraints": {
+    "read_only": true,
+    "research_first": true,
+    "ratio_only_for_shadow": true,
+    "contains_trade_orders": false,
+    "contains_cash_amounts": false,
+    "contains_share_counts": false
+  },
+  "queue": [
+    {
+      "priority": 1,
+      "theme": "高端制造/机器人/军工",
+      "theme_id": "high_end_manufacturing_robotics_defense",
+      "theme_stage": "弱势/退潮",
+      "theme_grade": "D",
+      "theme_score": 18.24,
+      "theme_lifecycle_state": "accelerating",
+      "code": "300124.SZ",
+      "name": "汇川技术",
+      "xueqiu_url": "https://xueqiu.com/S/SZ300124",
+      "industry": "电器仪表",
+      "candidate_grade": "A",
+      "candidate_leader_score": 83.81,
+      "candidate_pct_chg": 0.2933,
+      "candidate_turnover_rate": 2.9181,
+      "candidate_is_limit_up": false,
+      "candidate_flow_rank": 0.9976,
+      "candidate_liquidity_rank": 0.9788,
+      "candidate_binding_source": "候选种子+动态证据确认",
+      "candidate_leader_role": "工业自动化龙头",
+      "candidate_leader_claim": "工业自动化龙头",
+      "candidate_leader_tier": "证据确认龙头",
+      "candidate_strategic_score": 96.0,
+      "candidate_seed_score": 96.0,
+      "candidate_evidence_score": 88.16,
+      "candidate_evidence_count": 4,
+      "candidate_hard_evidence_count": 3,
+      "candidate_latest_evidence_date": "2026-07-02",
+      "candidate_evidence_sources": [
+        {
+          "type": "industry_role_seed",
+          "summary": "候选种子库标注：工业自动化龙头",
+          "source_name": "config/stock_leader_universe.json",
+          "source_kind": "curated_seed",
+          "as_of_date": "2026-07-02",
+          "confidence": 0.58,
+          "hard_evidence": false
+        },
+        {
+          "type": "market_scale",
+          "summary": "总市值处于全A股前 1.8% 区间",
+          "source_name": "Tushare daily_basic.total_mv",
+          "source_kind": "tushare_dynamic",
+          "as_of_date": "2026-07-02",
+          "confidence": 0.7773,
+          "hard_evidence": true
+        },
+        {
+          "type": "liquidity_confirmation",
+          "summary": "成交额分位 97.9%",
+          "source_name": "Tushare daily.amount",
+          "source_kind": "tushare_dynamic",
+          "as_of_date": "2026-07-02",
+          "confidence": 0.7094,
+          "hard_evidence": true
+        },
+        {
+          "type": "capital_flow",
+          "summary": "大单净流入为正，资金流分位 99.8%",
+          "source_name": "Tushare moneyflow",
+          "source_kind": "tushare_dynamic",
+          "as_of_date": "2026-07-02",
+          "confidence": 0.66,
+          "hard_evidence": true
+        }
+      ],
+      "candidate_market_heat_score": 62.5078,
+      "candidate_score_model": "factorized_scoring_engine.v1",
+      "candidate_raw_factor_score": 99.7686,
+      "candidate_regime": "BEAR",
+      "candidate_regime_multiplier": 0.7,
+      "candidate_regime_reason": [
+        "index momentum negative",
+        "breadth weak",
+        "volume neutral or unavailable",
+        "volatility moderate"
+      ],
+      "candidate_lifecycle_state": "Expansion",
+      "candidate_lifecycle_confidence": 0.8,
+      "candidate_lifecycle_multiplier": 1.2,
+      "candidate_lifecycle_reason": [
+        "theme leadership confirmed",
+        "relative volume and fund flow remain strong",
+        "market regime does not block trend extension"
+      ],
+      "candidate_factor_breakdown": [
+        {
+          "name": "theme_strength",
+          "value": 0.999191,
+          "weight": 0.75,
+          "score": 0.749393,
+          "evidence": {
+            "raw_value": 66.432,
+            "normalized_value": 0.999191,
+            "normalization": "percentile",
+            "seed_score": 96.0,
+            "binding_score": 76.0,
+            "evidence_score": 88.16,
+            "tier_penalty": 0.0,
+            "leader_tier": "证据确认龙头",
+            "keyword_match": false
+          }
+        },
+        {
+          "name": "volume_activity",
+          "value": 0.9911,
+          "weight": 0.18,
+          "score": 0.178398,
+          "evidence": {
+            "raw_value": 15.40701,
+            "normalized_value": 0.9911,
+            "normalization": "percentile",
+            "absolute_group_value": 0.481506,
+            "pct_chg_score": 30.6664,
+            "turnover_score": 12.7873,
+            "liquidity_score": 97.8793,
+            "limit_score": 45.0,
+            "amount": 4911106.91119,
+            "amount_rank": 0.9787928221859706,
+            "turnover_rate": 2.9181,
+            "pct_chg": 0.2933
+          }
+        },
+        {
+          "name": "fund_flow",
+          "value": 0.999191,
+          "weight": 0.055,
+          "score": 0.054956,
+          "evidence": {
+            "raw_value": 43236.64,
+            "normalized_value": 0.999191,
+            "normalization": "percentile",
+            "absolute_flow_score": 99.7644,
+            "flow_rank": 0.9976436469095523,
+            "large_net": 43236.64,
+            "industry": "电器仪表"
+          }
+        },
+        {
+          "name": "cap_quality",
+          "value": 0.995955,
+          "weight": 0.015,
+          "score": 0.014939,
+          "evidence": {
+            "raw_value": 16.734362,
+            "normalized_value": 0.995955,
+            "normalization": "percentile",
+            "absolute_mv_score": 98.1874,
+            "mv_rank": 0.9818742069965561,
+            "total_mv": 18520010.676
+          }
+        }
+      ],
+      "queue_reason": "主线短期未确认，但个股为证据确认龙头，进入ResearchFirst跟踪深研"
+    },
+    {
+      "priority": 2,
+      "theme": "硬科技电子/半导体",
+      "theme_id": "hard_tech_semiconductor",
+      "theme_stage": "弱势/退潮",
+      "theme_grade": "D",
+      "theme_score": 18.0,
+      "theme_lifecycle_state": "accelerating",
+      "code": "688256.SH",
+      "name": "寒武纪",
+      "xueqiu_url": "https://xueqiu.com/S/SH688256",
+      "industry": "半导体",
+      "candidate_grade": "B",
+      "candidate_leader_score": 76.31,
+      "candidate_pct_chg": -7.63,
+      "candidate_turnover_rate": 2.2372,
+      "candidate_is_limit_up": false,
+      "candidate_flow_rank": 0.9951,
+      "candidate_liquidity_rank": 0.9989,
+      "candidate_binding_source": "候选种子+动态证据确认",
+      "candidate_leader_role": "AI芯片龙头",
+      "candidate_leader_claim": "AI芯片龙头",
+      "candidate_leader_tier": "证据确认龙头",
+      "candidate_strategic_score": 93.0,
+      "candidate_seed_score": 93.0,
+      "candidate_evidence_score": 89.86,
+      "candidate_evidence_count": 5,
+      "candidate_hard_evidence_count": 4,
+      "candidate_latest_evidence_date": "2026-07-02",
+      "candidate_evidence_sources": [
+        {
+          "type": "industry_role_seed",
+          "summary": "候选种子库标注：AI芯片龙头",
+          "source_name": "config/stock_leader_universe.json",
+          "source_kind": "curated_seed",
+          "as_of_date": "2026-07-02",
+          "confidence": 0.565,
+          "hard_evidence": false
+        },
+        {
+          "type": "mainline_binding",
+          "summary": "当前主线关键词命中：半导体",
+          "source_name": "theme.okbbc latest + Tushare stock_basic",
+          "source_kind": "computed_dynamic",
+          "as_of_date": "2026-07-02",
+          "confidence": 0.62,
+          "hard_evidence": true
+        },
+        {
+          "type": "market_scale",
+          "summary": "总市值处于全A股前 0.3% 区间",
+          "source_name": "Tushare daily_basic.total_mv",
+          "source_kind": "tushare_dynamic",
+          "as_of_date": "2026-07-02",
+          "confidence": 0.788,
+          "hard_evidence": true
+        },
+        {
+          "type": "liquidity_confirmation",
+          "summary": "成交额分位 99.9%",
+          "source_name": "Tushare daily.amount",
+          "source_kind": "tushare_dynamic",
+          "as_of_date": "2026-07-02",
+          "confidence": 0.7195,
+          "hard_evidence": true
+        },
+        {
+          "type": "capital_flow",
+          "summary": "大单净流入为正，资金流分位 99.5%",
+          "source_name": "Tushare moneyflow",
+          "source_kind": "tushare_dynamic",
+          "as_of_date": "2026-07-02",
+          "confidence": 0.66,
+          "hard_evidence": true
+        }
+      ],
+      "candidate_market_heat_score": 55.4729,
+      "candidate_score_model": "factorized_scoring_engine.v1",
+      "candidate_raw_factor_score": 99.1083,
+      "candidate_regime": "BEAR",
+      "candidate_regime_multiplier": 0.7,
+      "candidate_regime_reason": [
+        "index momentum negative",
+        "breadth weak",
+        "volume neutral or unavailable",
+        "volatility moderate"
+      ],
+      "candidate_lifecycle_state": "Breakout",
+      "candidate_lifecycle_confidence": 0.75,
+      "candidate_lifecycle_multiplier": 1.1,
+      "candidate_lifecycle_reason": [
+        "volume spike confirms first leadership appearance",
+        "theme and flow support early breakout"
+      ],
+      "candidate_factor_breakdown": [
+        {
+          "name": "theme_strength",
+          "value": 0.991259,
+          "weight": 0.75,
+          "score": 0.743444,
+          "evidence": {
+            "raw_value": 66.922,
+            "normalized_value": 0.991259,
+            "normalization": "percentile",
+            "seed_score": 93.0,
+            "binding_score": 82.0,
+            "evidence_score": 89.86,
+            "tier_penalty": 0.0,
+            "leader_tier": "证据确认龙头",
+            "keyword_match": true
+          }
+        },
+        {
+          "name": "volume_activity",
+          "value": 0.991259,
+          "weight": 0.18,
+          "score": 0.178427,
+          "evidence": {
+            "raw_value": 16.791823,
+            "normalized_value": 0.991259,
+            "normalization": "percentile",
+            "absolute_group_value": 0.383305,
+            "pct_chg_score": 0.0,
+            "turnover_score": 8.248,
+            "liquidity_score": 99.8912,
+            "limit_score": 45.0,
+            "amount": 19615355.231,
+            "amount_rank": 0.9989124524197933,
+            "turnover_rate": 2.2372,
+            "pct_chg": -7.63
+          }
+        },
+        {
+          "name": "fund_flow",
+          "value": 0.987113,
+          "weight": 0.055,
+          "score": 0.054291,
+          "evidence": {
+            "raw_value": 26273.57,
+            "normalized_value": 0.987113,
+            "normalization": "percentile",
+            "absolute_flow_score": 99.5106,
+            "flow_rank": 0.9951060358890701,
+            "large_net": 26273.57000000018,
+            "industry": "半导体"
+          }
+        },
+        {
+          "name": "cap_quality",
+          "value": 0.994755,
+          "weight": 0.015,
+          "score": 0.014921,
+          "evidence": {
+            "raw_value": 18.272202,
+            "normalized_value": 0.994755,
+            "normalization": "percentile",
+            "absolute_mv_score": 99.71,
+            "mv_rank": 0.9970998731194489,
+            "total_mv": 86201799.6
+          }
+        }
+      ],
+      "queue_reason": "主线短期未确认，但个股为证据确认龙头，进入ResearchFirst跟踪深研"
+    },
+    {
+      "priority": 3,
+      "theme": "资源周期",
+      "theme_id": "resources_cycle",
+      "theme_stage": "弱势/退潮",
+      "theme_grade": "D",
+      "theme_score": 17.18,
+      "theme_lifecycle_state": "accelerating",
+      "code": "601899.SH",
+      "name": "紫金矿业",
+      "xueqiu_url": "https://xueqiu.com/S/SH601899",
+      "industry": "铜",
+      "candidate_grade": "A",
+      "candidate_leader_score": 83.66,
+      "candidate_pct_chg": 4.7391,
+      "candidate_turnover_rate": 2.4597,
+      "candidate_is_limit_up": false,
+      "candidate_flow_rank": 0.9956,
+      "candidate_liquidity_rank": 0.9966,
+      "candidate_binding_source": "候选种子+动态证据确认",
+      "candidate_leader_role": "有色金属龙头",
+      "candidate_leader_claim": "有色金属龙头",
+      "candidate_leader_tier": "证据确认龙头",
+      "candidate_strategic_score": 94.0,
+      "candidate_seed_score": 94.0,
+      "candidate_evidence_score": 89.89,
+      "candidate_evidence_count": 5,
+      "candidate_hard_evidence_count": 4,
+      "candidate_latest_evidence_date": "2026-07-02",
+      "candidate_evidence_sources": [
+        {
+          "type": "industry_role_seed",
+          "summary": "候选种子库标注：有色金属龙头",
+          "source_name": "config/stock_leader_universe.json",
+          "source_kind": "curated_seed",
+          "as_of_date": "2026-07-02",
+          "confidence": 0.57,
+          "hard_evidence": false
+        },
+        {
+          "type": "mainline_binding",
+          "summary": "当前主线关键词命中：铜",
+          "source_name": "theme.okbbc latest + Tushare stock_basic",
+          "source_kind": "computed_dynamic",
+          "as_of_date": "2026-07-02",
+          "confidence": 0.62,
+          "hard_evidence": true
+        },
+        {
+          "type": "market_scale",
+          "summary": "总市值处于全A股前 0.4% 区间",
+          "source_name": "Tushare daily_basic.total_mv",
+          "source_kind": "tushare_dynamic",
+          "as_of_date": "2026-07-02",
+          "confidence": 0.7875,
+          "hard_evidence": true
+        },
+        {
+          "type": "liquidity_confirmation",
+          "summary": "成交额分位 99.7%",
+          "source_name": "Tushare daily.amount",
+          "source_kind": "tushare_dynamic",
+          "as_of_date": "2026-07-02",
+          "confidence": 0.7183,
+          "hard_evidence": true
+        },
+        {
+          "type": "capital_flow",
+          "summary": "大单净流入为正，资金流分位 99.6%",
+          "source_name": "Tushare moneyflow",
+          "source_kind": "tushare_dynamic",
+          "as_of_date": "2026-07-02",
+          "confidence": 0.66,
+          "hard_evidence": true
+        }
+      ],
+      "candidate_market_heat_score": 69.4036,
+      "candidate_score_model": "factorized_scoring_engine.v1",
+      "candidate_raw_factor_score": 99.5897,
+      "candidate_regime": "BEAR",
+      "candidate_regime_multiplier": 0.7,
+      "candidate_regime_reason": [
+        "index momentum negative",
+        "breadth weak",
+        "volume neutral or unavailable",
+        "volatility moderate"
+      ],
+      "candidate_lifecycle_state": "Expansion",
+      "candidate_lifecycle_confidence": 0.8,
+      "candidate_lifecycle_multiplier": 1.2,
+      "candidate_lifecycle_reason": [
+        "theme leadership confirmed",
+        "relative volume and fund flow remain strong",
+        "market regime does not block trend extension"
+      ],
+      "candidate_factor_breakdown": [
+        {
+          "name": "theme_strength",
+          "value": 0.997512,
+          "weight": 0.75,
+          "score": 0.748134,
+          "evidence": {
+            "raw_value": 67.278,
+            "normalized_value": 0.997512,
+            "normalization": "percentile",
+            "seed_score": 94.0,
+            "binding_score": 82.0,
+            "evidence_score": 89.89,
+            "tier_penalty": 0.0,
+            "leader_tier": "证据确认龙头",
+            "keyword_match": true
+          }
+        },
+        {
+          "name": "volume_activity",
+          "value": 0.997512,
+          "weight": 0.18,
+          "score": 0.179552,
+          "evidence": {
+            "raw_value": 16.403399,
+            "normalized_value": 0.997512,
+            "normalization": "percentile",
+            "absolute_group_value": 0.576681,
+            "pct_chg_score": 62.4221,
+            "turnover_score": 9.7313,
+            "liquidity_score": 99.6556,
+            "limit_score": 45.0,
+            "amount": 13301647.731,
+            "amount_rank": 0.9965560993293456,
+            "turnover_rate": 2.4597,
+            "pct_chg": 4.7391
+          }
+        },
+        {
+          "name": "fund_flow",
+          "value": 0.972222,
+          "weight": 0.055,
+          "score": 0.053472,
+          "evidence": {
+            "raw_value": 26674.89,
+            "normalized_value": 0.972222,
+            "normalization": "percentile",
+            "absolute_flow_score": 99.565,
+            "flow_rank": 0.9956498096791735,
+            "large_net": 26674.889999999985,
+            "industry": "铜"
+          }
+        },
+        {
+          "name": "cap_quality",
+          "value": 0.982587,
+          "weight": 0.015,
+          "score": 0.014739,
+          "evidence": {
+            "raw_value": 18.063056,
+            "normalized_value": 0.982587,
+            "normalization": "percentile",
+            "absolute_mv_score": 99.6375,
+            "mv_rank": 0.9963748413993112,
+            "total_mv": 69933579.398
+          }
+        }
+      ],
+      "queue_reason": "主线短期未确认，但个股为证据确认龙头，进入ResearchFirst跟踪深研"
+    },
+    {
+      "priority": 4,
+      "theme": "资源周期",
+      "theme_id": "resources_cycle",
+      "theme_stage": "弱势/退潮",
+      "theme_grade": "D",
+      "theme_score": 17.18,
+      "theme_lifecycle_state": "accelerating",
+      "code": "600309.SH",
+      "name": "万华化学",
+      "xueqiu_url": "https://xueqiu.com/S/SH600309",
+      "industry": "化工原料",
+      "candidate_grade": "B",
+      "candidate_leader_score": 81.89,
+      "candidate_pct_chg": 0.4539,
+      "candidate_turnover_rate": 1.44,
+      "candidate_is_limit_up": false,
+      "candidate_flow_rank": 0.9786,
+      "candidate_liquidity_rank": 0.9603,
+      "candidate_binding_source": "候选种子+动态证据确认",
+      "candidate_leader_role": "化工材料龙头",
+      "candidate_leader_claim": "化工材料龙头",
+      "candidate_leader_tier": "证据确认龙头",
+      "candidate_strategic_score": 94.0,
+      "candidate_seed_score": 94.0,
+      "candidate_evidence_score": 87.82,
+      "candidate_evidence_count": 4,
+      "candidate_hard_evidence_count": 3,
+      "candidate_latest_evidence_date": "2026-07-02",
+      "candidate_evidence_sources": [
+        {
+          "type": "industry_role_seed",
+          "summary": "候选种子库标注：化工材料龙头",
+          "source_name": "config/stock_leader_universe.json",
+          "source_kind": "curated_seed",
+          "as_of_date": "2026-07-02",
+          "confidence": 0.57,
+          "hard_evidence": false
+        },
+        {
+          "type": "market_scale",
+          "summary": "总市值处于全A股前 1.4% 区间",
+          "source_name": "Tushare daily_basic.total_mv",
+          "source_kind": "tushare_dynamic",
+          "as_of_date": "2026-07-02",
+          "confidence": 0.7804,
+          "hard_evidence": true
+        },
+        {
+          "type": "liquidity_confirmation",
+          "summary": "成交额分位 96.0%",
+          "source_name": "Tushare daily.amount",
+          "source_kind": "tushare_dynamic",
+          "as_of_date": "2026-07-02",
+          "confidence": 0.7002,
+          "hard_evidence": true
+        },
+        {
+          "type": "capital_flow",
+          "summary": "大单净流入为正，资金流分位 97.9%",
+          "source_name": "Tushare moneyflow",
+          "source_kind": "tushare_dynamic",
+          "as_of_date": "2026-07-02",
+          "confidence": 0.66,
+          "hard_evidence": true
+        }
+      ],
+      "candidate_market_heat_score": 60.4212,
+      "candidate_score_model": "factorized_scoring_engine.v1",
+      "candidate_raw_factor_score": 97.49,
+      "candidate_regime": "BEAR",
+      "candidate_regime_multiplier": 0.7,
+      "candidate_regime_reason": [
+        "index momentum negative",
+        "breadth weak",
+        "volume neutral or unavailable",
+        "volatility moderate"
+      ],
+      "candidate_lifecycle_state": "Expansion",
+      "candidate_lifecycle_confidence": 0.8,
+      "candidate_lifecycle_multiplier": 1.2,
+      "candidate_lifecycle_reason": [
+        "theme leadership confirmed",
+        "relative volume and fund flow remain strong",
+        "market regime does not block trend extension"
+      ],
+      "candidate_factor_breakdown": [
+        {
+          "name": "theme_strength",
+          "value": 0.992537,
+          "weight": 0.75,
+          "score": 0.744403,
+          "evidence": {
+            "raw_value": 65.664,
+            "normalized_value": 0.992537,
+            "normalization": "percentile",
+            "seed_score": 94.0,
+            "binding_score": 76.0,
+            "evidence_score": 87.82,
+            "tier_penalty": 0.0,
+            "leader_tier": "证据确认龙头",
+            "keyword_match": false
+          }
+        },
+        {
+          "name": "volume_activity",
+          "value": 0.922886,
+          "weight": 0.18,
+          "score": 0.166119,
+          "evidence": {
+            "raw_value": 14.952452,
+            "normalized_value": 0.922886,
+            "normalization": "percentile",
+            "absolute_group_value": 0.457978,
+            "pct_chg_score": 31.8136,
+            "turnover_score": 2.9333,
+            "liquidity_score": 96.0305,
+            "limit_score": 45.0,
+            "amount": 3117217.148,
+            "amount_rank": 0.9603045133224578,
+            "turnover_rate": 1.44,
+            "pct_chg": 0.4539
+          }
+        },
+        {
+          "name": "fund_flow",
+          "value": 0.90796,
+          "weight": 0.055,
+          "score": 0.049938,
+          "evidence": {
+            "raw_value": 10119.99,
+            "normalized_value": 0.90796,
+            "normalization": "percentile",
+            "absolute_flow_score": 97.8612,
+            "flow_rank": 0.9786115642559362,
+            "large_net": 10119.98999999999,
+            "industry": "化工原料"
+          }
+        },
+        {
+          "name": "cap_quality",
+          "value": 0.962687,
+          "weight": 0.015,
+          "score": 0.01444,
+          "evidence": {
+            "raw_value": 16.882402,
+            "normalized_value": 0.962687,
+            "normalization": "percentile",
+            "absolute_mv_score": 98.6224,
+            "mv_rank": 0.9862243973173827,
+            "total_mv": 21475035.176
+          }
+        }
+      ],
+      "queue_reason": "主线短期未确认，但个股为证据确认龙头，进入ResearchFirst跟踪深研"
+    },
+    {
+      "priority": 5,
+      "theme": "资源周期",
+      "theme_id": "resources_cycle",
+      "theme_stage": "弱势/退潮",
+      "theme_grade": "D",
+      "theme_score": 17.18,
+      "theme_lifecycle_state": "accelerating",
+      "code": "600547.SH",
+      "name": "山东黄金",
+      "xueqiu_url": "https://xueqiu.com/S/SH600547",
+      "industry": "黄金",
+      "candidate_grade": "B",
+      "candidate_leader_score": 79.78,
+      "candidate_pct_chg": 4.2241,
+      "candidate_turnover_rate": 2.9946,
+      "candidate_is_limit_up": false,
+      "candidate_flow_rank": 0.9909,
+      "candidate_liquidity_rank": 0.9514,
+      "candidate_binding_source": "候选种子+动态证据确认",
+      "candidate_leader_role": "黄金龙头",
+      "candidate_leader_claim": "黄金龙头",
+      "candidate_leader_tier": "证据确认龙头",
+      "candidate_strategic_score": 86.0,
+      "candidate_seed_score": 86.0,
+      "candidate_evidence_score": 88.4,
+      "candidate_evidence_count": 5,
+      "candidate_hard_evidence_count": 4,
+      "candidate_latest_evidence_date": "2026-07-02",
+      "candidate_evidence_sources": [
+        {
+          "type": "industry_role_seed",
+          "summary": "候选种子库标注：黄金龙头",
+          "source_name": "config/stock_leader_universe.json",
+          "source_kind": "curated_seed",
+          "as_of_date": "2026-07-02",
+          "confidence": 0.53,
+          "hard_evidence": false
+        },
+        {
+          "type": "mainline_binding",
+          "summary": "当前主线关键词命中：黄金",
+          "source_name": "theme.okbbc latest + Tushare stock_basic",
+          "source_kind": "computed_dynamic",
+          "as_of_date": "2026-07-02",
+          "confidence": 0.62,
+          "hard_evidence": true
+        },
+        {
+          "type": "market_scale",
+          "summary": "总市值处于全A股前 3.4% 区间",
+          "source_name": "Tushare daily_basic.total_mv",
+          "source_kind": "tushare_dynamic",
+          "as_of_date": "2026-07-02",
+          "confidence": 0.7664,
+          "hard_evidence": true
+        },
+        {
+          "type": "liquidity_confirmation",
+          "summary": "成交额分位 95.1%",
+          "source_name": "Tushare daily.amount",
+          "source_kind": "tushare_dynamic",
+          "as_of_date": "2026-07-02",
+          "confidence": 0.6957,
+          "hard_evidence": true
+        },
+        {
+          "type": "capital_flow",
+          "summary": "大单净流入为正，资金流分位 99.1%",
+          "source_name": "Tushare moneyflow",
+          "source_kind": "tushare_dynamic",
+          "as_of_date": "2026-07-02",
+          "confidence": 0.66,
+          "hard_evidence": true
+        }
+      ],
+      "candidate_market_heat_score": 67.9779,
+      "candidate_score_model": "factorized_scoring_engine.v1",
+      "candidate_raw_factor_score": 94.9743,
+      "candidate_regime": "BEAR",
+      "candidate_regime_multiplier": 0.7,
+      "candidate_regime_reason": [
+        "index momentum negative",
+        "breadth weak",
+        "volume neutral or unavailable",
+        "volatility moderate"
+      ],
+      "candidate_lifecycle_state": "Expansion",
+      "candidate_lifecycle_confidence": 0.8,
+      "candidate_lifecycle_multiplier": 1.2,
+      "candidate_lifecycle_reason": [
+        "theme leadership confirmed",
+        "relative volume and fund flow remain strong",
+        "market regime does not block trend extension"
+      ],
+      "candidate_factor_breakdown": [
+        {
+          "name": "theme_strength",
+          "value": 0.987562,
+          "weight": 0.75,
+          "score": 0.740672,
+          "evidence": {
+            "raw_value": 64.18,
+            "normalized_value": 0.987562,
+            "normalization": "percentile",
+            "seed_score": 86.0,
+            "binding_score": 82.0,
+            "evidence_score": 88.4,
+            "tier_penalty": 0.0,
+            "leader_tier": "证据确认龙头",
+            "keyword_match": true
+          }
+        },
+        {
+          "name": "volume_activity",
+          "value": 0.88806,
+          "weight": 0.18,
+          "score": 0.159851,
+          "evidence": {
+            "raw_value": 14.778535,
+            "normalized_value": 0.88806,
+            "normalization": "percentile",
+            "absolute_group_value": 0.560828,
+            "pct_chg_score": 58.7436,
+            "turnover_score": 13.2973,
+            "liquidity_score": 95.1423,
+            "limit_score": 45.0,
+            "amount": 2619607.041,
+            "amount_rank": 0.9514228747507704,
+            "turnover_rate": 2.9946,
+            "pct_chg": 4.2241
+          }
+        },
+        {
+          "name": "fund_flow",
+          "value": 0.65,
+          "weight": 0.055,
+          "score": 0.03575,
+          "evidence": {
+            "raw_value": 19990.47,
+            "normalized_value": 0.65,
+            "normalization": "percentile",
+            "absolute_flow_score": 99.0937,
+            "flow_rank": 0.990937103498278,
+            "large_net": 19990.47,
+            "industry": "黄金"
+          }
+        },
+        {
+          "name": "cap_quality",
+          "value": 0.89801,
+          "weight": 0.015,
+          "score": 0.01347,
+          "evidence": {
+            "raw_value": 16.226664,
+            "normalized_value": 0.89801,
+            "normalization": "percentile",
+            "absolute_mv_score": 96.6286,
+            "mv_rank": 0.9662860250135944,
+            "total_mv": 11146809.531
+          }
+        }
+      ],
+      "queue_reason": "主线短期未确认，但个股为证据确认龙头，进入ResearchFirst跟踪深研"
+    },
+    {
+      "priority": 6,
+      "theme": "AI算力/通信",
+      "theme_id": "ai_compute_communications",
+      "theme_stage": "弱势/退潮",
+      "theme_grade": "D",
+      "theme_score": 15.54,
+      "theme_lifecycle_state": "accelerating",
+      "code": "688256.SH",
+      "name": "寒武纪",
+      "xueqiu_url": "https://xueqiu.com/S/SH688256",
+      "industry": "半导体",
+      "candidate_grade": "B",
+      "candidate_leader_score": 74.62,
+      "candidate_pct_chg": -7.63,
+      "candidate_turnover_rate": 2.2372,
+      "candidate_is_limit_up": false,
+      "candidate_flow_rank": 0.9951,
+      "candidate_liquidity_rank": 0.9989,
+      "candidate_binding_source": "候选种子+动态证据确认",
+      "candidate_leader_role": "AI芯片龙头",
+      "candidate_leader_claim": "AI芯片龙头",
+      "candidate_leader_tier": "证据确认龙头",
+      "candidate_strategic_score": 93.0,
+      "candidate_seed_score": 93.0,
+      "candidate_evidence_score": 88.47,
+      "candidate_evidence_count": 4,
+      "candidate_hard_evidence_count": 3,
+      "candidate_latest_evidence_date": "2026-07-02",
+      "candidate_evidence_sources": [
+        {
+          "type": "industry_role_seed",
+          "summary": "候选种子库标注：AI芯片龙头",
+          "source_name": "config/stock_leader_universe.json",
+          "source_kind": "curated_seed",
+          "as_of_date": "2026-07-02",
+          "confidence": 0.565,
+          "hard_evidence": false
+        },
+        {
+          "type": "market_scale",
+          "summary": "总市值处于全A股前 0.3% 区间",
+          "source_name": "Tushare daily_basic.total_mv",
+          "source_kind": "tushare_dynamic",
+          "as_of_date": "2026-07-02",
+          "confidence": 0.788,
+          "hard_evidence": true
+        },
+        {
+          "type": "liquidity_confirmation",
+          "summary": "成交额分位 99.9%",
+          "source_name": "Tushare daily.amount",
+          "source_kind": "tushare_dynamic",
+          "as_of_date": "2026-07-02",
+          "confidence": 0.7195,
+          "hard_evidence": true
+        },
+        {
+          "type": "capital_flow",
+          "summary": "大单净流入为正，资金流分位 99.5%",
+          "source_name": "Tushare moneyflow",
+          "source_kind": "tushare_dynamic",
+          "as_of_date": "2026-07-02",
+          "confidence": 0.66,
+          "hard_evidence": true
+        }
+      ],
+      "candidate_market_heat_score": 55.4729,
+      "candidate_score_model": "factorized_scoring_engine.v1",
+      "candidate_raw_factor_score": 96.9067,
+      "candidate_regime": "BEAR",
+      "candidate_regime_multiplier": 0.7,
+      "candidate_regime_reason": [
+        "index momentum negative",
+        "breadth weak",
+        "volume neutral or unavailable",
+        "volatility moderate"
+      ],
+      "candidate_lifecycle_state": "Breakout",
+      "candidate_lifecycle_confidence": 0.75,
+      "candidate_lifecycle_multiplier": 1.1,
+      "candidate_lifecycle_reason": [
+        "volume spike confirms first leadership appearance",
+        "theme and flow support early breakout"
+      ],
+      "candidate_factor_breakdown": [
+        {
+          "name": "theme_strength",
+          "value": 0.975524,
+          "weight": 0.75,
+          "score": 0.731643,
+          "evidence": {
+            "raw_value": 65.444,
+            "normalized_value": 0.975524,
+            "normalization": "percentile",
+            "seed_score": 93.0,
+            "binding_score": 76.0,
+            "evidence_score": 88.47,
+            "tier_penalty": 0.0,
+            "leader_tier": "证据确认龙头",
+            "keyword_match": false
+          }
+        },
+        {
+          "name": "volume_activity",
+          "value": 0.982517,
+          "weight": 0.18,
+          "score": 0.176853,
+          "evidence": {
+            "raw_value": 16.791823,
+            "normalized_value": 0.982517,
+            "normalization": "percentile",
+            "absolute_group_value": 0.383305,
+            "pct_chg_score": 0.0,
+            "turnover_score": 8.248,
+            "liquidity_score": 99.8912,
+            "limit_score": 45.0,
+            "amount": 19615355.231,
+            "amount_rank": 0.9989124524197933,
+            "turnover_rate": 2.2372,
+            "pct_chg": -7.63
+          }
+        },
+        {
+          "name": "fund_flow",
+          "value": 0.833333,
+          "weight": 0.055,
+          "score": 0.045833,
+          "evidence": {
+            "raw_value": 26273.57,
+            "normalized_value": 0.833333,
+            "normalization": "percentile",
+            "absolute_flow_score": 99.5106,
+            "flow_rank": 0.9951060358890701,
+            "large_net": 26273.57000000018,
+            "industry": "半导体"
+          }
+        },
+        {
+          "name": "cap_quality",
+          "value": 0.982517,
+          "weight": 0.015,
+          "score": 0.014738,
+          "evidence": {
+            "raw_value": 18.272202,
+            "normalized_value": 0.982517,
+            "normalization": "percentile",
+            "absolute_mv_score": 99.71,
+            "mv_rank": 0.9970998731194489,
+            "total_mv": 86201799.6
+          }
+        }
+      ],
+      "queue_reason": "主线短期未确认，但个股为证据确认龙头，进入ResearchFirst跟踪深研"
+    },
+    {
+      "priority": 7,
+      "theme": "新能源/电力设备",
+      "theme_id": "new_energy_power_equipment",
+      "theme_stage": "弱势/退潮",
+      "theme_grade": "D",
+      "theme_score": 15.35,
+      "theme_lifecycle_state": "accelerating",
+      "code": "300750.SZ",
+      "name": "宁德时代",
+      "xueqiu_url": "https://xueqiu.com/S/SZ300750",
+      "industry": "电气设备",
+      "candidate_grade": "B",
+      "candidate_leader_score": 74.16,
+      "candidate_pct_chg": -0.3882,
+      "candidate_turnover_rate": 0.8005,
+      "candidate_is_limit_up": false,
+      "candidate_flow_rank": 0.9996,
+      "candidate_liquidity_rank": 0.996,
+      "candidate_binding_source": "候选种子+动态证据确认",
+      "candidate_leader_role": "动力电池龙头",
+      "candidate_leader_claim": "动力电池龙头",
+      "candidate_leader_tier": "证据确认龙头",
+      "candidate_strategic_score": 98.0,
+      "candidate_seed_score": 98.0,
+      "candidate_evidence_score": 88.91,
+      "candidate_evidence_count": 4,
+      "candidate_hard_evidence_count": 3,
+      "candidate_latest_evidence_date": "2026-07-02",
+      "candidate_evidence_sources": [
+        {
+          "type": "industry_role_seed",
+          "summary": "候选种子库标注：动力电池龙头",
+          "source_name": "config/stock_leader_universe.json",
+          "source_kind": "curated_seed",
+          "as_of_date": "2026-07-02",
+          "confidence": 0.59,
+          "hard_evidence": false
+        },
+        {
+          "type": "market_scale",
+          "summary": "总市值处于全A股前 0.1% 区间",
+          "source_name": "Tushare daily_basic.total_mv",
+          "source_kind": "tushare_dynamic",
+          "as_of_date": "2026-07-02",
+          "confidence": 0.7894,
+          "hard_evidence": true
+        },
+        {
+          "type": "liquidity_confirmation",
+          "summary": "成交额分位 99.6%",
+          "source_name": "Tushare daily.amount",
+          "source_kind": "tushare_dynamic",
+          "as_of_date": "2026-07-02",
+          "confidence": 0.718,
+          "hard_evidence": true
+        },
+        {
+          "type": "capital_flow",
+          "summary": "大单净流入为正，资金流分位 100.0%",
+          "source_name": "Tushare moneyflow",
+          "source_kind": "tushare_dynamic",
+          "as_of_date": "2026-07-02",
+          "confidence": 0.66,
+          "hard_evidence": true
+        }
+      ],
+      "candidate_market_heat_score": 59.8825,
+      "candidate_score_model": "factorized_scoring_engine.v1",
+      "candidate_raw_factor_score": 96.3157,
+      "candidate_regime": "BEAR",
+      "candidate_regime_multiplier": 0.7,
+      "candidate_regime_reason": [
+        "index momentum negative",
+        "breadth weak",
+        "volume neutral or unavailable",
+        "volatility moderate"
+      ],
+      "candidate_lifecycle_state": "Breakout",
+      "candidate_lifecycle_confidence": 0.75,
+      "candidate_lifecycle_multiplier": 1.1,
+      "candidate_lifecycle_reason": [
+        "volume spike confirms first leadership appearance",
+        "theme and flow support early breakout"
+      ],
+      "candidate_factor_breakdown": [
+        {
+          "name": "theme_strength",
+          "value": 0.973684,
+          "weight": 0.75,
+          "score": 0.730263,
+          "evidence": {
+            "raw_value": 67.282,
+            "normalized_value": 0.973684,
+            "normalization": "percentile",
+            "seed_score": 98.0,
+            "binding_score": 76.0,
+            "evidence_score": 88.91,
+            "tier_penalty": 0.0,
+            "leader_tier": "证据确认龙头",
+            "keyword_match": false
+          }
+        },
+        {
+          "name": "volume_activity",
+          "value": 0.921053,
+          "weight": 0.18,
+          "score": 0.165789,
+          "evidence": {
+            "raw_value": 16.391154,
+            "normalized_value": 0.921053,
+            "normalization": "percentile",
+            "absolute_group_value": 0.442999,
+            "pct_chg_score": 25.7986,
+            "turnover_score": 0.0,
+            "liquidity_score": 99.6012,
+            "limit_score": 45.0,
+            "amount": 13139767.2594,
+            "amount_rank": 0.9960123255392423,
+            "turnover_rate": 0.8005,
+            "pct_chg": -0.3882
+          }
+        },
+        {
+          "name": "fund_flow",
+          "value": 0.954545,
+          "weight": 0.055,
+          "score": 0.0525,
+          "evidence": {
+            "raw_value": 113482.17,
+            "normalized_value": 0.954545,
+            "normalization": "percentile",
+            "absolute_flow_score": 99.9637,
+            "flow_rank": 0.9996374841399311,
+            "large_net": 113482.17000000004,
+            "industry": "电气设备"
+          }
+        },
+        {
+          "name": "cap_quality",
+          "value": 0.973684,
+          "weight": 0.015,
+          "score": 0.014605,
+          "evidence": {
+            "raw_value": 18.99109,
+            "normalized_value": 0.973684,
+            "normalization": "percentile",
+            "absolute_mv_score": 99.9094,
+            "mv_rank": 0.9990937103498279,
+            "total_mv": 176899087.1685
+          }
+        }
+      ],
+      "queue_reason": "主线短期未确认，但个股为证据确认龙头，进入ResearchFirst跟踪深研"
+    },
+    {
+      "priority": 8,
+      "theme": "建材/稳增长修复",
+      "theme_id": "infrastructure_materials",
+      "theme_stage": "弱势/退潮",
+      "theme_grade": "D",
+      "theme_score": 15.38,
+      "theme_lifecycle_state": "accelerating",
+      "code": "600585.SH",
+      "name": "海螺水泥",
+      "xueqiu_url": "https://xueqiu.com/S/SH600585",
+      "industry": "水泥",
+      "candidate_grade": "B",
+      "candidate_leader_score": 81.29,
+      "candidate_pct_chg": 1.262,
+      "candidate_turnover_rate": 1.0994,
+      "candidate_is_limit_up": false,
+      "candidate_flow_rank": 0.7597,
+      "candidate_liquidity_rank": 0.8238,
+      "candidate_binding_source": "候选种子+动态证据确认",
+      "candidate_leader_role": "水泥龙头",
+      "candidate_leader_claim": "水泥龙头",
+      "candidate_leader_tier": "证据确认龙头",
+      "candidate_strategic_score": 88.0,
+      "candidate_seed_score": 88.0,
+      "candidate_evidence_score": 85.5,
+      "candidate_evidence_count": 5,
+      "candidate_hard_evidence_count": 4,
+      "candidate_latest_evidence_date": "2026-07-02",
+      "candidate_evidence_sources": [
+        {
+          "type": "industry_role_seed",
+          "summary": "候选种子库标注：水泥龙头",
+          "source_name": "config/stock_leader_universe.json",
+          "source_kind": "curated_seed",
+          "as_of_date": "2026-07-02",
+          "confidence": 0.54,
+          "hard_evidence": false
+        },
+        {
+          "type": "mainline_binding",
+          "summary": "当前主线关键词命中：水泥",
+          "source_name": "theme.okbbc latest + Tushare stock_basic",
+          "source_kind": "computed_dynamic",
+          "as_of_date": "2026-07-02",
+          "confidence": 0.62,
+          "hard_evidence": true
+        },
+        {
+          "type": "market_scale",
+          "summary": "总市值处于全A股前 4.3% 区间",
+          "source_name": "Tushare daily_basic.total_mv",
+          "source_kind": "tushare_dynamic",
+          "as_of_date": "2026-07-02",
+          "confidence": 0.7597,
+          "hard_evidence": true
+        },
+        {
+          "type": "liquidity_confirmation",
+          "summary": "成交额分位 82.4%",
+          "source_name": "Tushare daily.amount",
+          "source_kind": "tushare_dynamic",
+          "as_of_date": "2026-07-02",
+          "confidence": 0.6319,
+          "hard_evidence": true
+        },
+        {
+          "type": "capital_flow",
+          "summary": "大单净流入为正，资金流分位 76.0%",
+          "source_name": "Tushare moneyflow",
+          "source_kind": "tushare_dynamic",
+          "as_of_date": "2026-07-02",
+          "confidence": 0.5898,
+          "hard_evidence": true
+        }
+      ],
+      "candidate_market_heat_score": 53.6036,
+      "candidate_score_model": "factorized_scoring_engine.v1",
+      "candidate_raw_factor_score": 96.7714,
+      "candidate_regime": "BEAR",
+      "candidate_regime_multiplier": 0.7,
+      "candidate_regime_reason": [
+        "index momentum negative",
+        "breadth weak",
+        "volume neutral or unavailable",
+        "volatility moderate"
+      ],
+      "candidate_lifecycle_state": "Expansion",
+      "candidate_lifecycle_confidence": 0.8,
+      "candidate_lifecycle_multiplier": 1.2,
+      "candidate_lifecycle_reason": [
+        "theme leadership confirmed",
+        "relative volume and fund flow remain strong",
+        "market regime does not block trend extension"
+      ],
+      "candidate_factor_breakdown": [
+        {
+          "name": "theme_strength",
+          "value": 0.997797,
+          "weight": 0.75,
+          "score": 0.748348,
+          "evidence": {
+            "raw_value": 64.3,
+            "normalized_value": 0.997797,
+            "normalization": "percentile",
+            "seed_score": 88.0,
+            "binding_score": 82.0,
+            "evidence_score": 85.5,
+            "tier_penalty": 0.0,
+            "leader_tier": "证据确认龙头",
+            "keyword_match": true
+          }
+        },
+        {
+          "name": "volume_activity",
+          "value": 0.909692,
+          "weight": 0.18,
+          "score": 0.163744,
+          "evidence": {
+            "raw_value": 13.513849,
+            "normalized_value": 0.909692,
+            "normalization": "percentile",
+            "absolute_group_value": 0.432656,
+            "pct_chg_score": 37.5857,
+            "turnover_score": 0.6627,
+            "liquidity_score": 82.3817,
+            "limit_score": 45.0,
+            "amount": 739587.255,
+            "amount_rank": 0.8238172920065253,
+            "turnover_rate": 1.0994,
+            "pct_chg": 1.262
+          }
+        },
+        {
+          "name": "fund_flow",
+          "value": 0.75,
+          "weight": 0.055,
+          "score": 0.04125,
+          "evidence": {
+            "raw_value": 495.41,
+            "normalized_value": 0.75,
+            "normalization": "percentile",
+            "absolute_flow_score": 75.9652,
+            "flow_rank": 0.7596519847743338,
+            "large_net": 495.4100000000012,
+            "industry": "水泥"
+          }
+        },
+        {
+          "name": "cap_quality",
+          "value": 0.95815,
+          "weight": 0.015,
+          "score": 0.014372,
+          "evidence": {
+            "raw_value": 16.004851,
+            "normalized_value": 0.95815,
+            "normalization": "percentile",
+            "absolute_mv_score": 95.6679,
+            "mv_rank": 0.9566793547217691,
+            "total_mv": 8929324.881
+          }
+        }
+      ],
+      "queue_reason": "主线短期未确认，但个股为证据确认龙头，进入ResearchFirst跟踪深研"
+    },
+    {
+      "priority": 9,
+      "theme": "消费/传媒",
+      "theme_id": "consumption_media",
+      "theme_stage": "弱势/退潮",
+      "theme_grade": "D",
+      "theme_score": 14.44,
+      "theme_lifecycle_state": "accelerating",
+      "code": "600519.SH",
+      "name": "贵州茅台",
+      "xueqiu_url": "https://xueqiu.com/S/SH600519",
+      "industry": "白酒",
+      "candidate_grade": "A",
+      "candidate_leader_score": 83.78,
+      "candidate_pct_chg": 0.8374,
+      "candidate_turnover_rate": 0.4069,
+      "candidate_is_limit_up": false,
+      "candidate_flow_rank": 0.986,
+      "candidate_liquidity_rank": 0.9842,
+      "candidate_binding_source": "候选种子+动态证据确认",
+      "candidate_leader_role": "高端白酒龙头",
+      "candidate_leader_claim": "高端白酒龙头",
+      "candidate_leader_tier": "证据确认龙头",
+      "candidate_strategic_score": 98.0,
+      "candidate_seed_score": 98.0,
+      "candidate_evidence_score": 88.74,
+      "candidate_evidence_count": 4,
+      "candidate_hard_evidence_count": 3,
+      "candidate_latest_evidence_date": "2026-07-02",
+      "candidate_evidence_sources": [
+        {
+          "type": "industry_role_seed",
+          "summary": "候选种子库标注：高端白酒龙头",
+          "source_name": "config/stock_leader_universe.json",
+          "source_kind": "curated_seed",
+          "as_of_date": "2026-07-02",
+          "confidence": 0.59,
+          "hard_evidence": false
+        },
+        {
+          "type": "market_scale",
+          "summary": "总市值处于全A股前 0.1% 区间",
+          "source_name": "Tushare daily_basic.total_mv",
+          "source_kind": "tushare_dynamic",
+          "as_of_date": "2026-07-02",
+          "confidence": 0.7891,
+          "hard_evidence": true
+        },
+        {
+          "type": "liquidity_confirmation",
+          "summary": "成交额分位 98.4%",
+          "source_name": "Tushare daily.amount",
+          "source_kind": "tushare_dynamic",
+          "as_of_date": "2026-07-02",
+          "confidence": 0.7121,
+          "hard_evidence": true
+        },
+        {
+          "type": "capital_flow",
+          "summary": "大单净流入为正，资金流分位 98.6%",
+          "source_name": "Tushare moneyflow",
+          "source_kind": "tushare_dynamic",
+          "as_of_date": "2026-07-02",
+          "confidence": 0.66,
+          "hard_evidence": true
+        }
+      ],
+      "candidate_market_heat_score": 61.2716,
+      "candidate_score_model": "factorized_scoring_engine.v1",
+      "candidate_raw_factor_score": 99.7383,
+      "candidate_regime": "BEAR",
+      "candidate_regime_multiplier": 0.7,
+      "candidate_regime_reason": [
+        "index momentum negative",
+        "breadth weak",
+        "volume neutral or unavailable",
+        "volatility moderate"
+      ],
+      "candidate_lifecycle_state": "Expansion",
+      "candidate_lifecycle_confidence": 0.8,
+      "candidate_lifecycle_multiplier": 1.2,
+      "candidate_lifecycle_reason": [
+        "theme leadership confirmed",
+        "relative volume and fund flow remain strong",
+        "market regime does not block trend extension"
+      ],
+      "candidate_factor_breakdown": [
+        {
+          "name": "theme_strength",
+          "value": 0.997382,
+          "weight": 0.75,
+          "score": 0.748037,
+          "evidence": {
+            "raw_value": 67.248,
+            "normalized_value": 0.997382,
+            "normalization": "percentile",
+            "seed_score": 98.0,
+            "binding_score": 76.0,
+            "evidence_score": 88.74,
+            "tier_penalty": 0.0,
+            "leader_tier": "证据确认龙头",
+            "keyword_match": false
+          }
+        },
+        {
+          "name": "volume_activity",
+          "value": 0.997382,
+          "weight": 0.18,
+          "score": 0.179529,
+          "evidence": {
+            "raw_value": 15.627459,
+            "normalized_value": 0.997382,
+            "normalization": "percentile",
+            "absolute_group_value": 0.466476,
+            "pct_chg_score": 34.5529,
+            "turnover_score": 0.0,
+            "liquidity_score": 98.4231,
+            "limit_score": 45.0,
+            "amount": 6122360.932,
+            "amount_rank": 0.9842305600870038,
+            "turnover_rate": 0.4069,
+            "pct_chg": 0.8374
+          }
+        },
+        {
+          "name": "fund_flow",
+          "value": 0.997382,
+          "weight": 0.055,
+          "score": 0.054856,
+          "evidence": {
+            "raw_value": 14325.17,
+            "normalized_value": 0.997382,
+            "normalization": "percentile",
+            "absolute_flow_score": 98.6043,
+            "flow_rank": 0.9860431393873482,
+            "large_net": 14325.169999999998,
+            "industry": "白酒"
+          }
+        },
+        {
+          "name": "cap_quality",
+          "value": 0.997382,
+          "weight": 0.015,
+          "score": 0.014961,
+          "evidence": {
+            "raw_value": 18.828708,
+            "normalized_value": 0.997382,
+            "normalization": "percentile",
+            "absolute_mv_score": 99.8731,
+            "mv_rank": 0.9987311944897589,
+            "total_mv": 150384816.48
+          }
+        }
+      ],
+      "queue_reason": "主线短期未确认，但个股为证据确认龙头，进入ResearchFirst跟踪深研"
+    }
+  ],
+  "stocks": [
+    {
+      "priority": 1,
+      "code": "300124.SZ",
+      "name": "汇川技术",
+      "xueqiu_url": "https://xueqiu.com/S/SZ300124",
+      "industry": "电器仪表",
+      "theme": "高端制造/机器人/军工",
+      "theme_grade": "D",
+      "theme_score": 18.24,
+      "theme_stage": "弱势/退潮",
+      "theme_lifecycle_state": "accelerating",
+      "candidate_grade": "A",
+      "candidate_leader_score": 83.81,
+      "candidate_binding_source": "候选种子+动态证据确认",
+      "candidate_leader_role": "工业自动化龙头",
+      "candidate_leader_claim": "工业自动化龙头",
+      "candidate_leader_tier": "证据确认龙头",
+      "candidate_strategic_score": 96.0,
+      "candidate_seed_score": 96.0,
+      "candidate_evidence_score": 88.16,
+      "candidate_evidence_count": 4,
+      "candidate_hard_evidence_count": 3,
+      "candidate_latest_evidence_date": "2026-07-02",
+      "candidate_evidence_sources": [
+        {
+          "type": "industry_role_seed",
+          "summary": "候选种子库标注：工业自动化龙头",
+          "source_name": "config/stock_leader_universe.json",
+          "source_kind": "curated_seed",
+          "as_of_date": "2026-07-02",
+          "confidence": 0.58,
+          "hard_evidence": false
+        },
+        {
+          "type": "market_scale",
+          "summary": "总市值处于全A股前 1.8% 区间",
+          "source_name": "Tushare daily_basic.total_mv",
+          "source_kind": "tushare_dynamic",
+          "as_of_date": "2026-07-02",
+          "confidence": 0.7773,
+          "hard_evidence": true
+        },
+        {
+          "type": "liquidity_confirmation",
+          "summary": "成交额分位 97.9%",
+          "source_name": "Tushare daily.amount",
+          "source_kind": "tushare_dynamic",
+          "as_of_date": "2026-07-02",
+          "confidence": 0.7094,
+          "hard_evidence": true
+        },
+        {
+          "type": "capital_flow",
+          "summary": "大单净流入为正，资金流分位 99.8%",
+          "source_name": "Tushare moneyflow",
+          "source_kind": "tushare_dynamic",
+          "as_of_date": "2026-07-02",
+          "confidence": 0.66,
+          "hard_evidence": true
+        }
+      ],
+      "candidate_market_heat_score": 62.5078,
+      "candidate_score_model": "factorized_scoring_engine.v1",
+      "candidate_raw_factor_score": 99.7686,
+      "candidate_regime": "BEAR",
+      "candidate_regime_multiplier": 0.7,
+      "candidate_regime_reason": [
+        "index momentum negative",
+        "breadth weak",
+        "volume neutral or unavailable",
+        "volatility moderate"
+      ],
+      "candidate_lifecycle_state": "Expansion",
+      "candidate_lifecycle_confidence": 0.8,
+      "candidate_lifecycle_multiplier": 1.2,
+      "candidate_lifecycle_reason": [
+        "theme leadership confirmed",
+        "relative volume and fund flow remain strong",
+        "market regime does not block trend extension"
+      ],
+      "candidate_factor_breakdown": [
+        {
+          "name": "theme_strength",
+          "value": 0.999191,
+          "weight": 0.75,
+          "score": 0.749393,
+          "evidence": {
+            "raw_value": 66.432,
+            "normalized_value": 0.999191,
+            "normalization": "percentile",
+            "seed_score": 96.0,
+            "binding_score": 76.0,
+            "evidence_score": 88.16,
+            "tier_penalty": 0.0,
+            "leader_tier": "证据确认龙头",
+            "keyword_match": false
+          }
+        },
+        {
+          "name": "volume_activity",
+          "value": 0.9911,
+          "weight": 0.18,
+          "score": 0.178398,
+          "evidence": {
+            "raw_value": 15.40701,
+            "normalized_value": 0.9911,
+            "normalization": "percentile",
+            "absolute_group_value": 0.481506,
+            "pct_chg_score": 30.6664,
+            "turnover_score": 12.7873,
+            "liquidity_score": 97.8793,
+            "limit_score": 45.0,
+            "amount": 4911106.91119,
+            "amount_rank": 0.9787928221859706,
+            "turnover_rate": 2.9181,
+            "pct_chg": 0.2933
+          }
+        },
+        {
+          "name": "fund_flow",
+          "value": 0.999191,
+          "weight": 0.055,
+          "score": 0.054956,
+          "evidence": {
+            "raw_value": 43236.64,
+            "normalized_value": 0.999191,
+            "normalization": "percentile",
+            "absolute_flow_score": 99.7644,
+            "flow_rank": 0.9976436469095523,
+            "large_net": 43236.64,
+            "industry": "电器仪表"
+          }
+        },
+        {
+          "name": "cap_quality",
+          "value": 0.995955,
+          "weight": 0.015,
+          "score": 0.014939,
+          "evidence": {
+            "raw_value": 16.734362,
+            "normalized_value": 0.995955,
+            "normalization": "percentile",
+            "absolute_mv_score": 98.1874,
+            "mv_rank": 0.9818742069965561,
+            "total_mv": 18520010.676
+          }
+        }
+      ],
+      "deep_score": 61.38,
+      "deep_rating": "B",
+      "deep_label": "观察股",
+      "shadow_observation_eligible": false,
+      "scores": {
+        "theme_binding": 84.54,
+        "evidence_quality": 88.16,
+        "financial_quality": 35.57,
+        "valuation_safety": 69.09,
+        "trading_structure": 46.54,
+        "data_quality": 100.0
+      },
+      "market": {
+        "close": 68.4,
+        "pct_chg": 0.2933,
+        "r5": 2.3339,
+        "r20": -9.8339,
+        "r60": 2.288,
+        "turnover_rate": 2.9181,
+        "pe_ttm": 39.0666,
+        "pb": 5.0904
+      },
+      "financial": {
+        "end_date": "20260331",
+        "roe": 2.8255,
+        "grossprofit_margin": 29.0771,
+        "netprofit_margin": 10.0839,
+        "or_yoy": 12.9798,
+        "netprofit_yoy": -23.3874,
+        "debt_to_assets": 45.5516,
+        "ocf_to_or": null
+      },
+      "risk_flags": [],
+      "data_gaps": [],
+      "research_boundary": "ResearchFirst; read_only; no_trade_order; no_cash_or_share_amounts",
+      "queue_reason": "主线短期未确认，但个股为证据确认龙头，进入ResearchFirst跟踪深研"
+    },
+    {
+      "priority": 2,
+      "code": "688256.SH",
+      "name": "寒武纪",
+      "xueqiu_url": "https://xueqiu.com/S/SH688256",
+      "industry": "半导体",
+      "theme": "硬科技电子/半导体",
+      "theme_grade": "D",
+      "theme_score": 18.0,
+      "theme_stage": "弱势/退潮",
+      "theme_lifecycle_state": "accelerating",
+      "candidate_grade": "B",
+      "candidate_leader_score": 76.31,
+      "candidate_binding_source": "候选种子+动态证据确认",
+      "candidate_leader_role": "AI芯片龙头",
+      "candidate_leader_claim": "AI芯片龙头",
+      "candidate_leader_tier": "证据确认龙头",
+      "candidate_strategic_score": 93.0,
+      "candidate_seed_score": 93.0,
+      "candidate_evidence_score": 89.86,
+      "candidate_evidence_count": 5,
+      "candidate_hard_evidence_count": 4,
+      "candidate_latest_evidence_date": "2026-07-02",
+      "candidate_evidence_sources": [
+        {
+          "type": "industry_role_seed",
+          "summary": "候选种子库标注：AI芯片龙头",
+          "source_name": "config/stock_leader_universe.json",
+          "source_kind": "curated_seed",
+          "as_of_date": "2026-07-02",
+          "confidence": 0.565,
+          "hard_evidence": false
+        },
+        {
+          "type": "mainline_binding",
+          "summary": "当前主线关键词命中：半导体",
+          "source_name": "theme.okbbc latest + Tushare stock_basic",
+          "source_kind": "computed_dynamic",
+          "as_of_date": "2026-07-02",
+          "confidence": 0.62,
+          "hard_evidence": true
+        },
+        {
+          "type": "market_scale",
+          "summary": "总市值处于全A股前 0.3% 区间",
+          "source_name": "Tushare daily_basic.total_mv",
+          "source_kind": "tushare_dynamic",
+          "as_of_date": "2026-07-02",
+          "confidence": 0.788,
+          "hard_evidence": true
+        },
+        {
+          "type": "liquidity_confirmation",
+          "summary": "成交额分位 99.9%",
+          "source_name": "Tushare daily.amount",
+          "source_kind": "tushare_dynamic",
+          "as_of_date": "2026-07-02",
+          "confidence": 0.7195,
+          "hard_evidence": true
+        },
+        {
+          "type": "capital_flow",
+          "summary": "大单净流入为正，资金流分位 99.5%",
+          "source_name": "Tushare moneyflow",
+          "source_kind": "tushare_dynamic",
+          "as_of_date": "2026-07-02",
+          "confidence": 0.66,
+          "hard_evidence": true
+        }
+      ],
+      "candidate_market_heat_score": 55.4729,
+      "candidate_score_model": "factorized_scoring_engine.v1",
+      "candidate_raw_factor_score": 99.1083,
+      "candidate_regime": "BEAR",
+      "candidate_regime_multiplier": 0.7,
+      "candidate_regime_reason": [
+        "index momentum negative",
+        "breadth weak",
+        "volume neutral or unavailable",
+        "volatility moderate"
+      ],
+      "candidate_lifecycle_state": "Breakout",
+      "candidate_lifecycle_confidence": 0.75,
+      "candidate_lifecycle_multiplier": 1.1,
+      "candidate_lifecycle_reason": [
+        "volume spike confirms first leadership appearance",
+        "theme and flow support early breakout"
+      ],
+      "candidate_factor_breakdown": [
+        {
+          "name": "theme_strength",
+          "value": 0.991259,
+          "weight": 0.75,
+          "score": 0.743444,
+          "evidence": {
+            "raw_value": 66.922,
+            "normalized_value": 0.991259,
+            "normalization": "percentile",
+            "seed_score": 93.0,
+            "binding_score": 82.0,
+            "evidence_score": 89.86,
+            "tier_penalty": 0.0,
+            "leader_tier": "证据确认龙头",
+            "keyword_match": true
+          }
+        },
+        {
+          "name": "volume_activity",
+          "value": 0.991259,
+          "weight": 0.18,
+          "score": 0.178427,
+          "evidence": {
+            "raw_value": 16.791823,
+            "normalized_value": 0.991259,
+            "normalization": "percentile",
+            "absolute_group_value": 0.383305,
+            "pct_chg_score": 0.0,
+            "turnover_score": 8.248,
+            "liquidity_score": 99.8912,
+            "limit_score": 45.0,
+            "amount": 19615355.231,
+            "amount_rank": 0.9989124524197933,
+            "turnover_rate": 2.2372,
+            "pct_chg": -7.63
+          }
+        },
+        {
+          "name": "fund_flow",
+          "value": 0.987113,
+          "weight": 0.055,
+          "score": 0.054291,
+          "evidence": {
+            "raw_value": 26273.57,
+            "normalized_value": 0.987113,
+            "normalization": "percentile",
+            "absolute_flow_score": 99.5106,
+            "flow_rank": 0.9951060358890701,
+            "large_net": 26273.57000000018,
+            "industry": "半导体"
+          }
+        },
+        {
+          "name": "cap_quality",
+          "value": 0.994755,
+          "weight": 0.015,
+          "score": 0.014921,
+          "evidence": {
+            "raw_value": 18.272202,
+            "normalized_value": 0.994755,
+            "normalization": "percentile",
+            "absolute_mv_score": 99.71,
+            "mv_rank": 0.9970998731194489,
+            "total_mv": 86201799.6
+          }
+        }
+      ],
+      "deep_score": 62.74,
+      "deep_rating": "B",
+      "deep_label": "观察股",
+      "shadow_observation_eligible": false,
+      "scores": {
+        "theme_binding": 77.93,
+        "evidence_quality": 89.86,
+        "financial_quality": 83.61,
+        "valuation_safety": 14.88,
+        "trading_structure": 38.82,
+        "data_quality": 100.0
+      },
+      "market": {
+        "close": 1372.0,
+        "pct_chg": -7.63,
+        "r5": -8.8372,
+        "r20": -0.4426,
+        "r60": 37.3387,
+        "turnover_rate": 2.2372,
+        "pe_ttm": 317.271,
+        "pb": 66.972
+      },
+      "financial": {
+        "end_date": "20260331",
+        "roe": 8.2017,
+        "grossprofit_margin": 54.3304,
+        "netprofit_margin": 35.1207,
+        "or_yoy": 159.5555,
+        "netprofit_yoy": 185.0387,
+        "debt_to_assets": 16.3795,
+        "ocf_to_or": null
+      },
+      "risk_flags": [],
+      "data_gaps": [],
+      "research_boundary": "ResearchFirst; read_only; no_trade_order; no_cash_or_share_amounts",
+      "queue_reason": "主线短期未确认，但个股为证据确认龙头，进入ResearchFirst跟踪深研"
+    },
+    {
+      "priority": 3,
+      "code": "601899.SH",
+      "name": "紫金矿业",
+      "xueqiu_url": "https://xueqiu.com/S/SH601899",
+      "industry": "铜",
+      "theme": "资源周期",
+      "theme_grade": "D",
+      "theme_score": 17.18,
+      "theme_stage": "弱势/退潮",
+      "theme_lifecycle_state": "accelerating",
+      "candidate_grade": "A",
+      "candidate_leader_score": 83.66,
+      "candidate_binding_source": "候选种子+动态证据确认",
+      "candidate_leader_role": "有色金属龙头",
+      "candidate_leader_claim": "有色金属龙头",
+      "candidate_leader_tier": "证据确认龙头",
+      "candidate_strategic_score": 94.0,
+      "candidate_seed_score": 94.0,
+      "candidate_evidence_score": 89.89,
+      "candidate_evidence_count": 5,
+      "candidate_hard_evidence_count": 4,
+      "candidate_latest_evidence_date": "2026-07-02",
+      "candidate_evidence_sources": [
+        {
+          "type": "industry_role_seed",
+          "summary": "候选种子库标注：有色金属龙头",
+          "source_name": "config/stock_leader_universe.json",
+          "source_kind": "curated_seed",
+          "as_of_date": "2026-07-02",
+          "confidence": 0.57,
+          "hard_evidence": false
+        },
+        {
+          "type": "mainline_binding",
+          "summary": "当前主线关键词命中：铜",
+          "source_name": "theme.okbbc latest + Tushare stock_basic",
+          "source_kind": "computed_dynamic",
+          "as_of_date": "2026-07-02",
+          "confidence": 0.62,
+          "hard_evidence": true
+        },
+        {
+          "type": "market_scale",
+          "summary": "总市值处于全A股前 0.4% 区间",
+          "source_name": "Tushare daily_basic.total_mv",
+          "source_kind": "tushare_dynamic",
+          "as_of_date": "2026-07-02",
+          "confidence": 0.7875,
+          "hard_evidence": true
+        },
+        {
+          "type": "liquidity_confirmation",
+          "summary": "成交额分位 99.7%",
+          "source_name": "Tushare daily.amount",
+          "source_kind": "tushare_dynamic",
+          "as_of_date": "2026-07-02",
+          "confidence": 0.7183,
+          "hard_evidence": true
+        },
+        {
+          "type": "capital_flow",
+          "summary": "大单净流入为正，资金流分位 99.6%",
+          "source_name": "Tushare moneyflow",
+          "source_kind": "tushare_dynamic",
+          "as_of_date": "2026-07-02",
+          "confidence": 0.66,
+          "hard_evidence": true
+        }
+      ],
+      "candidate_market_heat_score": 69.4036,
+      "candidate_score_model": "factorized_scoring_engine.v1",
+      "candidate_raw_factor_score": 99.5897,
+      "candidate_regime": "BEAR",
+      "candidate_regime_multiplier": 0.7,
+      "candidate_regime_reason": [
+        "index momentum negative",
+        "breadth weak",
+        "volume neutral or unavailable",
+        "volatility moderate"
+      ],
+      "candidate_lifecycle_state": "Expansion",
+      "candidate_lifecycle_confidence": 0.8,
+      "candidate_lifecycle_multiplier": 1.2,
+      "candidate_lifecycle_reason": [
+        "theme leadership confirmed",
+        "relative volume and fund flow remain strong",
+        "market regime does not block trend extension"
+      ],
+      "candidate_factor_breakdown": [
+        {
+          "name": "theme_strength",
+          "value": 0.997512,
+          "weight": 0.75,
+          "score": 0.748134,
+          "evidence": {
+            "raw_value": 67.278,
+            "normalized_value": 0.997512,
+            "normalization": "percentile",
+            "seed_score": 94.0,
+            "binding_score": 82.0,
+            "evidence_score": 89.89,
+            "tier_penalty": 0.0,
+            "leader_tier": "证据确认龙头",
+            "keyword_match": true
+          }
+        },
+        {
+          "name": "volume_activity",
+          "value": 0.997512,
+          "weight": 0.18,
+          "score": 0.179552,
+          "evidence": {
+            "raw_value": 16.403399,
+            "normalized_value": 0.997512,
+            "normalization": "percentile",
+            "absolute_group_value": 0.576681,
+            "pct_chg_score": 62.4221,
+            "turnover_score": 9.7313,
+            "liquidity_score": 99.6556,
+            "limit_score": 45.0,
+            "amount": 13301647.731,
+            "amount_rank": 0.9965560993293456,
+            "turnover_rate": 2.4597,
+            "pct_chg": 4.7391
+          }
+        },
+        {
+          "name": "fund_flow",
+          "value": 0.972222,
+          "weight": 0.055,
+          "score": 0.053472,
+          "evidence": {
+            "raw_value": 26674.89,
+            "normalized_value": 0.972222,
+            "normalization": "percentile",
+            "absolute_flow_score": 99.565,
+            "flow_rank": 0.9956498096791735,
+            "large_net": 26674.889999999985,
+            "industry": "铜"
+          }
+        },
+        {
+          "name": "cap_quality",
+          "value": 0.982587,
+          "weight": 0.015,
+          "score": 0.014739,
+          "evidence": {
+            "raw_value": 18.063056,
+            "normalized_value": 0.982587,
+            "normalization": "percentile",
+            "absolute_mv_score": 99.6375,
+            "mv_rank": 0.9963748413993112,
+            "total_mv": 69933579.398
+          }
+        }
+      ],
+      "deep_score": 76.05,
+      "deep_rating": "A",
+      "deep_label": "可跟踪龙头",
+      "shadow_observation_eligible": true,
+      "scores": {
+        "theme_binding": 84.47,
+        "evidence_quality": 89.89,
+        "financial_quality": 73.33,
+        "valuation_safety": 84.29,
+        "trading_structure": 50.22,
+        "data_quality": 100.0
+      },
+      "market": {
+        "close": 26.3,
+        "pct_chg": 4.7391,
+        "r5": 1.466,
+        "r20": -15.8938,
+        "r60": -20.5918,
+        "turnover_rate": 2.4597,
+        "pe_ttm": 11.3363,
+        "pb": 3.545
+      },
+      "financial": {
+        "end_date": "20260331",
+        "roe": 10.4049,
+        "grossprofit_margin": 36.3258,
+        "netprofit_margin": 25.5496,
+        "or_yoy": 24.7938,
+        "netprofit_yoy": 97.5001,
+        "debt_to_assets": 51.3712,
+        "ocf_to_or": null
+      },
+      "risk_flags": [],
+      "data_gaps": [],
+      "research_boundary": "ResearchFirst; read_only; no_trade_order; no_cash_or_share_amounts",
+      "queue_reason": "主线短期未确认，但个股为证据确认龙头，进入ResearchFirst跟踪深研"
+    },
+    {
+      "priority": 4,
+      "code": "600309.SH",
+      "name": "万华化学",
+      "xueqiu_url": "https://xueqiu.com/S/SH600309",
+      "industry": "化工原料",
+      "theme": "资源周期",
+      "theme_grade": "D",
+      "theme_score": 17.18,
+      "theme_stage": "弱势/退潮",
+      "theme_lifecycle_state": "accelerating",
+      "candidate_grade": "B",
+      "candidate_leader_score": 81.89,
+      "candidate_binding_source": "候选种子+动态证据确认",
+      "candidate_leader_role": "化工材料龙头",
+      "candidate_leader_claim": "化工材料龙头",
+      "candidate_leader_tier": "证据确认龙头",
+      "candidate_strategic_score": 94.0,
+      "candidate_seed_score": 94.0,
+      "candidate_evidence_score": 87.82,
+      "candidate_evidence_count": 4,
+      "candidate_hard_evidence_count": 3,
+      "candidate_latest_evidence_date": "2026-07-02",
+      "candidate_evidence_sources": [
+        {
+          "type": "industry_role_seed",
+          "summary": "候选种子库标注：化工材料龙头",
+          "source_name": "config/stock_leader_universe.json",
+          "source_kind": "curated_seed",
+          "as_of_date": "2026-07-02",
+          "confidence": 0.57,
+          "hard_evidence": false
+        },
+        {
+          "type": "market_scale",
+          "summary": "总市值处于全A股前 1.4% 区间",
+          "source_name": "Tushare daily_basic.total_mv",
+          "source_kind": "tushare_dynamic",
+          "as_of_date": "2026-07-02",
+          "confidence": 0.7804,
+          "hard_evidence": true
+        },
+        {
+          "type": "liquidity_confirmation",
+          "summary": "成交额分位 96.0%",
+          "source_name": "Tushare daily.amount",
+          "source_kind": "tushare_dynamic",
+          "as_of_date": "2026-07-02",
+          "confidence": 0.7002,
+          "hard_evidence": true
+        },
+        {
+          "type": "capital_flow",
+          "summary": "大单净流入为正，资金流分位 97.9%",
+          "source_name": "Tushare moneyflow",
+          "source_kind": "tushare_dynamic",
+          "as_of_date": "2026-07-02",
+          "confidence": 0.66,
+          "hard_evidence": true
+        }
+      ],
+      "candidate_market_heat_score": 60.4212,
+      "candidate_score_model": "factorized_scoring_engine.v1",
+      "candidate_raw_factor_score": 97.49,
+      "candidate_regime": "BEAR",
+      "candidate_regime_multiplier": 0.7,
+      "candidate_regime_reason": [
+        "index momentum negative",
+        "breadth weak",
+        "volume neutral or unavailable",
+        "volatility moderate"
+      ],
+      "candidate_lifecycle_state": "Expansion",
+      "candidate_lifecycle_confidence": 0.8,
+      "candidate_lifecycle_multiplier": 1.2,
+      "candidate_lifecycle_reason": [
+        "theme leadership confirmed",
+        "relative volume and fund flow remain strong",
+        "market regime does not block trend extension"
+      ],
+      "candidate_factor_breakdown": [
+        {
+          "name": "theme_strength",
+          "value": 0.992537,
+          "weight": 0.75,
+          "score": 0.744403,
+          "evidence": {
+            "raw_value": 65.664,
+            "normalized_value": 0.992537,
+            "normalization": "percentile",
+            "seed_score": 94.0,
+            "binding_score": 76.0,
+            "evidence_score": 87.82,
+            "tier_penalty": 0.0,
+            "leader_tier": "证据确认龙头",
+            "keyword_match": false
+          }
+        },
+        {
+          "name": "volume_activity",
+          "value": 0.922886,
+          "weight": 0.18,
+          "score": 0.166119,
+          "evidence": {
+            "raw_value": 14.952452,
+            "normalized_value": 0.922886,
+            "normalization": "percentile",
+            "absolute_group_value": 0.457978,
+            "pct_chg_score": 31.8136,
+            "turnover_score": 2.9333,
+            "liquidity_score": 96.0305,
+            "limit_score": 45.0,
+            "amount": 3117217.148,
+            "amount_rank": 0.9603045133224578,
+            "turnover_rate": 1.44,
+            "pct_chg": 0.4539
+          }
+        },
+        {
+          "name": "fund_flow",
+          "value": 0.90796,
+          "weight": 0.055,
+          "score": 0.049938,
+          "evidence": {
+            "raw_value": 10119.99,
+            "normalized_value": 0.90796,
+            "normalization": "percentile",
+            "absolute_flow_score": 97.8612,
+            "flow_rank": 0.9786115642559362,
+            "large_net": 10119.98999999999,
+            "industry": "化工原料"
+          }
+        },
+        {
+          "name": "cap_quality",
+          "value": 0.962687,
+          "weight": 0.015,
+          "score": 0.01444,
+          "evidence": {
+            "raw_value": 16.882402,
+            "normalized_value": 0.962687,
+            "normalization": "percentile",
+            "absolute_mv_score": 98.6224,
+            "mv_rank": 0.9862243973173827,
+            "total_mv": 21475035.176
+          }
+        }
+      ],
+      "deep_score": 63.64,
+      "deep_rating": "B",
+      "deep_label": "观察股",
+      "shadow_observation_eligible": false,
+      "scores": {
+        "theme_binding": 79.33,
+        "evidence_quality": 87.82,
+        "financial_quality": 38.93,
+        "valuation_safety": 91.12,
+        "trading_structure": 39.75,
+        "data_quality": 100.0
+      },
+      "market": {
+        "close": 68.6,
+        "pct_chg": 0.4539,
+        "r5": -6.8061,
+        "r20": -7.5098,
+        "r60": -17.0596,
+        "turnover_rate": 1.44,
+        "pe_ttm": 16.3149,
+        "pb": 1.9278
+      },
+      "financial": {
+        "end_date": "20260331",
+        "roe": 3.3843,
+        "grossprofit_margin": 14.728,
+        "netprofit_margin": 8.0694,
+        "or_yoy": 25.5047,
+        "netprofit_yoy": 20.6239,
+        "debt_to_assets": 64.3165,
+        "ocf_to_or": null
+      },
+      "risk_flags": [],
+      "data_gaps": [],
+      "research_boundary": "ResearchFirst; read_only; no_trade_order; no_cash_or_share_amounts",
+      "queue_reason": "主线短期未确认，但个股为证据确认龙头，进入ResearchFirst跟踪深研"
+    },
+    {
+      "priority": 5,
+      "code": "600547.SH",
+      "name": "山东黄金",
+      "xueqiu_url": "https://xueqiu.com/S/SH600547",
+      "industry": "黄金",
+      "theme": "资源周期",
+      "theme_grade": "D",
+      "theme_score": 17.18,
+      "theme_stage": "弱势/退潮",
+      "theme_lifecycle_state": "accelerating",
+      "candidate_grade": "B",
+      "candidate_leader_score": 79.78,
+      "candidate_binding_source": "候选种子+动态证据确认",
+      "candidate_leader_role": "黄金龙头",
+      "candidate_leader_claim": "黄金龙头",
+      "candidate_leader_tier": "证据确认龙头",
+      "candidate_strategic_score": 86.0,
+      "candidate_seed_score": 86.0,
+      "candidate_evidence_score": 88.4,
+      "candidate_evidence_count": 5,
+      "candidate_hard_evidence_count": 4,
+      "candidate_latest_evidence_date": "2026-07-02",
+      "candidate_evidence_sources": [
+        {
+          "type": "industry_role_seed",
+          "summary": "候选种子库标注：黄金龙头",
+          "source_name": "config/stock_leader_universe.json",
+          "source_kind": "curated_seed",
+          "as_of_date": "2026-07-02",
+          "confidence": 0.53,
+          "hard_evidence": false
+        },
+        {
+          "type": "mainline_binding",
+          "summary": "当前主线关键词命中：黄金",
+          "source_name": "theme.okbbc latest + Tushare stock_basic",
+          "source_kind": "computed_dynamic",
+          "as_of_date": "2026-07-02",
+          "confidence": 0.62,
+          "hard_evidence": true
+        },
+        {
+          "type": "market_scale",
+          "summary": "总市值处于全A股前 3.4% 区间",
+          "source_name": "Tushare daily_basic.total_mv",
+          "source_kind": "tushare_dynamic",
+          "as_of_date": "2026-07-02",
+          "confidence": 0.7664,
+          "hard_evidence": true
+        },
+        {
+          "type": "liquidity_confirmation",
+          "summary": "成交额分位 95.1%",
+          "source_name": "Tushare daily.amount",
+          "source_kind": "tushare_dynamic",
+          "as_of_date": "2026-07-02",
+          "confidence": 0.6957,
+          "hard_evidence": true
+        },
+        {
+          "type": "capital_flow",
+          "summary": "大单净流入为正，资金流分位 99.1%",
+          "source_name": "Tushare moneyflow",
+          "source_kind": "tushare_dynamic",
+          "as_of_date": "2026-07-02",
+          "confidence": 0.66,
+          "hard_evidence": true
+        }
+      ],
+      "candidate_market_heat_score": 67.9779,
+      "candidate_score_model": "factorized_scoring_engine.v1",
+      "candidate_raw_factor_score": 94.9743,
+      "candidate_regime": "BEAR",
+      "candidate_regime_multiplier": 0.7,
+      "candidate_regime_reason": [
+        "index momentum negative",
+        "breadth weak",
+        "volume neutral or unavailable",
+        "volatility moderate"
+      ],
+      "candidate_lifecycle_state": "Expansion",
+      "candidate_lifecycle_confidence": 0.8,
+      "candidate_lifecycle_multiplier": 1.2,
+      "candidate_lifecycle_reason": [
+        "theme leadership confirmed",
+        "relative volume and fund flow remain strong",
+        "market regime does not block trend extension"
+      ],
+      "candidate_factor_breakdown": [
+        {
+          "name": "theme_strength",
+          "value": 0.987562,
+          "weight": 0.75,
+          "score": 0.740672,
+          "evidence": {
+            "raw_value": 64.18,
+            "normalized_value": 0.987562,
+            "normalization": "percentile",
+            "seed_score": 86.0,
+            "binding_score": 82.0,
+            "evidence_score": 88.4,
+            "tier_penalty": 0.0,
+            "leader_tier": "证据确认龙头",
+            "keyword_match": true
+          }
+        },
+        {
+          "name": "volume_activity",
+          "value": 0.88806,
+          "weight": 0.18,
+          "score": 0.159851,
+          "evidence": {
+            "raw_value": 14.778535,
+            "normalized_value": 0.88806,
+            "normalization": "percentile",
+            "absolute_group_value": 0.560828,
+            "pct_chg_score": 58.7436,
+            "turnover_score": 13.2973,
+            "liquidity_score": 95.1423,
+            "limit_score": 45.0,
+            "amount": 2619607.041,
+            "amount_rank": 0.9514228747507704,
+            "turnover_rate": 2.9946,
+            "pct_chg": 4.2241
+          }
+        },
+        {
+          "name": "fund_flow",
+          "value": 0.65,
+          "weight": 0.055,
+          "score": 0.03575,
+          "evidence": {
+            "raw_value": 19990.47,
+            "normalized_value": 0.65,
+            "normalization": "percentile",
+            "absolute_flow_score": 99.0937,
+            "flow_rank": 0.990937103498278,
+            "large_net": 19990.47,
+            "industry": "黄金"
+          }
+        },
+        {
+          "name": "cap_quality",
+          "value": 0.89801,
+          "weight": 0.015,
+          "score": 0.01347,
+          "evidence": {
+            "raw_value": 16.226664,
+            "normalized_value": 0.89801,
+            "normalization": "percentile",
+            "absolute_mv_score": 96.6286,
+            "mv_rank": 0.9662860250135944,
+            "total_mv": 11146809.531
+          }
+        }
+      ],
+      "deep_score": 65.11,
+      "deep_rating": "B",
+      "deep_label": "观察股",
+      "shadow_observation_eligible": false,
+      "scores": {
+        "theme_binding": 77.78,
+        "evidence_quality": 88.4,
+        "financial_quality": 44.09,
+        "valuation_safety": 84.56,
+        "trading_structure": 49.01,
+        "data_quality": 100.0
+      },
+      "market": {
+        "close": 24.18,
+        "pct_chg": 4.2241,
+        "r5": 1.0447,
+        "r20": -17.7271,
+        "r60": -39.5953,
+        "turnover_rate": 2.9946,
+        "pe_ttm": 21.6072,
+        "pb": 3.4828
+      },
+      "financial": {
+        "end_date": "20260331",
+        "roe": 3.1815,
+        "grossprofit_margin": 18.2967,
+        "netprofit_margin": 7.501,
+        "or_yoy": 25.3726,
+        "netprofit_yoy": 40.8737,
+        "debt_to_assets": 62.5682,
+        "ocf_to_or": null
+      },
+      "risk_flags": [],
+      "data_gaps": [],
+      "research_boundary": "ResearchFirst; read_only; no_trade_order; no_cash_or_share_amounts",
+      "queue_reason": "主线短期未确认，但个股为证据确认龙头，进入ResearchFirst跟踪深研"
+    },
+    {
+      "priority": 6,
+      "code": "688256.SH",
+      "name": "寒武纪",
+      "xueqiu_url": "https://xueqiu.com/S/SH688256",
+      "industry": "半导体",
+      "theme": "AI算力/通信",
+      "theme_grade": "D",
+      "theme_score": 15.54,
+      "theme_stage": "弱势/退潮",
+      "theme_lifecycle_state": "accelerating",
+      "candidate_grade": "B",
+      "candidate_leader_score": 74.62,
+      "candidate_binding_source": "候选种子+动态证据确认",
+      "candidate_leader_role": "AI芯片龙头",
+      "candidate_leader_claim": "AI芯片龙头",
+      "candidate_leader_tier": "证据确认龙头",
+      "candidate_strategic_score": 93.0,
+      "candidate_seed_score": 93.0,
+      "candidate_evidence_score": 88.47,
+      "candidate_evidence_count": 4,
+      "candidate_hard_evidence_count": 3,
+      "candidate_latest_evidence_date": "2026-07-02",
+      "candidate_evidence_sources": [
+        {
+          "type": "industry_role_seed",
+          "summary": "候选种子库标注：AI芯片龙头",
+          "source_name": "config/stock_leader_universe.json",
+          "source_kind": "curated_seed",
+          "as_of_date": "2026-07-02",
+          "confidence": 0.565,
+          "hard_evidence": false
+        },
+        {
+          "type": "market_scale",
+          "summary": "总市值处于全A股前 0.3% 区间",
+          "source_name": "Tushare daily_basic.total_mv",
+          "source_kind": "tushare_dynamic",
+          "as_of_date": "2026-07-02",
+          "confidence": 0.788,
+          "hard_evidence": true
+        },
+        {
+          "type": "liquidity_confirmation",
+          "summary": "成交额分位 99.9%",
+          "source_name": "Tushare daily.amount",
+          "source_kind": "tushare_dynamic",
+          "as_of_date": "2026-07-02",
+          "confidence": 0.7195,
+          "hard_evidence": true
+        },
+        {
+          "type": "capital_flow",
+          "summary": "大单净流入为正，资金流分位 99.5%",
+          "source_name": "Tushare moneyflow",
+          "source_kind": "tushare_dynamic",
+          "as_of_date": "2026-07-02",
+          "confidence": 0.66,
+          "hard_evidence": true
+        }
+      ],
+      "candidate_market_heat_score": 55.4729,
+      "candidate_score_model": "factorized_scoring_engine.v1",
+      "candidate_raw_factor_score": 96.9067,
+      "candidate_regime": "BEAR",
+      "candidate_regime_multiplier": 0.7,
+      "candidate_regime_reason": [
+        "index momentum negative",
+        "breadth weak",
+        "volume neutral or unavailable",
+        "volatility moderate"
+      ],
+      "candidate_lifecycle_state": "Breakout",
+      "candidate_lifecycle_confidence": 0.75,
+      "candidate_lifecycle_multiplier": 1.1,
+      "candidate_lifecycle_reason": [
+        "volume spike confirms first leadership appearance",
+        "theme and flow support early breakout"
+      ],
+      "candidate_factor_breakdown": [
+        {
+          "name": "theme_strength",
+          "value": 0.975524,
+          "weight": 0.75,
+          "score": 0.731643,
+          "evidence": {
+            "raw_value": 65.444,
+            "normalized_value": 0.975524,
+            "normalization": "percentile",
+            "seed_score": 93.0,
+            "binding_score": 76.0,
+            "evidence_score": 88.47,
+            "tier_penalty": 0.0,
+            "leader_tier": "证据确认龙头",
+            "keyword_match": false
+          }
+        },
+        {
+          "name": "volume_activity",
+          "value": 0.982517,
+          "weight": 0.18,
+          "score": 0.176853,
+          "evidence": {
+            "raw_value": 16.791823,
+            "normalized_value": 0.982517,
+            "normalization": "percentile",
+            "absolute_group_value": 0.383305,
+            "pct_chg_score": 0.0,
+            "turnover_score": 8.248,
+            "liquidity_score": 99.8912,
+            "limit_score": 45.0,
+            "amount": 19615355.231,
+            "amount_rank": 0.9989124524197933,
+            "turnover_rate": 2.2372,
+            "pct_chg": -7.63
+          }
+        },
+        {
+          "name": "fund_flow",
+          "value": 0.833333,
+          "weight": 0.055,
+          "score": 0.045833,
+          "evidence": {
+            "raw_value": 26273.57,
+            "normalized_value": 0.833333,
+            "normalization": "percentile",
+            "absolute_flow_score": 99.5106,
+            "flow_rank": 0.9951060358890701,
+            "large_net": 26273.57000000018,
+            "industry": "半导体"
+          }
+        },
+        {
+          "name": "cap_quality",
+          "value": 0.982517,
+          "weight": 0.015,
+          "score": 0.014738,
+          "evidence": {
+            "raw_value": 18.272202,
+            "normalized_value": 0.982517,
+            "normalization": "percentile",
+            "absolute_mv_score": 99.71,
+            "mv_rank": 0.9970998731194489,
+            "total_mv": 86201799.6
+          }
+        }
+      ],
+      "deep_score": 62.31,
+      "deep_rating": "B",
+      "deep_label": "观察股",
+      "shadow_observation_eligible": false,
+      "scores": {
+        "theme_binding": 76.5,
+        "evidence_quality": 88.47,
+        "financial_quality": 83.61,
+        "valuation_safety": 14.88,
+        "trading_structure": 38.82,
+        "data_quality": 100.0
+      },
+      "market": {
+        "close": 1372.0,
+        "pct_chg": -7.63,
+        "r5": -8.8372,
+        "r20": -0.4426,
+        "r60": 37.3387,
+        "turnover_rate": 2.2372,
+        "pe_ttm": 317.271,
+        "pb": 66.972
+      },
+      "financial": {
+        "end_date": "20260331",
+        "roe": 8.2017,
+        "grossprofit_margin": 54.3304,
+        "netprofit_margin": 35.1207,
+        "or_yoy": 159.5555,
+        "netprofit_yoy": 185.0387,
+        "debt_to_assets": 16.3795,
+        "ocf_to_or": null
+      },
+      "risk_flags": [],
+      "data_gaps": [],
+      "research_boundary": "ResearchFirst; read_only; no_trade_order; no_cash_or_share_amounts",
+      "queue_reason": "主线短期未确认，但个股为证据确认龙头，进入ResearchFirst跟踪深研"
+    },
+    {
+      "priority": 7,
+      "code": "300750.SZ",
+      "name": "宁德时代",
+      "xueqiu_url": "https://xueqiu.com/S/SZ300750",
+      "industry": "电气设备",
+      "theme": "新能源/电力设备",
+      "theme_grade": "D",
+      "theme_score": 15.35,
+      "theme_stage": "弱势/退潮",
+      "theme_lifecycle_state": "accelerating",
+      "candidate_grade": "B",
+      "candidate_leader_score": 74.16,
+      "candidate_binding_source": "候选种子+动态证据确认",
+      "candidate_leader_role": "动力电池龙头",
+      "candidate_leader_claim": "动力电池龙头",
+      "candidate_leader_tier": "证据确认龙头",
+      "candidate_strategic_score": 98.0,
+      "candidate_seed_score": 98.0,
+      "candidate_evidence_score": 88.91,
+      "candidate_evidence_count": 4,
+      "candidate_hard_evidence_count": 3,
+      "candidate_latest_evidence_date": "2026-07-02",
+      "candidate_evidence_sources": [
+        {
+          "type": "industry_role_seed",
+          "summary": "候选种子库标注：动力电池龙头",
+          "source_name": "config/stock_leader_universe.json",
+          "source_kind": "curated_seed",
+          "as_of_date": "2026-07-02",
+          "confidence": 0.59,
+          "hard_evidence": false
+        },
+        {
+          "type": "market_scale",
+          "summary": "总市值处于全A股前 0.1% 区间",
+          "source_name": "Tushare daily_basic.total_mv",
+          "source_kind": "tushare_dynamic",
+          "as_of_date": "2026-07-02",
+          "confidence": 0.7894,
+          "hard_evidence": true
+        },
+        {
+          "type": "liquidity_confirmation",
+          "summary": "成交额分位 99.6%",
+          "source_name": "Tushare daily.amount",
+          "source_kind": "tushare_dynamic",
+          "as_of_date": "2026-07-02",
+          "confidence": 0.718,
+          "hard_evidence": true
+        },
+        {
+          "type": "capital_flow",
+          "summary": "大单净流入为正，资金流分位 100.0%",
+          "source_name": "Tushare moneyflow",
+          "source_kind": "tushare_dynamic",
+          "as_of_date": "2026-07-02",
+          "confidence": 0.66,
+          "hard_evidence": true
+        }
+      ],
+      "candidate_market_heat_score": 59.8825,
+      "candidate_score_model": "factorized_scoring_engine.v1",
+      "candidate_raw_factor_score": 96.3157,
+      "candidate_regime": "BEAR",
+      "candidate_regime_multiplier": 0.7,
+      "candidate_regime_reason": [
+        "index momentum negative",
+        "breadth weak",
+        "volume neutral or unavailable",
+        "volatility moderate"
+      ],
+      "candidate_lifecycle_state": "Breakout",
+      "candidate_lifecycle_confidence": 0.75,
+      "candidate_lifecycle_multiplier": 1.1,
+      "candidate_lifecycle_reason": [
+        "volume spike confirms first leadership appearance",
+        "theme and flow support early breakout"
+      ],
+      "candidate_factor_breakdown": [
+        {
+          "name": "theme_strength",
+          "value": 0.973684,
+          "weight": 0.75,
+          "score": 0.730263,
+          "evidence": {
+            "raw_value": 67.282,
+            "normalized_value": 0.973684,
+            "normalization": "percentile",
+            "seed_score": 98.0,
+            "binding_score": 76.0,
+            "evidence_score": 88.91,
+            "tier_penalty": 0.0,
+            "leader_tier": "证据确认龙头",
+            "keyword_match": false
+          }
+        },
+        {
+          "name": "volume_activity",
+          "value": 0.921053,
+          "weight": 0.18,
+          "score": 0.165789,
+          "evidence": {
+            "raw_value": 16.391154,
+            "normalized_value": 0.921053,
+            "normalization": "percentile",
+            "absolute_group_value": 0.442999,
+            "pct_chg_score": 25.7986,
+            "turnover_score": 0.0,
+            "liquidity_score": 99.6012,
+            "limit_score": 45.0,
+            "amount": 13139767.2594,
+            "amount_rank": 0.9960123255392423,
+            "turnover_rate": 0.8005,
+            "pct_chg": -0.3882
+          }
+        },
+        {
+          "name": "fund_flow",
+          "value": 0.954545,
+          "weight": 0.055,
+          "score": 0.0525,
+          "evidence": {
+            "raw_value": 113482.17,
+            "normalized_value": 0.954545,
+            "normalization": "percentile",
+            "absolute_flow_score": 99.9637,
+            "flow_rank": 0.9996374841399311,
+            "large_net": 113482.17000000004,
+            "industry": "电气设备"
+          }
+        },
+        {
+          "name": "cap_quality",
+          "value": 0.973684,
+          "weight": 0.015,
+          "score": 0.014605,
+          "evidence": {
+            "raw_value": 18.99109,
+            "normalized_value": 0.973684,
+            "normalization": "percentile",
+            "absolute_mv_score": 99.9094,
+            "mv_rank": 0.9990937103498279,
+            "total_mv": 176899087.1685
+          }
+        }
+      ],
+      "deep_score": 67.47,
+      "deep_rating": "B",
+      "deep_label": "观察股",
+      "shadow_observation_eligible": false,
+      "scores": {
+        "theme_binding": 77.01,
+        "evidence_quality": 88.91,
+        "financial_quality": 62.11,
+        "valuation_safety": 78.36,
+        "trading_structure": 38.98,
+        "data_quality": 100.0
+      },
+      "market": {
+        "close": 382.35,
+        "pct_chg": -0.3882,
+        "r5": -4.8644,
+        "r20": -10.3349,
+        "r60": -4.6913,
+        "turnover_rate": 0.8005,
+        "pe_ttm": 22.399,
+        "pb": 4.9515
+      },
+      "financial": {
+        "end_date": "20260331",
+        "roe": 5.9731,
+        "grossprofit_margin": 24.8156,
+        "netprofit_margin": 17.6079,
+        "or_yoy": 52.4487,
+        "netprofit_yoy": 48.5237,
+        "debt_to_assets": 62.3223,
+        "ocf_to_or": null
+      },
+      "risk_flags": [],
+      "data_gaps": [],
+      "research_boundary": "ResearchFirst; read_only; no_trade_order; no_cash_or_share_amounts",
+      "queue_reason": "主线短期未确认，但个股为证据确认龙头，进入ResearchFirst跟踪深研"
+    },
+    {
+      "priority": 8,
+      "code": "600585.SH",
+      "name": "海螺水泥",
+      "xueqiu_url": "https://xueqiu.com/S/SH600585",
+      "industry": "水泥",
+      "theme": "建材/稳增长修复",
+      "theme_grade": "D",
+      "theme_score": 15.38,
+      "theme_stage": "弱势/退潮",
+      "theme_lifecycle_state": "accelerating",
+      "candidate_grade": "B",
+      "candidate_leader_score": 81.29,
+      "candidate_binding_source": "候选种子+动态证据确认",
+      "candidate_leader_role": "水泥龙头",
+      "candidate_leader_claim": "水泥龙头",
+      "candidate_leader_tier": "证据确认龙头",
+      "candidate_strategic_score": 88.0,
+      "candidate_seed_score": 88.0,
+      "candidate_evidence_score": 85.5,
+      "candidate_evidence_count": 5,
+      "candidate_hard_evidence_count": 4,
+      "candidate_latest_evidence_date": "2026-07-02",
+      "candidate_evidence_sources": [
+        {
+          "type": "industry_role_seed",
+          "summary": "候选种子库标注：水泥龙头",
+          "source_name": "config/stock_leader_universe.json",
+          "source_kind": "curated_seed",
+          "as_of_date": "2026-07-02",
+          "confidence": 0.54,
+          "hard_evidence": false
+        },
+        {
+          "type": "mainline_binding",
+          "summary": "当前主线关键词命中：水泥",
+          "source_name": "theme.okbbc latest + Tushare stock_basic",
+          "source_kind": "computed_dynamic",
+          "as_of_date": "2026-07-02",
+          "confidence": 0.62,
+          "hard_evidence": true
+        },
+        {
+          "type": "market_scale",
+          "summary": "总市值处于全A股前 4.3% 区间",
+          "source_name": "Tushare daily_basic.total_mv",
+          "source_kind": "tushare_dynamic",
+          "as_of_date": "2026-07-02",
+          "confidence": 0.7597,
+          "hard_evidence": true
+        },
+        {
+          "type": "liquidity_confirmation",
+          "summary": "成交额分位 82.4%",
+          "source_name": "Tushare daily.amount",
+          "source_kind": "tushare_dynamic",
+          "as_of_date": "2026-07-02",
+          "confidence": 0.6319,
+          "hard_evidence": true
+        },
+        {
+          "type": "capital_flow",
+          "summary": "大单净流入为正，资金流分位 76.0%",
+          "source_name": "Tushare moneyflow",
+          "source_kind": "tushare_dynamic",
+          "as_of_date": "2026-07-02",
+          "confidence": 0.5898,
+          "hard_evidence": true
+        }
+      ],
+      "candidate_market_heat_score": 53.6036,
+      "candidate_score_model": "factorized_scoring_engine.v1",
+      "candidate_raw_factor_score": 96.7714,
+      "candidate_regime": "BEAR",
+      "candidate_regime_multiplier": 0.7,
+      "candidate_regime_reason": [
+        "index momentum negative",
+        "breadth weak",
+        "volume neutral or unavailable",
+        "volatility moderate"
+      ],
+      "candidate_lifecycle_state": "Expansion",
+      "candidate_lifecycle_confidence": 0.8,
+      "candidate_lifecycle_multiplier": 1.2,
+      "candidate_lifecycle_reason": [
+        "theme leadership confirmed",
+        "relative volume and fund flow remain strong",
+        "market regime does not block trend extension"
+      ],
+      "candidate_factor_breakdown": [
+        {
+          "name": "theme_strength",
+          "value": 0.997797,
+          "weight": 0.75,
+          "score": 0.748348,
+          "evidence": {
+            "raw_value": 64.3,
+            "normalized_value": 0.997797,
+            "normalization": "percentile",
+            "seed_score": 88.0,
+            "binding_score": 82.0,
+            "evidence_score": 85.5,
+            "tier_penalty": 0.0,
+            "leader_tier": "证据确认龙头",
+            "keyword_match": true
+          }
+        },
+        {
+          "name": "volume_activity",
+          "value": 0.909692,
+          "weight": 0.18,
+          "score": 0.163744,
+          "evidence": {
+            "raw_value": 13.513849,
+            "normalized_value": 0.909692,
+            "normalization": "percentile",
+            "absolute_group_value": 0.432656,
+            "pct_chg_score": 37.5857,
+            "turnover_score": 0.6627,
+            "liquidity_score": 82.3817,
+            "limit_score": 45.0,
+            "amount": 739587.255,
+            "amount_rank": 0.8238172920065253,
+            "turnover_rate": 1.0994,
+            "pct_chg": 1.262
+          }
+        },
+        {
+          "name": "fund_flow",
+          "value": 0.75,
+          "weight": 0.055,
+          "score": 0.04125,
+          "evidence": {
+            "raw_value": 495.41,
+            "normalized_value": 0.75,
+            "normalization": "percentile",
+            "absolute_flow_score": 75.9652,
+            "flow_rank": 0.7596519847743338,
+            "large_net": 495.4100000000012,
+            "industry": "水泥"
+          }
+        },
+        {
+          "name": "cap_quality",
+          "value": 0.95815,
+          "weight": 0.015,
+          "score": 0.014372,
+          "evidence": {
+            "raw_value": 16.004851,
+            "normalized_value": 0.95815,
+            "normalization": "percentile",
+            "absolute_mv_score": 95.6679,
+            "mv_rank": 0.9566793547217691,
+            "total_mv": 8929324.881
+          }
+        }
+      ],
+      "deep_score": 58.86,
+      "deep_rating": "C",
+      "deep_label": "剔除/暂缓",
+      "shadow_observation_eligible": false,
+      "scores": {
+        "theme_binding": 77.46,
+        "evidence_quality": 85.5,
+        "financial_quality": 26.12,
+        "valuation_safety": 95.04,
+        "trading_structure": 33.4,
+        "data_quality": 100.0
+      },
+      "market": {
+        "close": 16.85,
+        "pct_chg": 1.262,
+        "r5": -5.0704,
+        "r20": -14.0306,
+        "r60": -27.308,
+        "turnover_rate": 1.0994,
+        "pe_ttm": 11.4933,
+        "pb": 0.4607
+      },
+      "financial": {
+        "end_date": "20260331",
+        "roe": 0.76,
+        "grossprofit_margin": 21.2583,
+        "netprofit_margin": 8.4488,
+        "or_yoy": -10.4525,
+        "netprofit_yoy": -18.9808,
+        "debt_to_assets": 18.9966,
+        "ocf_to_or": null
+      },
+      "risk_flags": [],
+      "data_gaps": [],
+      "research_boundary": "ResearchFirst; read_only; no_trade_order; no_cash_or_share_amounts",
+      "queue_reason": "主线短期未确认，但个股为证据确认龙头，进入ResearchFirst跟踪深研"
+    },
+    {
+      "priority": 9,
+      "code": "600519.SH",
+      "name": "贵州茅台",
+      "xueqiu_url": "https://xueqiu.com/S/SH600519",
+      "industry": "白酒",
+      "theme": "消费/传媒",
+      "theme_grade": "D",
+      "theme_score": 14.44,
+      "theme_stage": "弱势/退潮",
+      "theme_lifecycle_state": "accelerating",
+      "candidate_grade": "A",
+      "candidate_leader_score": 83.78,
+      "candidate_binding_source": "候选种子+动态证据确认",
+      "candidate_leader_role": "高端白酒龙头",
+      "candidate_leader_claim": "高端白酒龙头",
+      "candidate_leader_tier": "证据确认龙头",
+      "candidate_strategic_score": 98.0,
+      "candidate_seed_score": 98.0,
+      "candidate_evidence_score": 88.74,
+      "candidate_evidence_count": 4,
+      "candidate_hard_evidence_count": 3,
+      "candidate_latest_evidence_date": "2026-07-02",
+      "candidate_evidence_sources": [
+        {
+          "type": "industry_role_seed",
+          "summary": "候选种子库标注：高端白酒龙头",
+          "source_name": "config/stock_leader_universe.json",
+          "source_kind": "curated_seed",
+          "as_of_date": "2026-07-02",
+          "confidence": 0.59,
+          "hard_evidence": false
+        },
+        {
+          "type": "market_scale",
+          "summary": "总市值处于全A股前 0.1% 区间",
+          "source_name": "Tushare daily_basic.total_mv",
+          "source_kind": "tushare_dynamic",
+          "as_of_date": "2026-07-02",
+          "confidence": 0.7891,
+          "hard_evidence": true
+        },
+        {
+          "type": "liquidity_confirmation",
+          "summary": "成交额分位 98.4%",
+          "source_name": "Tushare daily.amount",
+          "source_kind": "tushare_dynamic",
+          "as_of_date": "2026-07-02",
+          "confidence": 0.7121,
+          "hard_evidence": true
+        },
+        {
+          "type": "capital_flow",
+          "summary": "大单净流入为正，资金流分位 98.6%",
+          "source_name": "Tushare moneyflow",
+          "source_kind": "tushare_dynamic",
+          "as_of_date": "2026-07-02",
+          "confidence": 0.66,
+          "hard_evidence": true
+        }
+      ],
+      "candidate_market_heat_score": 61.2716,
+      "candidate_score_model": "factorized_scoring_engine.v1",
+      "candidate_raw_factor_score": 99.7383,
+      "candidate_regime": "BEAR",
+      "candidate_regime_multiplier": 0.7,
+      "candidate_regime_reason": [
+        "index momentum negative",
+        "breadth weak",
+        "volume neutral or unavailable",
+        "volatility moderate"
+      ],
+      "candidate_lifecycle_state": "Expansion",
+      "candidate_lifecycle_confidence": 0.8,
+      "candidate_lifecycle_multiplier": 1.2,
+      "candidate_lifecycle_reason": [
+        "theme leadership confirmed",
+        "relative volume and fund flow remain strong",
+        "market regime does not block trend extension"
+      ],
+      "candidate_factor_breakdown": [
+        {
+          "name": "theme_strength",
+          "value": 0.997382,
+          "weight": 0.75,
+          "score": 0.748037,
+          "evidence": {
+            "raw_value": 67.248,
+            "normalized_value": 0.997382,
+            "normalization": "percentile",
+            "seed_score": 98.0,
+            "binding_score": 76.0,
+            "evidence_score": 88.74,
+            "tier_penalty": 0.0,
+            "leader_tier": "证据确认龙头",
+            "keyword_match": false
+          }
+        },
+        {
+          "name": "volume_activity",
+          "value": 0.997382,
+          "weight": 0.18,
+          "score": 0.179529,
+          "evidence": {
+            "raw_value": 15.627459,
+            "normalized_value": 0.997382,
+            "normalization": "percentile",
+            "absolute_group_value": 0.466476,
+            "pct_chg_score": 34.5529,
+            "turnover_score": 0.0,
+            "liquidity_score": 98.4231,
+            "limit_score": 45.0,
+            "amount": 6122360.932,
+            "amount_rank": 0.9842305600870038,
+            "turnover_rate": 0.4069,
+            "pct_chg": 0.8374
+          }
+        },
+        {
+          "name": "fund_flow",
+          "value": 0.997382,
+          "weight": 0.055,
+          "score": 0.054856,
+          "evidence": {
+            "raw_value": 14325.17,
+            "normalized_value": 0.997382,
+            "normalization": "percentile",
+            "absolute_flow_score": 98.6043,
+            "flow_rank": 0.9860431393873482,
+            "large_net": 14325.169999999998,
+            "industry": "白酒"
+          }
+        },
+        {
+          "name": "cap_quality",
+          "value": 0.997382,
+          "weight": 0.015,
+          "score": 0.014961,
+          "evidence": {
+            "raw_value": 18.828708,
+            "normalized_value": 0.997382,
+            "normalization": "percentile",
+            "absolute_mv_score": 99.8731,
+            "mv_rank": 0.9987311944897589,
+            "total_mv": 150384816.48
+          }
+        }
+      ],
+      "deep_score": 70.3,
+      "deep_rating": "B",
+      "deep_label": "观察股",
+      "shadow_observation_eligible": false,
+      "scores": {
+        "theme_binding": 84.16,
+        "evidence_quality": 88.74,
+        "financial_quality": 62.83,
+        "valuation_safety": 75.82,
+        "trading_structure": 44.45,
+        "data_quality": 100.0
+      },
+      "market": {
+        "close": 1203.0,
+        "pct_chg": 0.8374,
+        "r5": -0.7508,
+        "r20": -6.1557,
+        "r60": -17.596,
+        "turnover_rate": 0.4069,
+        "pe_ttm": 18.1811,
+        "pb": 5.5514
+      },
+      "financial": {
+        "end_date": "20260331",
+        "roe": 10.5687,
+        "grossprofit_margin": 89.7592,
+        "netprofit_margin": 52.2245,
+        "or_yoy": 6.538,
+        "netprofit_yoy": 1.4714,
+        "debt_to_assets": 12.1227,
+        "ocf_to_or": null
+      },
+      "risk_flags": [],
+      "data_gaps": [],
+      "research_boundary": "ResearchFirst; read_only; no_trade_order; no_cash_or_share_amounts",
+      "queue_reason": "主线短期未确认，但个股为证据确认龙头，进入ResearchFirst跟踪深研"
+    }
+  ],
+  "summary": {
+    "queue_count": 9,
+    "stock_count": 9,
+    "eligible_count": 1,
+    "evidence_confirmed_count": 9,
+    "rating_counts": {
+      "S": 0,
+      "A": 1,
+      "B": 7,
+      "C": 1
+    },
+    "top_stock": "汇川技术",
+    "data_gap_count": 0
+  },
+  "data_gaps": [],
+  "shadow_contract": {
+    "schema_version": "stock_deep_shadow_input.v1",
+    "mode": "stock_research_input",
+    "report_id": "stock_deep_review_2026-07-03_111733",
+    "leader_report_id": "leader_review_2026-07-03_111619",
+    "basis_date": "2026-07-02",
+    "generated_at": "2026-07-03 11:17:59 CST",
+    "constraints": {
+      "read_only": true,
+      "ratio_only": true,
+      "contains_trade_orders": false,
+      "contains_cash_amounts": false,
+      "contains_share_counts": false,
+      "source": "MyInvestLeader.stock_deep"
+    },
+    "stock_signals": [
+      {
+        "priority": 1,
+        "code": "300124.SZ",
+        "name": "汇川技术",
+        "xueqiu_url": "https://xueqiu.com/S/SZ300124",
+        "theme": "高端制造/机器人/军工",
+        "deep_rating": "B",
+        "deep_score": 61.38,
+        "leader_claim": "工业自动化龙头",
+        "leader_tier": "证据确认龙头",
+        "evidence_score": 88.16,
+        "evidence_count": 4,
+        "hard_evidence_count": 3,
+        "score_model": "factorized_scoring_engine.v1",
+        "raw_factor_score": 99.7686,
+        "regime": "BEAR",
+        "regime_multiplier": 0.7,
+        "regime_reason": [
+          "index momentum negative",
+          "breadth weak",
+          "volume neutral or unavailable",
+          "volatility moderate"
+        ],
+        "lifecycle_state": "Expansion",
+        "lifecycle_confidence": 0.8,
+        "lifecycle_multiplier": 1.2,
+        "lifecycle_reason": [
+          "theme leadership confirmed",
+          "relative volume and fund flow remain strong",
+          "market regime does not block trend extension"
+        ],
+        "factor_breakdown": [
+          {
+            "name": "theme_strength",
+            "value": 0.999191,
+            "weight": 0.75,
+            "score": 0.749393,
+            "evidence": {
+              "raw_value": 66.432,
+              "normalized_value": 0.999191,
+              "normalization": "percentile",
+              "seed_score": 96.0,
+              "binding_score": 76.0,
+              "evidence_score": 88.16,
+              "tier_penalty": 0.0,
+              "leader_tier": "证据确认龙头",
+              "keyword_match": false
+            }
+          },
+          {
+            "name": "volume_activity",
+            "value": 0.9911,
+            "weight": 0.18,
+            "score": 0.178398,
+            "evidence": {
+              "raw_value": 15.40701,
+              "normalized_value": 0.9911,
+              "normalization": "percentile",
+              "absolute_group_value": 0.481506,
+              "pct_chg_score": 30.6664,
+              "turnover_score": 12.7873,
+              "liquidity_score": 97.8793,
+              "limit_score": 45.0,
+              "amount": 4911106.91119,
+              "amount_rank": 0.9787928221859706,
+              "turnover_rate": 2.9181,
+              "pct_chg": 0.2933
+            }
+          },
+          {
+            "name": "fund_flow",
+            "value": 0.999191,
+            "weight": 0.055,
+            "score": 0.054956,
+            "evidence": {
+              "raw_value": 43236.64,
+              "normalized_value": 0.999191,
+              "normalization": "percentile",
+              "absolute_flow_score": 99.7644,
+              "flow_rank": 0.9976436469095523,
+              "large_net": 43236.64,
+              "industry": "电器仪表"
+            }
+          },
+          {
+            "name": "cap_quality",
+            "value": 0.995955,
+            "weight": 0.015,
+            "score": 0.014939,
+            "evidence": {
+              "raw_value": 16.734362,
+              "normalized_value": 0.995955,
+              "normalization": "percentile",
+              "absolute_mv_score": 98.1874,
+              "mv_rank": 0.9818742069965561,
+              "total_mv": 18520010.676
+            }
+          }
+        ],
+        "shadow_observation_eligible": false,
+        "risk_flags": [],
+        "data_gaps": []
+      },
+      {
+        "priority": 2,
+        "code": "688256.SH",
+        "name": "寒武纪",
+        "xueqiu_url": "https://xueqiu.com/S/SH688256",
+        "theme": "硬科技电子/半导体",
+        "deep_rating": "B",
+        "deep_score": 62.74,
+        "leader_claim": "AI芯片龙头",
+        "leader_tier": "证据确认龙头",
+        "evidence_score": 89.86,
+        "evidence_count": 5,
+        "hard_evidence_count": 4,
+        "score_model": "factorized_scoring_engine.v1",
+        "raw_factor_score": 99.1083,
+        "regime": "BEAR",
+        "regime_multiplier": 0.7,
+        "regime_reason": [
+          "index momentum negative",
+          "breadth weak",
+          "volume neutral or unavailable",
+          "volatility moderate"
+        ],
+        "lifecycle_state": "Breakout",
+        "lifecycle_confidence": 0.75,
+        "lifecycle_multiplier": 1.1,
+        "lifecycle_reason": [
+          "volume spike confirms first leadership appearance",
+          "theme and flow support early breakout"
+        ],
+        "factor_breakdown": [
+          {
+            "name": "theme_strength",
+            "value": 0.991259,
+            "weight": 0.75,
+            "score": 0.743444,
+            "evidence": {
+              "raw_value": 66.922,
+              "normalized_value": 0.991259,
+              "normalization": "percentile",
+              "seed_score": 93.0,
+              "binding_score": 82.0,
+              "evidence_score": 89.86,
+              "tier_penalty": 0.0,
+              "leader_tier": "证据确认龙头",
+              "keyword_match": true
+            }
+          },
+          {
+            "name": "volume_activity",
+            "value": 0.991259,
+            "weight": 0.18,
+            "score": 0.178427,
+            "evidence": {
+              "raw_value": 16.791823,
+              "normalized_value": 0.991259,
+              "normalization": "percentile",
+              "absolute_group_value": 0.383305,
+              "pct_chg_score": 0.0,
+              "turnover_score": 8.248,
+              "liquidity_score": 99.8912,
+              "limit_score": 45.0,
+              "amount": 19615355.231,
+              "amount_rank": 0.9989124524197933,
+              "turnover_rate": 2.2372,
+              "pct_chg": -7.63
+            }
+          },
+          {
+            "name": "fund_flow",
+            "value": 0.987113,
+            "weight": 0.055,
+            "score": 0.054291,
+            "evidence": {
+              "raw_value": 26273.57,
+              "normalized_value": 0.987113,
+              "normalization": "percentile",
+              "absolute_flow_score": 99.5106,
+              "flow_rank": 0.9951060358890701,
+              "large_net": 26273.57000000018,
+              "industry": "半导体"
+            }
+          },
+          {
+            "name": "cap_quality",
+            "value": 0.994755,
+            "weight": 0.015,
+            "score": 0.014921,
+            "evidence": {
+              "raw_value": 18.272202,
+              "normalized_value": 0.994755,
+              "normalization": "percentile",
+              "absolute_mv_score": 99.71,
+              "mv_rank": 0.9970998731194489,
+              "total_mv": 86201799.6
+            }
+          }
+        ],
+        "shadow_observation_eligible": false,
+        "risk_flags": [],
+        "data_gaps": []
+      },
+      {
+        "priority": 3,
+        "code": "601899.SH",
+        "name": "紫金矿业",
+        "xueqiu_url": "https://xueqiu.com/S/SH601899",
+        "theme": "资源周期",
+        "deep_rating": "A",
+        "deep_score": 76.05,
+        "leader_claim": "有色金属龙头",
+        "leader_tier": "证据确认龙头",
+        "evidence_score": 89.89,
+        "evidence_count": 5,
+        "hard_evidence_count": 4,
+        "score_model": "factorized_scoring_engine.v1",
+        "raw_factor_score": 99.5897,
+        "regime": "BEAR",
+        "regime_multiplier": 0.7,
+        "regime_reason": [
+          "index momentum negative",
+          "breadth weak",
+          "volume neutral or unavailable",
+          "volatility moderate"
+        ],
+        "lifecycle_state": "Expansion",
+        "lifecycle_confidence": 0.8,
+        "lifecycle_multiplier": 1.2,
+        "lifecycle_reason": [
+          "theme leadership confirmed",
+          "relative volume and fund flow remain strong",
+          "market regime does not block trend extension"
+        ],
+        "factor_breakdown": [
+          {
+            "name": "theme_strength",
+            "value": 0.997512,
+            "weight": 0.75,
+            "score": 0.748134,
+            "evidence": {
+              "raw_value": 67.278,
+              "normalized_value": 0.997512,
+              "normalization": "percentile",
+              "seed_score": 94.0,
+              "binding_score": 82.0,
+              "evidence_score": 89.89,
+              "tier_penalty": 0.0,
+              "leader_tier": "证据确认龙头",
+              "keyword_match": true
+            }
+          },
+          {
+            "name": "volume_activity",
+            "value": 0.997512,
+            "weight": 0.18,
+            "score": 0.179552,
+            "evidence": {
+              "raw_value": 16.403399,
+              "normalized_value": 0.997512,
+              "normalization": "percentile",
+              "absolute_group_value": 0.576681,
+              "pct_chg_score": 62.4221,
+              "turnover_score": 9.7313,
+              "liquidity_score": 99.6556,
+              "limit_score": 45.0,
+              "amount": 13301647.731,
+              "amount_rank": 0.9965560993293456,
+              "turnover_rate": 2.4597,
+              "pct_chg": 4.7391
+            }
+          },
+          {
+            "name": "fund_flow",
+            "value": 0.972222,
+            "weight": 0.055,
+            "score": 0.053472,
+            "evidence": {
+              "raw_value": 26674.89,
+              "normalized_value": 0.972222,
+              "normalization": "percentile",
+              "absolute_flow_score": 99.565,
+              "flow_rank": 0.9956498096791735,
+              "large_net": 26674.889999999985,
+              "industry": "铜"
+            }
+          },
+          {
+            "name": "cap_quality",
+            "value": 0.982587,
+            "weight": 0.015,
+            "score": 0.014739,
+            "evidence": {
+              "raw_value": 18.063056,
+              "normalized_value": 0.982587,
+              "normalization": "percentile",
+              "absolute_mv_score": 99.6375,
+              "mv_rank": 0.9963748413993112,
+              "total_mv": 69933579.398
+            }
+          }
+        ],
+        "shadow_observation_eligible": true,
+        "risk_flags": [],
+        "data_gaps": []
+      },
+      {
+        "priority": 4,
+        "code": "600309.SH",
+        "name": "万华化学",
+        "xueqiu_url": "https://xueqiu.com/S/SH600309",
+        "theme": "资源周期",
+        "deep_rating": "B",
+        "deep_score": 63.64,
+        "leader_claim": "化工材料龙头",
+        "leader_tier": "证据确认龙头",
+        "evidence_score": 87.82,
+        "evidence_count": 4,
+        "hard_evidence_count": 3,
+        "score_model": "factorized_scoring_engine.v1",
+        "raw_factor_score": 97.49,
+        "regime": "BEAR",
+        "regime_multiplier": 0.7,
+        "regime_reason": [
+          "index momentum negative",
+          "breadth weak",
+          "volume neutral or unavailable",
+          "volatility moderate"
+        ],
+        "lifecycle_state": "Expansion",
+        "lifecycle_confidence": 0.8,
+        "lifecycle_multiplier": 1.2,
+        "lifecycle_reason": [
+          "theme leadership confirmed",
+          "relative volume and fund flow remain strong",
+          "market regime does not block trend extension"
+        ],
+        "factor_breakdown": [
+          {
+            "name": "theme_strength",
+            "value": 0.992537,
+            "weight": 0.75,
+            "score": 0.744403,
+            "evidence": {
+              "raw_value": 65.664,
+              "normalized_value": 0.992537,
+              "normalization": "percentile",
+              "seed_score": 94.0,
+              "binding_score": 76.0,
+              "evidence_score": 87.82,
+              "tier_penalty": 0.0,
+              "leader_tier": "证据确认龙头",
+              "keyword_match": false
+            }
+          },
+          {
+            "name": "volume_activity",
+            "value": 0.922886,
+            "weight": 0.18,
+            "score": 0.166119,
+            "evidence": {
+              "raw_value": 14.952452,
+              "normalized_value": 0.922886,
+              "normalization": "percentile",
+              "absolute_group_value": 0.457978,
+              "pct_chg_score": 31.8136,
+              "turnover_score": 2.9333,
+              "liquidity_score": 96.0305,
+              "limit_score": 45.0,
+              "amount": 3117217.148,
+              "amount_rank": 0.9603045133224578,
+              "turnover_rate": 1.44,
+              "pct_chg": 0.4539
+            }
+          },
+          {
+            "name": "fund_flow",
+            "value": 0.90796,
+            "weight": 0.055,
+            "score": 0.049938,
+            "evidence": {
+              "raw_value": 10119.99,
+              "normalized_value": 0.90796,
+              "normalization": "percentile",
+              "absolute_flow_score": 97.8612,
+              "flow_rank": 0.9786115642559362,
+              "large_net": 10119.98999999999,
+              "industry": "化工原料"
+            }
+          },
+          {
+            "name": "cap_quality",
+            "value": 0.962687,
+            "weight": 0.015,
+            "score": 0.01444,
+            "evidence": {
+              "raw_value": 16.882402,
+              "normalized_value": 0.962687,
+              "normalization": "percentile",
+              "absolute_mv_score": 98.6224,
+              "mv_rank": 0.9862243973173827,
+              "total_mv": 21475035.176
+            }
+          }
+        ],
+        "shadow_observation_eligible": false,
+        "risk_flags": [],
+        "data_gaps": []
+      },
+      {
+        "priority": 5,
+        "code": "600547.SH",
+        "name": "山东黄金",
+        "xueqiu_url": "https://xueqiu.com/S/SH600547",
+        "theme": "资源周期",
+        "deep_rating": "B",
+        "deep_score": 65.11,
+        "leader_claim": "黄金龙头",
+        "leader_tier": "证据确认龙头",
+        "evidence_score": 88.4,
+        "evidence_count": 5,
+        "hard_evidence_count": 4,
+        "score_model": "factorized_scoring_engine.v1",
+        "raw_factor_score": 94.9743,
+        "regime": "BEAR",
+        "regime_multiplier": 0.7,
+        "regime_reason": [
+          "index momentum negative",
+          "breadth weak",
+          "volume neutral or unavailable",
+          "volatility moderate"
+        ],
+        "lifecycle_state": "Expansion",
+        "lifecycle_confidence": 0.8,
+        "lifecycle_multiplier": 1.2,
+        "lifecycle_reason": [
+          "theme leadership confirmed",
+          "relative volume and fund flow remain strong",
+          "market regime does not block trend extension"
+        ],
+        "factor_breakdown": [
+          {
+            "name": "theme_strength",
+            "value": 0.987562,
+            "weight": 0.75,
+            "score": 0.740672,
+            "evidence": {
+              "raw_value": 64.18,
+              "normalized_value": 0.987562,
+              "normalization": "percentile",
+              "seed_score": 86.0,
+              "binding_score": 82.0,
+              "evidence_score": 88.4,
+              "tier_penalty": 0.0,
+              "leader_tier": "证据确认龙头",
+              "keyword_match": true
+            }
+          },
+          {
+            "name": "volume_activity",
+            "value": 0.88806,
+            "weight": 0.18,
+            "score": 0.159851,
+            "evidence": {
+              "raw_value": 14.778535,
+              "normalized_value": 0.88806,
+              "normalization": "percentile",
+              "absolute_group_value": 0.560828,
+              "pct_chg_score": 58.7436,
+              "turnover_score": 13.2973,
+              "liquidity_score": 95.1423,
+              "limit_score": 45.0,
+              "amount": 2619607.041,
+              "amount_rank": 0.9514228747507704,
+              "turnover_rate": 2.9946,
+              "pct_chg": 4.2241
+            }
+          },
+          {
+            "name": "fund_flow",
+            "value": 0.65,
+            "weight": 0.055,
+            "score": 0.03575,
+            "evidence": {
+              "raw_value": 19990.47,
+              "normalized_value": 0.65,
+              "normalization": "percentile",
+              "absolute_flow_score": 99.0937,
+              "flow_rank": 0.990937103498278,
+              "large_net": 19990.47,
+              "industry": "黄金"
+            }
+          },
+          {
+            "name": "cap_quality",
+            "value": 0.89801,
+            "weight": 0.015,
+            "score": 0.01347,
+            "evidence": {
+              "raw_value": 16.226664,
+              "normalized_value": 0.89801,
+              "normalization": "percentile",
+              "absolute_mv_score": 96.6286,
+              "mv_rank": 0.9662860250135944,
+              "total_mv": 11146809.531
+            }
+          }
+        ],
+        "shadow_observation_eligible": false,
+        "risk_flags": [],
+        "data_gaps": []
+      },
+      {
+        "priority": 6,
+        "code": "688256.SH",
+        "name": "寒武纪",
+        "xueqiu_url": "https://xueqiu.com/S/SH688256",
+        "theme": "AI算力/通信",
+        "deep_rating": "B",
+        "deep_score": 62.31,
+        "leader_claim": "AI芯片龙头",
+        "leader_tier": "证据确认龙头",
+        "evidence_score": 88.47,
+        "evidence_count": 4,
+        "hard_evidence_count": 3,
+        "score_model": "factorized_scoring_engine.v1",
+        "raw_factor_score": 96.9067,
+        "regime": "BEAR",
+        "regime_multiplier": 0.7,
+        "regime_reason": [
+          "index momentum negative",
+          "breadth weak",
+          "volume neutral or unavailable",
+          "volatility moderate"
+        ],
+        "lifecycle_state": "Breakout",
+        "lifecycle_confidence": 0.75,
+        "lifecycle_multiplier": 1.1,
+        "lifecycle_reason": [
+          "volume spike confirms first leadership appearance",
+          "theme and flow support early breakout"
+        ],
+        "factor_breakdown": [
+          {
+            "name": "theme_strength",
+            "value": 0.975524,
+            "weight": 0.75,
+            "score": 0.731643,
+            "evidence": {
+              "raw_value": 65.444,
+              "normalized_value": 0.975524,
+              "normalization": "percentile",
+              "seed_score": 93.0,
+              "binding_score": 76.0,
+              "evidence_score": 88.47,
+              "tier_penalty": 0.0,
+              "leader_tier": "证据确认龙头",
+              "keyword_match": false
+            }
+          },
+          {
+            "name": "volume_activity",
+            "value": 0.982517,
+            "weight": 0.18,
+            "score": 0.176853,
+            "evidence": {
+              "raw_value": 16.791823,
+              "normalized_value": 0.982517,
+              "normalization": "percentile",
+              "absolute_group_value": 0.383305,
+              "pct_chg_score": 0.0,
+              "turnover_score": 8.248,
+              "liquidity_score": 99.8912,
+              "limit_score": 45.0,
+              "amount": 19615355.231,
+              "amount_rank": 0.9989124524197933,
+              "turnover_rate": 2.2372,
+              "pct_chg": -7.63
+            }
+          },
+          {
+            "name": "fund_flow",
+            "value": 0.833333,
+            "weight": 0.055,
+            "score": 0.045833,
+            "evidence": {
+              "raw_value": 26273.57,
+              "normalized_value": 0.833333,
+              "normalization": "percentile",
+              "absolute_flow_score": 99.5106,
+              "flow_rank": 0.9951060358890701,
+              "large_net": 26273.57000000018,
+              "industry": "半导体"
+            }
+          },
+          {
+            "name": "cap_quality",
+            "value": 0.982517,
+            "weight": 0.015,
+            "score": 0.014738,
+            "evidence": {
+              "raw_value": 18.272202,
+              "normalized_value": 0.982517,
+              "normalization": "percentile",
+              "absolute_mv_score": 99.71,
+              "mv_rank": 0.9970998731194489,
+              "total_mv": 86201799.6
+            }
+          }
+        ],
+        "shadow_observation_eligible": false,
+        "risk_flags": [],
+        "data_gaps": []
+      },
+      {
+        "priority": 7,
+        "code": "300750.SZ",
+        "name": "宁德时代",
+        "xueqiu_url": "https://xueqiu.com/S/SZ300750",
+        "theme": "新能源/电力设备",
+        "deep_rating": "B",
+        "deep_score": 67.47,
+        "leader_claim": "动力电池龙头",
+        "leader_tier": "证据确认龙头",
+        "evidence_score": 88.91,
+        "evidence_count": 4,
+        "hard_evidence_count": 3,
+        "score_model": "factorized_scoring_engine.v1",
+        "raw_factor_score": 96.3157,
+        "regime": "BEAR",
+        "regime_multiplier": 0.7,
+        "regime_reason": [
+          "index momentum negative",
+          "breadth weak",
+          "volume neutral or unavailable",
+          "volatility moderate"
+        ],
+        "lifecycle_state": "Breakout",
+        "lifecycle_confidence": 0.75,
+        "lifecycle_multiplier": 1.1,
+        "lifecycle_reason": [
+          "volume spike confirms first leadership appearance",
+          "theme and flow support early breakout"
+        ],
+        "factor_breakdown": [
+          {
+            "name": "theme_strength",
+            "value": 0.973684,
+            "weight": 0.75,
+            "score": 0.730263,
+            "evidence": {
+              "raw_value": 67.282,
+              "normalized_value": 0.973684,
+              "normalization": "percentile",
+              "seed_score": 98.0,
+              "binding_score": 76.0,
+              "evidence_score": 88.91,
+              "tier_penalty": 0.0,
+              "leader_tier": "证据确认龙头",
+              "keyword_match": false
+            }
+          },
+          {
+            "name": "volume_activity",
+            "value": 0.921053,
+            "weight": 0.18,
+            "score": 0.165789,
+            "evidence": {
+              "raw_value": 16.391154,
+              "normalized_value": 0.921053,
+              "normalization": "percentile",
+              "absolute_group_value": 0.442999,
+              "pct_chg_score": 25.7986,
+              "turnover_score": 0.0,
+              "liquidity_score": 99.6012,
+              "limit_score": 45.0,
+              "amount": 13139767.2594,
+              "amount_rank": 0.9960123255392423,
+              "turnover_rate": 0.8005,
+              "pct_chg": -0.3882
+            }
+          },
+          {
+            "name": "fund_flow",
+            "value": 0.954545,
+            "weight": 0.055,
+            "score": 0.0525,
+            "evidence": {
+              "raw_value": 113482.17,
+              "normalized_value": 0.954545,
+              "normalization": "percentile",
+              "absolute_flow_score": 99.9637,
+              "flow_rank": 0.9996374841399311,
+              "large_net": 113482.17000000004,
+              "industry": "电气设备"
+            }
+          },
+          {
+            "name": "cap_quality",
+            "value": 0.973684,
+            "weight": 0.015,
+            "score": 0.014605,
+            "evidence": {
+              "raw_value": 18.99109,
+              "normalized_value": 0.973684,
+              "normalization": "percentile",
+              "absolute_mv_score": 99.9094,
+              "mv_rank": 0.9990937103498279,
+              "total_mv": 176899087.1685
+            }
+          }
+        ],
+        "shadow_observation_eligible": false,
+        "risk_flags": [],
+        "data_gaps": []
+      },
+      {
+        "priority": 8,
+        "code": "600585.SH",
+        "name": "海螺水泥",
+        "xueqiu_url": "https://xueqiu.com/S/SH600585",
+        "theme": "建材/稳增长修复",
+        "deep_rating": "C",
+        "deep_score": 58.86,
+        "leader_claim": "水泥龙头",
+        "leader_tier": "证据确认龙头",
+        "evidence_score": 85.5,
+        "evidence_count": 5,
+        "hard_evidence_count": 4,
+        "score_model": "factorized_scoring_engine.v1",
+        "raw_factor_score": 96.7714,
+        "regime": "BEAR",
+        "regime_multiplier": 0.7,
+        "regime_reason": [
+          "index momentum negative",
+          "breadth weak",
+          "volume neutral or unavailable",
+          "volatility moderate"
+        ],
+        "lifecycle_state": "Expansion",
+        "lifecycle_confidence": 0.8,
+        "lifecycle_multiplier": 1.2,
+        "lifecycle_reason": [
+          "theme leadership confirmed",
+          "relative volume and fund flow remain strong",
+          "market regime does not block trend extension"
+        ],
+        "factor_breakdown": [
+          {
+            "name": "theme_strength",
+            "value": 0.997797,
+            "weight": 0.75,
+            "score": 0.748348,
+            "evidence": {
+              "raw_value": 64.3,
+              "normalized_value": 0.997797,
+              "normalization": "percentile",
+              "seed_score": 88.0,
+              "binding_score": 82.0,
+              "evidence_score": 85.5,
+              "tier_penalty": 0.0,
+              "leader_tier": "证据确认龙头",
+              "keyword_match": true
+            }
+          },
+          {
+            "name": "volume_activity",
+            "value": 0.909692,
+            "weight": 0.18,
+            "score": 0.163744,
+            "evidence": {
+              "raw_value": 13.513849,
+              "normalized_value": 0.909692,
+              "normalization": "percentile",
+              "absolute_group_value": 0.432656,
+              "pct_chg_score": 37.5857,
+              "turnover_score": 0.6627,
+              "liquidity_score": 82.3817,
+              "limit_score": 45.0,
+              "amount": 739587.255,
+              "amount_rank": 0.8238172920065253,
+              "turnover_rate": 1.0994,
+              "pct_chg": 1.262
+            }
+          },
+          {
+            "name": "fund_flow",
+            "value": 0.75,
+            "weight": 0.055,
+            "score": 0.04125,
+            "evidence": {
+              "raw_value": 495.41,
+              "normalized_value": 0.75,
+              "normalization": "percentile",
+              "absolute_flow_score": 75.9652,
+              "flow_rank": 0.7596519847743338,
+              "large_net": 495.4100000000012,
+              "industry": "水泥"
+            }
+          },
+          {
+            "name": "cap_quality",
+            "value": 0.95815,
+            "weight": 0.015,
+            "score": 0.014372,
+            "evidence": {
+              "raw_value": 16.004851,
+              "normalized_value": 0.95815,
+              "normalization": "percentile",
+              "absolute_mv_score": 95.6679,
+              "mv_rank": 0.9566793547217691,
+              "total_mv": 8929324.881
+            }
+          }
+        ],
+        "shadow_observation_eligible": false,
+        "risk_flags": [],
+        "data_gaps": []
+      },
+      {
+        "priority": 9,
+        "code": "600519.SH",
+        "name": "贵州茅台",
+        "xueqiu_url": "https://xueqiu.com/S/SH600519",
+        "theme": "消费/传媒",
+        "deep_rating": "B",
+        "deep_score": 70.3,
+        "leader_claim": "高端白酒龙头",
+        "leader_tier": "证据确认龙头",
+        "evidence_score": 88.74,
+        "evidence_count": 4,
+        "hard_evidence_count": 3,
+        "score_model": "factorized_scoring_engine.v1",
+        "raw_factor_score": 99.7383,
+        "regime": "BEAR",
+        "regime_multiplier": 0.7,
+        "regime_reason": [
+          "index momentum negative",
+          "breadth weak",
+          "volume neutral or unavailable",
+          "volatility moderate"
+        ],
+        "lifecycle_state": "Expansion",
+        "lifecycle_confidence": 0.8,
+        "lifecycle_multiplier": 1.2,
+        "lifecycle_reason": [
+          "theme leadership confirmed",
+          "relative volume and fund flow remain strong",
+          "market regime does not block trend extension"
+        ],
+        "factor_breakdown": [
+          {
+            "name": "theme_strength",
+            "value": 0.997382,
+            "weight": 0.75,
+            "score": 0.748037,
+            "evidence": {
+              "raw_value": 67.248,
+              "normalized_value": 0.997382,
+              "normalization": "percentile",
+              "seed_score": 98.0,
+              "binding_score": 76.0,
+              "evidence_score": 88.74,
+              "tier_penalty": 0.0,
+              "leader_tier": "证据确认龙头",
+              "keyword_match": false
+            }
+          },
+          {
+            "name": "volume_activity",
+            "value": 0.997382,
+            "weight": 0.18,
+            "score": 0.179529,
+            "evidence": {
+              "raw_value": 15.627459,
+              "normalized_value": 0.997382,
+              "normalization": "percentile",
+              "absolute_group_value": 0.466476,
+              "pct_chg_score": 34.5529,
+              "turnover_score": 0.0,
+              "liquidity_score": 98.4231,
+              "limit_score": 45.0,
+              "amount": 6122360.932,
+              "amount_rank": 0.9842305600870038,
+              "turnover_rate": 0.4069,
+              "pct_chg": 0.8374
+            }
+          },
+          {
+            "name": "fund_flow",
+            "value": 0.997382,
+            "weight": 0.055,
+            "score": 0.054856,
+            "evidence": {
+              "raw_value": 14325.17,
+              "normalized_value": 0.997382,
+              "normalization": "percentile",
+              "absolute_flow_score": 98.6043,
+              "flow_rank": 0.9860431393873482,
+              "large_net": 14325.169999999998,
+              "industry": "白酒"
+            }
+          },
+          {
+            "name": "cap_quality",
+            "value": 0.997382,
+            "weight": 0.015,
+            "score": 0.014961,
+            "evidence": {
+              "raw_value": 18.828708,
+              "normalized_value": 0.997382,
+              "normalization": "percentile",
+              "absolute_mv_score": 99.8731,
+              "mv_rank": 0.9987311944897589,
+              "total_mv": 150384816.48
+            }
+          }
+        ],
+        "shadow_observation_eligible": false,
+        "risk_flags": [],
+        "data_gaps": []
+      }
+    ],
+    "data_gaps": []
+  }
+}
