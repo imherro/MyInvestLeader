@@ -292,6 +292,76 @@ def test_ai_communication_excludes_generic_financial_software_candidate(monkeypa
     assert ai_theme["competition_graph"]["current_l1"] == "300308.SZ"
 
 
+def test_seed_leader_is_protected_from_top8_truncation(monkeypatch) -> None:
+    import pandas as pd
+
+    dynamic_rows = [
+        {
+            "ts_code": f"30090{index}.SZ",
+            "name": f"机器人样本{index}",
+            "industry": "机械基件",
+            "market": "创业板",
+            "pct_chg": 6.0 + index / 10,
+            "turnover_rate": 12.0,
+            "amount": 1_000_000.0 + index,
+            "large_net": 10_000.0 + index,
+            "is_limit_up": False,
+            "amount_rank": 0.98,
+            "flow_rank": 0.96,
+            "mv_rank": 0.92,
+        }
+        for index in range(9)
+    ]
+    green_harmonic = {
+        "ts_code": "688017.SH",
+        "name": "绿的谐波",
+        "industry": "机械基件",
+        "market": "科创板",
+        "pct_chg": -2.0,
+        "turnover_rate": 2.0,
+        "amount": 100_000.0,
+        "large_net": -100.0,
+        "is_limit_up": False,
+        "amount_rank": 0.20,
+        "flow_rank": 0.20,
+        "mv_rank": 0.50,
+    }
+    rows = pd.DataFrame([*dynamic_rows, green_harmonic])
+
+    def fake_score_breakdown(row, universe_records, market_context):
+        code = str(row.get("ts_code") or "")
+        score = 95.0 - int(code[5]) if code.startswith("30090") else 35.0
+        return {
+            "model": "test_model",
+            "score": score,
+            "raw_factor_score": score,
+            "regime": {"regime": "BULL_WEAK", "multiplier": 1.0, "reason": ["test"]},
+            "lifecycle": {"state": "Accumulation", "confidence": 0.7, "stage_score_multiplier": 1.0, "reason": ["test"]},
+            "factors": [],
+        }
+
+    monkeypatch.setattr(research, "_stock_score_breakdown", fake_score_breakdown)
+
+    leaders = research._build_stock_leaders(
+        {
+            "theme": "高端制造/机器人/军工",
+            "basis_date": "2026-07-03",
+            "top_sw": "",
+            "top_ths": "",
+        },
+        rows,
+        {"breadth": {"up_ratio": 50.0}},
+    )
+    codes = [row["code"] for row in leaders]
+    green = next(row for row in leaders if row["code"] == "688017.SH")
+
+    assert codes[:8] == [f"30090{index}.SZ" for index in range(8)]
+    assert "688017.SH" in codes
+    assert green["candidate_recall_source"] == "种子保底"
+    assert green["seed_protected_recall"] is True
+    assert green["leader_claim"] == "机器人减速器龙头"
+
+
 def test_report_service_uses_safe_latest_file(tmp_path: Path, monkeypatch) -> None:
     monkeypatch.setattr(
         research,

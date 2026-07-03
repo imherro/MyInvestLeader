@@ -87,9 +87,10 @@ def select_deep_queue(leader_payload: dict[str, Any], max_per_theme: int = 3) ->
             stock_rows = [
                 row
                 for row in all_stock_rows
-                if row.get("leader_tier") == "证据确认龙头" and row.get("grade") in ACTIVE_STOCK_GRADES
+                if row.get("leader_tier") == "证据确认龙头"
+                and (row.get("grade") in ACTIVE_STOCK_GRADES or row.get("seed_protected_recall"))
             ]
-            queue_reason = "主线短期未确认，但个股为证据确认龙头，进入ResearchFirst跟踪深研"
+            queue_reason = "主线短期未确认，但个股为证据确认龙头或种子保底确认对象，进入ResearchFirst跟踪深研"
         if theme_grade not in ACTIVE_THEME_GRADES and not stock_rows:
             continue
         if not stock_rows:
@@ -116,6 +117,8 @@ def select_deep_queue(leader_payload: dict[str, Any], max_per_theme: int = 3) ->
                     "candidate_flow_rank": stock.get("flow_rank"),
                     "candidate_liquidity_rank": stock.get("liquidity_rank"),
                     "candidate_binding_source": stock.get("binding_source"),
+                    "candidate_recall_source": stock.get("candidate_recall_source"),
+                    "candidate_seed_protected_recall": bool(stock.get("seed_protected_recall")),
                     "candidate_leader_role": stock.get("leader_role"),
                     "candidate_leader_claim": stock.get("leader_claim"),
                     "candidate_leader_tier": stock.get("leader_tier"),
@@ -426,6 +429,8 @@ def _build_stock_item(queue_item: dict[str, Any], diagnostics: dict[str, Any]) -
         "candidate_grade": queue_item.get("candidate_grade"),
         "candidate_leader_score": queue_item.get("candidate_leader_score"),
         "candidate_binding_source": queue_item.get("candidate_binding_source"),
+        "candidate_recall_source": queue_item.get("candidate_recall_source"),
+        "candidate_seed_protected_recall": bool(queue_item.get("candidate_seed_protected_recall")),
         "candidate_leader_role": queue_item.get("candidate_leader_role"),
         "candidate_leader_claim": queue_item.get("candidate_leader_claim") or queue_item.get("candidate_leader_role"),
         "candidate_leader_tier": queue_item.get("candidate_leader_tier"),
@@ -513,6 +518,8 @@ def build_stock_shadow_contract(payload: dict[str, Any]) -> dict[str, Any]:
                 "deep_score": row.get("deep_score"),
                 "leader_claim": row.get("candidate_leader_claim"),
                 "leader_tier": row.get("candidate_leader_tier"),
+                "recall_source": row.get("candidate_recall_source"),
+                "seed_protected_recall": bool(row.get("candidate_seed_protected_recall")),
                 "evidence_score": row.get("candidate_evidence_score"),
                 "evidence_count": row.get("candidate_evidence_count"),
                 "hard_evidence_count": row.get("candidate_hard_evidence_count"),

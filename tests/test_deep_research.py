@@ -142,6 +142,41 @@ def test_select_deep_queue_only_active_theme_grades() -> None:
     assert queue[0]["candidate_leader_tier"] == "证据确认龙头"
 
 
+def test_select_deep_queue_keeps_seed_protected_confirmed_leader() -> None:
+    payload = {
+        "report_id": "leader_review_robot_sample",
+        "basis_date": "2026-07-03",
+        "themes": [
+            {
+                "theme": "高端制造/机器人/军工",
+                "theme_id": "high_end_manufacturing_robotics_defense",
+                "stage": "弱势/退潮",
+                "leader_grade": "D",
+                "leader_score": 18.2,
+                "stock_leaders": [
+                    {
+                        "code": "688017.SH",
+                        "name": "绿的谐波",
+                        "industry": "机械基件",
+                        "grade": "C",
+                        "leader_score": 55.96,
+                        "leader_tier": "证据确认龙头",
+                        "leader_claim": "机器人减速器龙头",
+                        "candidate_recall_source": "种子保底",
+                        "seed_protected_recall": True,
+                    }
+                ],
+            }
+        ],
+    }
+
+    queue = select_deep_queue(payload, max_per_theme=3)
+
+    assert [row["code"] for row in queue] == ["688017.SH"]
+    assert queue[0]["candidate_recall_source"] == "种子保底"
+    assert queue[0]["candidate_seed_protected_recall"] is True
+
+
 def test_build_stock_deep_report_contract() -> None:
     _report_id, payload, markdown = build_stock_deep_report(sample_leader_payload(), diagnostics=diagnostics())
 

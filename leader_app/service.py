@@ -442,7 +442,7 @@ def _key_results_payload(stock_index: dict[str, Any] | None, themes: list[dict[s
                 "title": "候选矩阵",
                 "data_source": "主线关键词、行业映射、种子命中、主题角色门槛和动态行情证据",
                 "basis": "候选必须满足种子命中，或关键词命中且主题角色匹配；再计算证据分、硬证据数和龙头分。",
-                "pass_rule": "按leader_score、evidence_score、seed_score和成交额排序，每条主线保留前排候选。",
+                "pass_rule": "按leader_score、evidence_score、seed_score和成交额排序，保留动态前排候选；候选种子库和人工声明的细分龙头保底进入候选矩阵，但仍需后续竞争图谱和深研评分确认。",
                 "output_data_path": "themes[].stock_leaders",
             },
             {

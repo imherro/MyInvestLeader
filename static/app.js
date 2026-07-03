@@ -219,22 +219,28 @@ function renderChart(themes) {
 
 function candidateList(items, linkStockNames = false) {
   if (!items || !items.length) return '<span class="muted">无</span>';
-  return `<div class="compact-list">${items
-    .slice(0, 3)
-    .map(
-      (row) => `
+  const primary = items.slice(0, 3);
+  const seen = new Set(primary.map((row) => row.code));
+  const protectedSeeds = items.filter((row) => row.seed_protected_recall && !seen.has(row.code));
+  const displayItems = [...primary, ...protectedSeeds];
+  return `<div class="compact-list">${displayItems
+    .map((row) => {
+      const tierText = [row.leader_tier || row.binding_source || "", row.candidate_recall_source || ""]
+        .filter(Boolean)
+        .join(" · ");
+      return `
         <div class="candidate">
           ${linkStockNames ? stockCodeLink(row) : `<code>${escapeHtml(row.code || "")}</code>`}
           <span>
             ${linkStockNames ? stockNameText(row) : escapeHtml(row.name || "")}
-            <br><span class="muted">${row.leader_tier || row.binding_source || ""}</span>
+            <br><span class="muted">${escapeHtml(tierText)}</span>
             <br><span class="muted">${row.leader_claim || row.leader_role || ""}</span>
             <br><span class="muted">${fmt(row.leader_score)} 分 · ${row.competition_tier || "未分层"} · 证据 ${row.evidence_count ?? 0}/${row.hard_evidence_count ?? 0}</span>
           </span>
           <b class="pill ${gradeClass(row.grade)}">${row.grade || ""}</b>
         </div>
-      `,
-    )
+      `;
+    })
     .join("")}</div>`;
 }
 

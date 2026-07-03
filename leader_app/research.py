@@ -73,6 +73,7 @@ LIFECYCLE_SCORE = {
 
 LEADER_UNIVERSE_PATH = ROOT_DIR / "config" / "stock_leader_universe.json"
 LEADER_EVIDENCE_PATH = ROOT_DIR / "config" / "leader_evidence_sources.json"
+STOCK_DYNAMIC_CANDIDATE_LIMIT = 8
 
 
 def _competition_history(theme_name: str, report_dir: Path = REPORT_DIR, limit: int = 5) -> dict[str, Any]:
@@ -820,7 +821,31 @@ def _build_stock_leaders(
     universe_records = matched.to_dict("records")
     matched["score_breakdown"] = matched.apply(lambda row: _stock_score_breakdown(row, universe_records, market_context), axis=1)
     matched["leader_score"] = matched["score_breakdown"].apply(lambda item: safe_float((item or {}).get("score")) or 0.0)
-    matched = matched.sort_values(["leader_score", "evidence_score", "seed_score", "amount"], ascending=[False, False, False, False]).head(8)
+    ranked = matched.sort_values(
+        ["leader_score", "evidence_score", "seed_score", "amount"],
+        ascending=[False, False, False, False],
+    )
+    top_index = list(ranked.head(STOCK_DYNAMIC_CANDIDATE_LIMIT).index)
+    protected_codes = set(seed_map) | set(manual_map)
+    protected_index = [
+        index
+        for index, row in ranked.iterrows()
+        if str(row.get("ts_code") or "") in protected_codes
+    ]
+    selected_index = list(dict.fromkeys([*top_index, *protected_index]))
+    top_codes = set(ranked.loc[top_index, "ts_code"].astype(str)) if top_index else set()
+    matched = ranked.loc[selected_index].copy()
+    def recall_source(code: str) -> str:
+        if code in top_codes and code in protected_codes:
+            return "动态前排+种子保底"
+        if code in protected_codes:
+            return "种子保底"
+        return "动态前排"
+
+    matched["candidate_recall_source"] = matched["ts_code"].astype(str).map(recall_source)
+    matched["seed_protected_recall"] = matched["ts_code"].astype(str).map(
+        lambda code: code in protected_codes and code not in top_codes
+    )
     leaders = []
     for _, row in matched.iterrows():
         score = float(row.get("leader_score") or 0.0)
@@ -843,6 +868,8 @@ def _build_stock_leaders(
                 "leader_claim": str(row.get("leader_claim") or row.get("leader_role") or ""),
                 "leader_tier": str(row.get("leader_tier") or ""),
                 "binding_source": str(row.get("binding_source") or ""),
+                "candidate_recall_source": str(row.get("candidate_recall_source") or ""),
+                "seed_protected_recall": bool(row.get("seed_protected_recall")),
                 "theme_role_match": bool(row.get("theme_role_match")),
                 "seed_score": _round(row.get("seed_score"), 4),
                 "strategic_score": _round(row.get("strategic_score"), 4),
@@ -937,6 +964,8 @@ def build_shadow_contract(payload: dict[str, Any]) -> dict[str, Any]:
                         "hard_evidence_count": row.get("hard_evidence_count"),
                         "latest_evidence_date": row.get("latest_evidence_date"),
                         "binding_source": row.get("binding_source"),
+                        "candidate_recall_source": row.get("candidate_recall_source"),
+                        "seed_protected_recall": row.get("seed_protected_recall"),
                         "score_model": row.get("score_model"),
                         "raw_factor_score": row.get("raw_factor_score"),
                         "regime": row.get("regime"),
